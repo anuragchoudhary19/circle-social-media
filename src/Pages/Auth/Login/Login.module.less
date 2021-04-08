@@ -1,0 +1,51 @@
+@color1: #0f0f0f;
+@color2: #f1f1f1;
+@color3: #54e346;
+.page {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+  width: 100%;
+  background-color: @color1;
+  color: @color2;
+}
+.auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  > div {
+    // box-sizing: content-box;
+    // border: 1px solid #f1f1f1;
+    // border-radius: 1rem;
+    // padding: 5%;
+    width: 50%;
+    > header {
+      color: @color2;
+      font-size: 3rem;
+      padding: 4px;
+    }
+  }
+}
+.signin {
+  padding: 4px;
+  text-align: right;
+  a {
+    text-decoration: none;
+    color: @color2;
+    &:hover {
+      color: @color3;
+    }
+  }
+}
+.error {
+  background-color: fade(red, 40%);
+  color: red;
+  padding: 8px;
+}
+
+.success {
+  background-color: fade(greenyellow, 40%);
+  color: greenyellow;
+  padding: 8px;
+}

@@ -1,0 +1,39 @@
+@color1: #151515;
+@color2: #f1f1f1;
+.element {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  padding: 4px;
+  label {
+    font-size: 1rem;
+    color: @color2;
+    padding: 4px 0;
+  }
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  padding: 8px;
+  background-color: @color2;
+  &:hover {
+    box-shadow: 0 0 4px 0 #ccc;
+  }
+  input {
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    background-color: @color2;
+  }
+  span {
+    font-size: 0.8rem;
+  }
+}
+.error {
+  span {
+    color: red;
+    font-size: 14px;
+  }
+}

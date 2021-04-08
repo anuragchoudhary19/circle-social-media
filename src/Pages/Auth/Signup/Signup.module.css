@@ -1,0 +1,43 @@
+.page {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+  width: 100%;
+  background-color: #0f0f0f;
+  color: #f1f1f1;
+}
+.auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.auth > div {
+  width: 50%;
+}
+.auth > div > header {
+  color: #f1f1f1;
+  font-size: 3rem;
+  padding: 4px;
+}
+.login {
+  padding: 4px;
+  text-align: right;
+}
+.login a {
+  text-decoration: none;
+  color: #f1f1f1;
+}
+.login a:hover {
+  color: #54e346;
+}
+.error {
+  background-color: rgba(255, 0, 0, 0.4);
+  color: red;
+  padding: 8px;
+}
+.success {
+  background-color: rgba(173, 255, 47, 0.4);
+  color: greenyellow;
+  padding: 8px;
+}

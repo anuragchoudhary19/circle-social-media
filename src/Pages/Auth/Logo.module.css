@@ -1,0 +1,29 @@
+.logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.logo > div {
+  position: absolute;
+  font-size: 5rem;
+  color: #f1f1f1;
+}
+.logo > div:nth-child(2) {
+  font-family: 'Homemade Apple', cursive;
+}
+.circle {
+  height: 60vh;
+  width: 60vh;
+  border-top: 0.5rem solid #f1f1f1;
+  border-left: 0.5rem solid #f1f1f1;
+  border-bottom: 0.5rem solid #f1f1f1;
+  border-right: 0.1rem solid #f1f1f1;
+  border-radius: 50%;
+}
+.circle > div {
+  color: #f1f1f1;
+}
+.auth > div {
+  width: 50%;
+}

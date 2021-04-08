@@ -1,0 +1,35 @@
+.element {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  padding: 4px;
+}
+.element label {
+  font-size: 1rem;
+  color: #f1f1f1;
+  padding: 4px 0;
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  padding: 8px;
+  background-color: #f1f1f1;
+}
+.input:hover {
+  box-shadow: 0 0 4px 0 #ccc;
+}
+.input input {
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  background-color: #f1f1f1;
+}
+.input span {
+  font-size: 0.8rem;
+}
+.error span {
+  color: red;
+  font-size: 14px;
+}

@@ -1,0 +1,39 @@
+@color1: #151515;
+@color2: #f1f1f1;
+.element {
+  padding: 4px;
+}
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #54e346;
+  padding: 4px;
+  cursor: pointer;
+  button {
+    height: 2rem;
+    color: @color2;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border-top: 0.2em solid @color1;
+  border-right: 0.2em solid transparent;
+  animation: spinner 0.4s linear infinite;
+  border-radius: 50%;
+  margin: 0;
+}
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
