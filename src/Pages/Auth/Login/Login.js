@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import Logo from '../Logo';
 import Input from '../../../Components/Elements/Input/Input';
@@ -12,12 +13,17 @@ const initialErrorState = { general: '', email: '', password: '' };
 const Login = () => {
   const [email, setEmail] = useState('anurag@gmail.com');
   const [password, setPassword] = useState('qwerty123');
-  const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState(initialErrorState);
+  const { user } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
   const history = useHistory();
-
+  useEffect(() => {
+    if (user?.token) {
+      history.push(`/profile/${user._id}`);
+    }
+  }, []);
   const handleEmail = (e) => {
     setError({ ...error, email: '' });
     setEmail(e.target.value);
@@ -35,11 +41,14 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         setLoading(false);
-        setUser(res.data.user);
         if (window !== undefined) {
           localStorage.setItem('user', JSON.stringify(res.data.user));
         }
-        history.push('/profile');
+        dispatch({
+          type: 'LOGGED_IN_USER',
+          payload: res.data.user,
+        });
+        history.push(`/profile/${res.data.user._id}`);
       })
       .catch((err) => {
         console.log(err.response);

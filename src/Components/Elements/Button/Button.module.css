@@ -8,6 +8,7 @@
   align-items: center;
   background-color: #54e346;
   padding: 4px;
+  border-radius: 8px;
   cursor: pointer;
 }
 .button button {

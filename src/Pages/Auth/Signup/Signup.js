@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import Logo from '../Logo';
 import Input from '../../../Components/Elements/Input/Input';
@@ -17,7 +18,14 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState(initialErrorState);
-
+  const { user } = useSelector((state) => ({ ...state }));
+  const history = useHistory();
+  useEffect(() => {
+    if (user?.token) {
+      history.push(`/profile/${user._id}`);
+    }
+  }, []);
+    
   const handleName = (e) => {
     setError({ ...error, name: '' });
     setName(e.target.value);
