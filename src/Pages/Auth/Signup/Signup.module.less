@@ -1,47 +1,66 @@
-@color1: #0f0f0f;
-@color2: #f1f1f1;
-@color3: #54e346;
+// @color1: #0f0f0f;
+// @color2: #28527a;
+// @color3: #54e346;
 .page {
   display: grid;
-  grid-template-columns: 50% 50%;
   height: 100vh;
   width: 100%;
-  background-color: @color1;
-  color: @color2;
+  background-color: var(--background-color);
+  @media (min-width: 320px) {
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 70%;
+  }
+  @media (min-width: 600px) {
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 70%;
+  }
+  @media (min-width: 1025px) {
+    grid-template-rows: 100%;
+    grid-template-columns: 50% 50%;
+  }
 }
-.auth {
+.signup {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  > div {
-    width: 50%;
-    > header {
-      color: @color2;
-      font-size: 3rem;
-      padding: 4px;
+
+  > header {
+    color: var(--color);
+    font-size: 3rem;
+    margin: 8px;
+  }
+  > form {
+    @media (min-width: 320px) {
+      width: 90%;
+    }
+    @media (min-width: 600px) {
+      width: 60%;
+    }
+    @media (min-width: 801px) {
+      width: 50%;
     }
   }
 }
 .login {
-  padding: 4px;
+  margin-top: 1rem;
+  margin-right: 22%;
+  margin-left: auto;
   text-align: right;
-  a {
-    text-decoration: none;
-    color: @color2;
-    &:hover {
-      color: @color3;
-    }
+  text-decoration: none;
+  color: var(--color);
+  &:hover {
+    text-decoration: underline;
   }
 }
 .error {
-  background-color: fade(red, 40%);
-  color: red;
+  background-color: var(--danger-color);
+  color: var(--color);
   padding: 8px;
 }
 
 .success {
-  background-color: fade(greenyellow, 40%);
-  color: greenyellow;
+  background-color: var(--success-color);
+  color: var(--color);
   padding: 8px;
 }

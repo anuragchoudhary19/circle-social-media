@@ -3,11 +3,24 @@
 @color3: #54e346;
 .page {
   display: grid;
-  grid-template-columns: 50% 50%;
+
   height: 100vh;
   width: 100%;
-  background-color: @color1;
-  color: @color2;
+  background-color: var(--background-color);
+  color: var(--color);
+
+  @media (min-width: 320px) {
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 70%;
+  }
+  @media (min-width: 600px) {
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 70%;
+  }
+  @media (min-width: 1025px) {
+    grid-template-rows: 100%;
+    grid-template-columns: 50% 50%;
+  }
 }
 .auth {
   display: flex;
@@ -15,13 +28,18 @@
   justify-content: center;
   align-items: center;
   > div {
-    // box-sizing: content-box;
-    // border: 1px solid #f1f1f1;
-    // border-radius: 1rem;
-    // padding: 5%;
-    width: 50%;
+    @media (min-width: 320px) {
+      width: 90%;
+    }
+    @media (min-width: 600px) {
+      width: 60%;
+    }
+    @media (min-width: 801px) {
+      width: 50%;
+    }
+
     > header {
-      color: @color2;
+      color: var(--color);
       font-size: 3rem;
       padding: 4px;
     }
@@ -32,9 +50,9 @@
   text-align: right;
   a {
     text-decoration: none;
-    color: @color2;
+    color: var(--color);
     &:hover {
-      color: @color3;
+      text-decoration: underline;
     }
   }
 }

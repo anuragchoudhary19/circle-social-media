@@ -1,14 +1,15 @@
 import React from 'react';
-import styles from './Logo.module.css'
+import { Link } from 'react-router-dom';
+import styles from './Logo.module.css';
 
 const Auth = () => {
-    return (
-        <div className={styles.logo}>
-            <div className={styles.circle}>
-            </div>
-            <div>Circle</div>
-        </div>
-    )
-}
+  return (
+    <div className={styles.logo}>
+      <Link to={'/'}>
+        <header>Circle</header>
+      </Link>
+    </div>
+  );
+};
 
-export default Auth
+export default Auth;

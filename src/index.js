@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -8,8 +8,7 @@ import rootReducer from './reducer/rootReducer';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-const store = createStore(rootReducer, composeWithDevTools());
+export const store = createStore(rootReducer, composeWithDevTools());
 
 ReactDOM.render(
   <React.StrictMode>

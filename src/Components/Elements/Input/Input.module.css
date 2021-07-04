@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: auto;
+  width: 100%;
   padding: 4px;
 }
 .element label {
@@ -13,6 +14,7 @@
   display: flex;
   flex-direction: column;
   height: fit-content;
+  width: 100%;
   padding: 8px;
   border-radius: 8px;
   background-color: #f1f1f1;

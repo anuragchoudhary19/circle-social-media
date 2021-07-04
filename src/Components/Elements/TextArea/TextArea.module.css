@@ -1,0 +1,16 @@
+.textarea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.textarea textarea {
+  width: 100%;
+  height: auto;
+  color: var(--color);
+  background-color: transparent;
+  resize: none;
+  overflow: auto;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+}

@@ -7,7 +7,18 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body {
+  background-color: white;
+}
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+} */
+:root {
+  --background-color: rgb(0, 0, 0);
+  --color: hsl(0, 0%, 90%);
+  --primary-color: hsl(240, 100%, 60%);
+  --hover-color: hsl(203, 90%, 8%);
+  --success-color: hsl(120, 100%, 20%);
+  --danger-color: hsl(0, 100%, 40%);
 }

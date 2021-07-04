@@ -1,34 +1,74 @@
 @color1: black;
-@color2: #f1f1f1;
 
 .logo {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  > div {
-    position: absolute;
-    font-size: 5rem;
-    color: @color2;
+  width: 100%;
+  a {
+    text-decoration: none;
+    color: var(--primary-color);
+    z-index: 1;
   }
-  > div:nth-child(2) {
-    font-family: 'Homemade Apple', cursive;
+  a > header {
+    font-size: 4rem;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 600;
+    cursor: pointer;
+
+    @media (min-width: 320px) {
+      font-size: 6rem;
+      font-weight: 900;
+    }
+    @media (min-width: 600px) {
+      font-size: 8rem;
+      font-weight: 900;
+    }
+    @media (min-width: 1025px) {
+      font-size: 10rem;
+      font-weight: 900;
+    }
   }
 }
-.circle {
-  height: 60vh;
-  width: 60vh;
-  border-top: 0.5rem solid @color2;
-  border-left: 0.5rem solid @color2;
-  border-bottom: 0.5rem solid @color2;
-  border-right: 0.1rem solid @color2;
-  border-radius: 50%;
-  > div {
-    color: @color2;
-  }
+
+// IMO these are the best breakpoints:
+
+@media (min-width: 320px) {
+  /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
 }
-.auth {
-  > div {
-    width: 50%;
-  }
+@media (min-width: 480px) {
+  /* smartphones, Android phones, landscape iPhone */
+}
+@media (min-width: 600px) {
+  /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */
+}
+@media (min-width: 801px) {
+  /* tablet, landscape iPad, lo-res laptops ands desktops */
+}
+@media (min-width: 1025px) {
+  /* big landscape tablets, laptops, and desktops */
+}
+@media (min-width: 1281px) {
+  /* hi-res laptops and desktops */
+}
+// Edit: Refined to work better with 960 grids:
+
+@media (min-width: 320px) {
+  /* smartphones, iPhone, portrait 480x320 phones */
+}
+@media (min-width: 481px) {
+  /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+@media (min-width: 641px) {
+  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+}
+@media (min-width: 961px) {
+  /* tablet, landscape iPad, lo-res laptops ands desktops */
+}
+@media (min-width: 1025px) {
+  /* big landscape tablets, laptops, and desktops */
+}
+@media (min-width: 1281px) {
+  /* hi-res laptops and desktops */
 }

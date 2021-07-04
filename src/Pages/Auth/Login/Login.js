@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+//
 import Logo from '../Logo';
 import Input from '../../../Components/Elements/Input/Input';
 import Button from '../../../Components/Elements/Button/Button';
-
+//
 import { signin } from '../../../functions/auth';
 import styles from './Login.module.css';
 
@@ -21,7 +22,7 @@ const Login = () => {
   const history = useHistory();
   useEffect(() => {
     if (user?.token) {
-      history.push(`/profile/${user._id}`);
+      history.push('/home');
     }
   }, []);
   const handleEmail = (e) => {
@@ -48,11 +49,11 @@ const Login = () => {
           type: 'LOGGED_IN_USER',
           payload: res.data.user,
         });
-        history.push(`/profile/${res.data.user._id}`);
+        history.push(`/home`);
       })
       .catch((err) => {
         console.log(err.response);
-        setError({ ...error, general: err.response.data.error });
+        setError({ ...error });
         setLoading(false);
       });
   };

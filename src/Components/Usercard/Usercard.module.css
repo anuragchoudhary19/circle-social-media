@@ -1,0 +1,57 @@
+.card {
+  display: grid;
+  grid-template-areas: 'avatar user button';
+  grid-template-columns: 10% 1fr 20%;
+  grid-template-rows: auto;
+  width: 100%;
+  height: fit-content;
+  border: 0 solid rgba(158, 157, 137, 0.27);
+  border-width: 0px 0 1px 0;
+  padding: 0.5rem;
+}
+.avatar {
+  grid-area: avatar;
+  height: 65px;
+  width: 65px;
+  padding: 5%;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.user {
+  display: grid;
+  grid-template-areas: 'name username';
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+  width: fit-content;
+  height: fit-content;
+  color: var(--color);
+  grid-area: user;
+}
+.user a {
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: var(--color);
+  cursor: pointer;
+}
+.user .name {
+  grid-area: name;
+  font-weight: 700;
+}
+.user .username {
+  margin-left: 0.2rem;
+  grid-area: username;
+  color: #595959;
+}
+.user .username:hover {
+  color: hsl(0, 0%, 50%);
+}
+.button {
+  flex-direction: row;
+  height: fit-content;
+  width: 100%;
+  grid-area: button;
+}
