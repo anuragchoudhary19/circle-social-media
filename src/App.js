@@ -19,7 +19,8 @@ const Home = lazy(() => import('./Pages/User/Home'));
 export const SocketContext = React.createContext();
 
 function App() {
-  const { current: socket } = useRef(io('http://localhost:9000'));
+  // const { current: socket } = useRef(io('http://localhost:9000'));
+  const { current: socket } = useRef(io('https://pristine-dry-tortugas-08485.herokuapp.com/'));
   const { user } = useSelector((state) => ({ ...state }));
   const socketId = useRef();
   const dispatch = useDispatch();
