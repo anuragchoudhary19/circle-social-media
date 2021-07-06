@@ -19,7 +19,7 @@ const Home = lazy(() => import('./Pages/User/Home'));
 export const SocketContext = React.createContext();
 
 function App() {
-  const { current: socket } = useRef(io(process.env.REACT_APP_API_SOCKET_IO_URL), {
+  const { current: socket } = useRef(io.connect(), {
     transports: ['websocket', 'polling', 'flashsocket'],
     credentials: true,
   });
