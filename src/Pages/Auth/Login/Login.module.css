@@ -36,6 +36,7 @@
 @media (min-width: 1081px) {
   .auth > div {
     width: 70%;
+    max-width: 450px;
   }
 }
 .auth > div > header {

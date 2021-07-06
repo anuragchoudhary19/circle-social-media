@@ -6,6 +6,7 @@
 @media (max-width: 768px) {
   .sidebar {
     height: 8vh;
+    width: 100vw;
     z-index: 1;
   }
 }
@@ -43,8 +44,9 @@
 .menu {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 70%;
-  height: 100vh;
+  height: 100%;
 }
 .menu .backdrop {
   display: none;
