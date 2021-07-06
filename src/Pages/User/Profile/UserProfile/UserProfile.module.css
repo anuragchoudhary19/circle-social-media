@@ -1,6 +1,8 @@
 .profile {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-width: 300px;
 }
 .profile > header {
   display: flex;
@@ -42,6 +44,8 @@
   width: 100%;
   height: fit-content;
   padding-left: 0.25rem;
+  margin-top: 1rem;
+  color: var(--color);
 }
 .bio .name {
   display: flex;
@@ -72,14 +76,13 @@
 .bio .connections a {
   color: #f1f1f1;
   text-decoration: none;
-  padding: 0.5rem;
+  padding: 0.25rem;
 }
 .bio .connections a:hover {
   color: hsl(0, 0%, 30%);
 }
-.bio .connections > span {
+.bio .connections span {
   font-weight: bold;
-  padding: 4px 4px;
 }
 .bio .date {
   grid-area: date;

@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, NavLink, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import UserProfile from './UserProfile/UserProfile';
 import Sidebar from '../../../Components/Sidebar/Sidebar';
 import Footer from '../../../Components/Footer/Footer';
@@ -9,6 +9,7 @@ import Statuses from './Nav/Statuses';
 import Likes from './Nav/Likes';
 import { getProfile } from '../../../functions/user';
 import styles from './Profile.module.css';
+import Recommendations from '../Recommendations/Recommendations';
 
 const Profile = () => {
   const { username } = useParams();
@@ -56,7 +57,9 @@ const Profile = () => {
         {loading ? <Loader styles={{ width: '40px', height: '40px' }} /> : <UserProfile profile={profile} />}
         {!loading && profile && loadPathname()}
       </div>
-      <Footer />
+      {/* <Footer>
+        <Recommendations />
+      </Footer> */}
     </div>
   );
 };

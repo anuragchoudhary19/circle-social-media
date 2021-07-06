@@ -13,7 +13,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Connections.module.css';
 
-const Connect = () => {
+const Connection = () => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState();
   const { user } = useSelector((state) => ({ ...state }));
@@ -60,7 +60,7 @@ const Connect = () => {
             </li>
             <li>
               <NavLink exact to={'/following'} activeStyle={style}>
-                <li>Following</li>
+                Following
               </NavLink>
             </li>
           </ul>
@@ -78,4 +78,4 @@ const Connect = () => {
   );
 };
 
-export default Connect;
+export default Connection;

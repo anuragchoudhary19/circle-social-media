@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
-import Logo from '../Logo';
+import Logo from '../../../Components/Logo/Logo';
 import Input from '../../../Components/Elements/Input/Input';
 import Button from '../../../Components/Elements/Button/Button';
 
@@ -31,8 +31,7 @@ const Signup = () => {
     setForm({ ...form, [label]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (password !== confirmPassword) {
       setError({ ...error, password: 'Passwords do not match' });
       return;
@@ -40,15 +39,15 @@ const Signup = () => {
     setLoading(true);
     signup(username, email, password)
       .then((res) => {
-        console.log(res);
         if (res.data.message) {
+          setLoading(false);
+          setForm(initialState);
           setError(initialState);
           setMessage(res.data.message);
-          setLoading(false);
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        setLoading(false);
         setMessage('');
         if (err.response.data) {
           let param = err.response.data.param;
@@ -67,10 +66,10 @@ const Signup = () => {
     <div className={styles.page}>
       <Logo />
       <div className={styles.signup}>
-        <header>Sign Up</header>
-        <form>
-          {error.general && <span className={styles.error}>{error.general}</span>}
-          {message && <span className={styles.success}>{message}</span>}
+        <div>
+          <header>Sign Up</header>
+          {error.general && <div className={styles.error}>{error.general}</div>}
+          {message && <div className={styles.success}>{message}</div>}
           <Input
             label='Username'
             type='text'
@@ -94,10 +93,10 @@ const Signup = () => {
           />
           <br />
           <Button type='submit' text='Sign Up' loading={loading} onClick={handleSubmit} />
-        </form>
-        <Link className={styles.login} to={'/login'}>
-          Have an account? Login
-        </Link>
+          <div className={styles.login}>
+            <Link to={'/login'}>Have an account? Sign In</Link>
+          </div>
+        </div>
       </div>
     </div>
   );

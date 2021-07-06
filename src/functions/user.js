@@ -25,6 +25,16 @@ export const getAllUsers = async (token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+export const getNewUsers = async (token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/newUsers`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+export const getSearchedUsers = async (query, token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/users/${query}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
 export const updateUser = (userData, token) => {
   return axios.put(
     `${process.env.REACT_APP_API}/user`,

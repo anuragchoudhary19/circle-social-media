@@ -1,23 +1,15 @@
-@color1: #0f0f0f;
-@color2: #f1f1f1;
-@color3: #54e346;
 .page {
   display: grid;
-
   height: 100vh;
   width: 100%;
   background-color: var(--background-color);
   color: var(--color);
 
-  @media (min-width: 320px) {
-    grid-template-columns: 100%;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
     grid-template-rows: 30% 70%;
   }
-  @media (min-width: 600px) {
-    grid-template-columns: 100%;
-    grid-template-rows: 30% 70%;
-  }
-  @media (min-width: 1025px) {
+  @media (min-width: 769px) {
     grid-template-rows: 100%;
     grid-template-columns: 50% 50%;
   }
@@ -28,29 +20,38 @@
   justify-content: center;
   align-items: center;
   > div {
-    @media (min-width: 320px) {
+    @media (max-width: 768px) {
       width: 90%;
     }
-    @media (min-width: 600px) {
-      width: 60%;
+    @media (min-width: 769px) and (max-width: 1080px) {
+      width: 80%;
     }
-    @media (min-width: 801px) {
-      width: 50%;
+    @media (min-width: 1081px) {
+      width: 70%;
     }
-
     > header {
       color: var(--color);
-      font-size: 3rem;
+      font-size: 2rem;
       padding: 4px;
+      @media (max-width: 768px) {
+        font-size: 1.3rem;
+      }
+      @media (min-width: 769px) and (max-width: 1080px) {
+        font-size: 1.6rem;
+      }
+      @media (min-width: 1081px) {
+        font-size: 2rem;
+      }
     }
   }
 }
-.signin {
-  padding: 4px;
+.signinLink {
+  padding: 1rem;
   text-align: right;
   a {
     text-decoration: none;
     color: var(--color);
+    font-weight: bold;
     &:hover {
       text-decoration: underline;
     }
@@ -59,11 +60,11 @@
 .error {
   background-color: fade(red, 40%);
   color: red;
-  padding: 8px;
+  padding: 0.5rem;
 }
 
 .success {
   background-color: fade(greenyellow, 40%);
   color: greenyellow;
-  padding: 8px;
+  padding: 0.5rem;
 }

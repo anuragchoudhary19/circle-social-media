@@ -40,7 +40,7 @@ const UserProfile = ({ profile }) => {
           <img src={profile.photo ? profile.photo.url : DefaultPhoto} alt='profile' />
         </div>
         {profile._id === user._id && (
-          <div style={{ width: '20%', marginLeft: 'auto', marginRight: '1rem' }}>
+          <div style={{ width: '120px', marginLeft: 'auto', marginRight: '1rem' }}>
             <Button width='100%' text='Edit Profile' onClick={handleEditModal} />
           </div>
         )}
@@ -60,10 +60,10 @@ const UserProfile = ({ profile }) => {
           </span>
           {profile.bio && <span className={styles.status}>{profile.bio}</span>}
           <div className={styles.connections}>
-            <Link exact to='/followers'>
+            <Link to='/followers'>
               <span>Followers {profile?.followers?.length}</span>
             </Link>
-            <Link exact to='/following'>
+            <Link to='/following'>
               <span>Following {profile?.following?.length}</span>
             </Link>
           </div>

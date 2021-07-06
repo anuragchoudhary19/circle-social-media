@@ -5,19 +5,13 @@
   background-color: var(--background-color);
   color: var(--color);
 }
-@media (min-width: 320px) {
+@media (max-width: 768px) {
   .page {
-    grid-template-columns: 100%;
+    grid-template-columns: 1fr;
     grid-template-rows: 30% 70%;
   }
 }
-@media (min-width: 600px) {
-  .page {
-    grid-template-columns: 100%;
-    grid-template-rows: 30% 70%;
-  }
-}
-@media (min-width: 1025px) {
+@media (min-width: 769px) {
   .page {
     grid-template-rows: 100%;
     grid-template-columns: 50% 50%;
@@ -29,44 +23,60 @@
   justify-content: center;
   align-items: center;
 }
-@media (min-width: 320px) {
+@media (max-width: 768px) {
   .auth > div {
     width: 90%;
   }
 }
-@media (min-width: 600px) {
+@media (min-width: 769px) and (max-width: 1080px) {
   .auth > div {
-    width: 60%;
+    width: 80%;
   }
 }
-@media (min-width: 801px) {
+@media (min-width: 1081px) {
   .auth > div {
-    width: 50%;
+    width: 70%;
   }
 }
 .auth > div > header {
   color: var(--color);
-  font-size: 3rem;
+  font-size: 2rem;
   padding: 4px;
 }
-.signin {
-  padding: 4px;
+@media (max-width: 768px) {
+  .auth > div > header {
+    font-size: 1.3rem;
+  }
+}
+@media (min-width: 769px) and (max-width: 1080px) {
+  .auth > div > header {
+    font-size: 1.6rem;
+  }
+}
+@media (min-width: 1081px) {
+  .auth > div > header {
+    font-size: 2rem;
+  }
+}
+.signinLink {
+  padding: 1rem;
   text-align: right;
 }
-.signin a {
+.signinLink a {
   text-decoration: none;
   color: var(--color);
+  font-weight: bold;
 }
-.signin a:hover {
+.signinLink a:hover {
   text-decoration: underline;
 }
 .error {
   background-color: rgba(255, 0, 0, 0.4);
   color: red;
-  padding: 8px;
+  padding: 0.5rem;
 }
 .success {
   background-color: rgba(173, 255, 47, 0.4);
   color: greenyellow;
-  padding: 8px;
+  padding: 0.5rem;
 }

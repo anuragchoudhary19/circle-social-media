@@ -1,8 +1,10 @@
 .App {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  /* flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  width: 100vw; */
+  max-width: 100vw;
   background-color: var(--background-color);
 }

@@ -17,7 +17,6 @@ const Statuses = ({ profile, user }) => {
     listStatuses(profile._id, user.token)
       .then((res) => {
         setStatuses(res.data.statuses);
-        console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {

@@ -1,6 +1,8 @@
 .profile {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-width: 300px;
   > header {
     display: flex;
     flex-direction: column;
@@ -47,7 +49,8 @@
   width: 100%;
   height: fit-content;
   padding-left: 0.25rem;
-
+  margin-top: 1rem;
+  color: var(--color);
   .name {
     display: flex;
     flex-direction: row;
@@ -76,14 +79,13 @@
     a {
       color: #f1f1f1;
       text-decoration: none;
-      padding: 0.5rem;
+      padding: 0.25rem;
       &:hover {
         color: hsl(0, 0%, 30%);
       }
     }
-    > span {
+    span {
       font-weight: bold;
-      padding: 4px 4px;
     }
   }
   .date {

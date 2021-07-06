@@ -1,0 +1,30 @@
+.logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  a {
+    text-decoration: none;
+    color: var(--primary-color);
+    z-index: 1;
+  }
+  a > header {
+    font-size: 4rem;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 600;
+    cursor: pointer;
+    @media (max-width: 768px) {
+      font-size: 5rem;
+      font-weight: bold;
+    }
+    @media (min-width: 769px) and (max-width: 1080px) {
+      font-size: 6.5rem;
+      font-weight: bold;
+    }
+    @media (min-width: 1081px) {
+      font-size: 8rem;
+      font-weight: bold;
+    }
+  }
+}

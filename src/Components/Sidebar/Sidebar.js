@@ -8,14 +8,18 @@ import { BrowserRouter } from 'react-router-dom';
 import { logout } from '../../functions/auth';
 import { SocketContext } from '../../App';
 import { store } from '../../index';
-
+//
 import Button from '../../Components/Elements/Button/Button';
 import Post from '../../Modals/StatusModal/StatusModal';
+//
+import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Sidebar.module.css';
+import Input from '../Elements/Input/Input';
 
 const Sidebar = () => {
   const socket = useContext(SocketContext);
-  let [classes, setClasses] = useState([styles.sidebar]);
+  let [open, setOpen] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   let dispatch = useDispatch();
   let history = useHistory();
@@ -29,6 +33,7 @@ const Sidebar = () => {
       </Provider>,
       document.getElementById('modal')
     );
+    toggleSidebar();
   };
   const handleLogout = () => {
     logout().then((res) => {
@@ -38,35 +43,33 @@ const Sidebar = () => {
         payload: '',
       });
       history.push('/');
-      console.log(res.data.message);
     });
   };
   const toggleSidebar = () => {
-    let style = [...classes];
-    if (style.includes(styles.active)) {
-      style.pop(styles.active);
-      setClasses(style);
-    } else {
-      style.push(styles.active);
-      setClasses(style);
-    }
-    console.log(classes);
-  };
-  const closeSidebar = () => {
-    toggleSidebar();
+    setOpen(!open);
   };
   return (
-    <div
-      className={styles.backdrop}
-      onClick={closeSidebar}
-      data-toggle={classes.includes(styles.active) ? true : false}>
-      <div className={styles.toggle} onClick={toggleSidebar}>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div className={classes.join(' ')}>
+    <div className={styles.sidebar}>
+      <header>
+        <div className={styles.toggle} onClick={toggleSidebar}>
+          <FontAwesomeIcon icon={faAlignJustify} />
+        </div>
+        <Input placeholder='Search' />
+      </header>
+      <div className={styles.menu}>
+        <div className={styles.backdrop} onClick={toggleSidebar} data-toggle={open}></div>
         <ul>
+          <li className={styles.user}>
+            <img src={user.photo.url} alt='profile' onClick={() => history.push(`/${user.username}`)} />
+            <span>
+              {user.firstname} {user.lastname}
+            </span>
+            <span>@{user.username}</span>
+            <div>
+              <span>Followers {user.followers.length}</span>
+              <span>Following {user.following.length}</span>
+            </div>
+          </li>
           <li>
             <NavLink to='/home' activeStyle={{ color: '#087fc4' }}>
               Home
@@ -90,15 +93,15 @@ const Sidebar = () => {
           <li>
             <Button text='Status' width='60%' onClick={handleStatusModal} />
           </li>
+          <li className={styles.logoutButton}>
+            <Button
+              text='Logout'
+              width='60%'
+              onClick={handleLogout}
+              style={{ marginTop: 'auto', marginBottom: '1rem' }}
+            />
+          </li>
         </ul>
-        <div className={styles.logoutButton}>
-          <Button
-            text='Logout'
-            width='60%'
-            onClick={handleLogout}
-            style={{ marginTop: 'auto', marginBottom: '1rem' }}
-          />
-        </div>
       </div>
     </div>
   );

@@ -1,22 +1,18 @@
 .page {
   display: grid;
-  height: 100vh;
+  min-height: 100vh;
+  height: fit-content;
   width: 100%;
+  color: var(--color);
   background-color: var(--background-color);
 }
-@media (min-width: 320px) {
+@media (max-width: 768px) {
   .page {
-    grid-template-columns: 100%;
+    grid-template-columns: 1fr;
     grid-template-rows: 30% 70%;
   }
 }
-@media (min-width: 600px) {
-  .page {
-    grid-template-columns: 100%;
-    grid-template-rows: 30% 70%;
-  }
-}
-@media (min-width: 1025px) {
+@media (min-width: 769px) {
   .page {
     grid-template-rows: 100%;
     grid-template-columns: 50% 50%;
@@ -28,44 +24,60 @@
   justify-content: center;
   align-items: center;
 }
-.signup > header {
-  color: var(--color);
-  font-size: 3rem;
-  margin: 8px;
-}
-@media (min-width: 320px) {
-  .signup > form {
+@media (max-width: 768px) {
+  .signup > div {
     width: 90%;
   }
 }
-@media (min-width: 600px) {
-  .signup > form {
-    width: 60%;
+@media (min-width: 769px) and (max-width: 1080px) {
+  .signup > div {
+    width: 80%;
   }
 }
-@media (min-width: 801px) {
-  .signup > form {
-    width: 50%;
+@media (min-width: 1081px) {
+  .signup > div {
+    width: 70%;
+  }
+}
+.signup > div > header {
+  color: var(--color);
+  font-size: 2rem;
+  padding: 4px;
+}
+@media (max-width: 768px) {
+  .signup > div > header {
+    font-size: 1.3rem;
+  }
+}
+@media (min-width: 769px) and (max-width: 1080px) {
+  .signup > div > header {
+    font-size: 1.6rem;
+  }
+}
+@media (min-width: 1081px) {
+  .signup > div > header {
+    font-size: 2rem;
   }
 }
 .login {
-  margin-top: 1rem;
-  margin-right: 22%;
-  margin-left: auto;
+  padding: 1rem;
   text-align: right;
+}
+.login a {
   text-decoration: none;
   color: var(--color);
+  font-weight: bold;
 }
-.login:hover {
+.login a:hover {
   text-decoration: underline;
 }
 .error {
-  background-color: var(--danger-color);
-  color: var(--color);
-  padding: 8px;
+  background-color: rgba(255, 0, 0, 0.4);
+  color: red;
+  padding: 0.5rem;
 }
 .success {
-  background-color: var(--success-color);
-  color: var(--color);
-  padding: 8px;
+  background-color: rgba(173, 255, 47, 0.4);
+  color: greenyellow;
+  padding: 0.5rem;
 }

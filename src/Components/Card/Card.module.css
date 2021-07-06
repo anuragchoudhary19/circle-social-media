@@ -1,7 +1,6 @@
 .card {
   display: grid;
   grid-template-areas: 'avatar header dropdown' 'avatar controls dropdown';
-  grid-template-columns: 10% 1fr 4%;
   grid-template-rows: auto 30%;
   width: 100%;
   height: fit-content;
@@ -12,6 +11,13 @@
 .card header,
 .card footer {
   display: flex;
+}
+@media (max-width: 768px) {
+}
+@media (min-width: 769px) {
+  .card {
+    grid-template-columns: 10% 1fr 4%;
+  }
 }
 .card[data-card='true'] {
   height: fit-content;
