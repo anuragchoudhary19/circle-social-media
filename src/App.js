@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { unsubscribe } from './functions/user';
-import './App.css';
 
 import LoadingPage from './Components/LoadingPage/LoadingPage';
+import './App.css';
 const PrivateRoute = lazy(() => import('./Components/Routes/PrivateRoute'));
 const Signup = lazy(() => import('./Pages/Auth/Signup/Signup'));
 const Login = lazy(() => import('./Pages/Auth/Login/Login'));

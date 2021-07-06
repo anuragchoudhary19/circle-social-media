@@ -5,9 +5,9 @@ import { createStatus } from '../../functions/status';
 //
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from './StatusModal.module.css';
 import TextArea from '../../Components/Elements/TextArea/TextArea';
 import Button from '../../Components/Elements/Button/Button';
+import styles from './StatusModal.module.css';
 
 const StatusModal = ({ user, socket }) => {
   const [text, setText] = useState('');

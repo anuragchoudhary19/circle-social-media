@@ -13,10 +13,10 @@ import { faHeart, faCommentAlt } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as FaHeart, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import date from 'date-and-time';
-import styles from './Card.module.css';
 import TextArea from '../Elements/TextArea/TextArea';
 import Button from '../Elements/Button/Button';
 import { RetweetOutlined } from '@ant-design/icons';
+import styles from './Card.module.css';
 
 const Card = (props) => {
   const { profile, expand, status } = props;

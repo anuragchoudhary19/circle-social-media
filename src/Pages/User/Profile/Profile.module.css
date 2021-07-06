@@ -1,5 +1,6 @@
 .page {
   display: flex;
+  justify-content: center;
   width: 100vw;
   height: fit-content;
   min-height: 100vh;
@@ -30,6 +31,7 @@
   .main {
     border: 0 solid #454545;
     border-width: 0px 1px 0px 1px;
-    width: 50%;
+    width: 80%;
+    max-width: 681px;
   }
 }

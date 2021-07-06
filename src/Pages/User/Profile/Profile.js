@@ -8,8 +8,8 @@ import Loader from '../../../Components/Elements/Loader/Loader';
 import Statuses from './Nav/Statuses';
 import Likes from './Nav/Likes';
 import { getProfile } from '../../../functions/user';
-import styles from './Profile.module.css';
 import Recommendations from '../Recommendations/Recommendations';
+import styles from './Profile.module.css';
 
 const Profile = () => {
   const { username } = useParams();
@@ -57,9 +57,9 @@ const Profile = () => {
         {loading ? <Loader styles={{ width: '40px', height: '40px' }} /> : <UserProfile profile={profile} />}
         {!loading && profile && loadPathname()}
       </div>
-      {/* <Footer>
+      <Footer>
         <Recommendations />
-      </Footer> */}
+      </Footer>
     </div>
   );
 };
