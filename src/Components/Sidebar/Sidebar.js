@@ -55,12 +55,10 @@ const Sidebar = () => {
   };
   return (
     <div className={styles.sidebar}>
-      <header>
-        <div className={styles.toggle} onClick={toggleSidebar}>
-          <FontAwesomeIcon icon={faAlignJustify} />
-        </div>
+      <div>
+        <FontAwesomeIcon style={{ color: 'blue', fontSize: '2rem' }} icon={faAlignJustify} onClick={toggleSidebar} />
         <Input value={query} placeholder='Search' onChange={searchHandler} />
-      </header>
+      </div>
       <div className={styles.menu}>
         <div className={styles.backdrop} onClick={toggleSidebar} data-toggle={open}></div>
         <ul>
@@ -98,7 +96,7 @@ const Sidebar = () => {
           <li>
             <Button text='Status' width='60%' onClick={handleStatusModal} />
           </li>
-          <li className={styles.logoutButton}>
+          <li>
             <Button
               text='Logout'
               width='60%'
