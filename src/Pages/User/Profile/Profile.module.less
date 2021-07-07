@@ -1,15 +1,17 @@
 .page {
-  display: flex;
-  justify-content: center;
   width: 100vw;
   height: fit-content;
   min-height: 100vh;
   background-color: var(--background-color);
   @media (max-width: 768px) {
+    display: flex;
     flex-direction: column;
   }
   @media (min-width: 769px) {
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 25% 1fr 25%;
+    grid-template-rows: auto;
+    max-width: 1300px;
   }
 }
 .main {
@@ -23,7 +25,5 @@
   @media (min-width: 769px) {
     border: 0 solid #454545;
     border-width: 0px 1px 0px 1px;
-    width: 80%;
-    max-width: 681px;
   }
 }

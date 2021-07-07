@@ -20,6 +20,7 @@ import Input from '../Elements/Input/Input';
 const Sidebar = () => {
   const socket = useContext(SocketContext);
   let [open, setOpen] = useState(false);
+  let [query, setQuery] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   let dispatch = useDispatch();
   let history = useHistory();
@@ -48,13 +49,17 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setOpen(!open);
   };
+
+  const searchHandler = (e) => {
+    setQuery(e.target.value);
+  };
   return (
     <div className={styles.sidebar}>
       <header>
         <div className={styles.toggle} onClick={toggleSidebar}>
           <FontAwesomeIcon icon={faAlignJustify} />
         </div>
-        <Input placeholder='Search' />
+        <Input value={query} placeholder='Search' onChange={searchHandler} />
       </header>
       <div className={styles.menu}>
         <div className={styles.backdrop} onClick={toggleSidebar} data-toggle={open}></div>

@@ -1,7 +1,7 @@
 .sidebar {
   position: relative;
   display: flex;
-  flex-direction: column;
+  background-color: var(--background-color);
   @media (max-width: 768px) {
     height: 8vh;
     width: 100vw;
@@ -9,9 +9,9 @@
   }
   @media (min-width: 769px) {
     height: 100vh;
-    width: 25%;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
   }
   > header {
     display: flex;
@@ -40,7 +40,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 70%;
+  align-items: center;
+  width: 100%;
   height: 100%;
   .backdrop {
     display: none;
@@ -60,8 +61,12 @@
   > ul {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     list-style: none;
-    background-color: var(--background-color);
+    width: 100%;
+    height: 100%;
     @media (max-width: 768px) {
       position: fixed;
       width: 70vw;
@@ -69,6 +74,7 @@
       bottom: 0;
       left: 0;
       transition: all 0.4s ease-in-out;
+      background-color: var(--background-color);
     }
     > li {
       display: flex;
@@ -76,18 +82,25 @@
       align-items: center;
       width: 100%;
       font-size: 1.5rem;
-      padding: 0.25rem 0;
       color: #f1f1f1;
       > a {
         text-align: center;
         text-decoration: none;
         height: 100%;
-        width: 100%;
+        width: 70%;
         padding: 1rem;
         color: #f1f1f1;
         &:hover {
           background-color: var(--hover-color);
         }
+      }
+      &:nth-child(6) {
+        padding: 1rem;
+      }
+      &:nth-child(7) {
+        position: absolute;
+        bottom: 0;
+        padding: 1rem;
       }
     }
     .user {
@@ -138,9 +151,4 @@
   @media (max-width: 768px) {
     transform: translateX(0);
   }
-}
-
-.logoutButton {
-  margin-top: 10rem;
-  margin-bottom: 1rem;
 }

@@ -1,7 +1,7 @@
 .sidebar {
   position: relative;
   display: flex;
-  flex-direction: column;
+  background-color: var(--background-color);
 }
 @media (max-width: 768px) {
   .sidebar {
@@ -13,9 +13,9 @@
 @media (min-width: 769px) {
   .sidebar {
     height: 100vh;
-    width: 25%;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
   }
 }
 .sidebar > header {
@@ -45,7 +45,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 70%;
+  align-items: center;
+  width: 100%;
   height: 100%;
 }
 .menu .backdrop {
@@ -67,8 +68,12 @@
 .menu > ul {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   list-style: none;
-  background-color: var(--background-color);
+  width: 100%;
+  height: 100%;
 }
 @media (max-width: 768px) {
   .menu > ul {
@@ -78,6 +83,7 @@
     bottom: 0;
     left: 0;
     transition: all 0.4s ease-in-out;
+    background-color: var(--background-color);
   }
 }
 .menu > ul > li {
@@ -86,19 +92,26 @@
   align-items: center;
   width: 100%;
   font-size: 1.5rem;
-  padding: 0.25rem 0;
   color: #f1f1f1;
 }
 .menu > ul > li > a {
   text-align: center;
   text-decoration: none;
   height: 100%;
-  width: 100%;
+  width: 70%;
   padding: 1rem;
   color: #f1f1f1;
 }
 .menu > ul > li > a:hover {
   background-color: var(--hover-color);
+}
+.menu > ul > li:nth-child(6) {
+  padding: 1rem;
+}
+.menu > ul > li:nth-child(7) {
+  position: absolute;
+  bottom: 0;
+  padding: 1rem;
 }
 .menu > ul .user {
   flex-direction: column;
@@ -148,8 +161,4 @@
   .backdrop[data-toggle='true'] + ul {
     transform: translateX(0);
   }
-}
-.logoutButton {
-  margin-top: 10rem;
-  margin-bottom: 1rem;
 }

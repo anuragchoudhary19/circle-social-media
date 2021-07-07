@@ -1,4 +1,13 @@
 .footer {
-  color: white;
-  padding: 1rem;
+  position: relative;
+  @media (max-width: 768px) {
+    display: none;
+  }
+  @media (min-width: 769px) {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
 }
