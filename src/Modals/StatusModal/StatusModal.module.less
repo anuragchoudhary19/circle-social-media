@@ -1,4 +1,3 @@
-@color: #54e346;
 .page {
   position: fixed;
   top: 0;
@@ -16,11 +15,16 @@
   flex-direction: column;
   margin-top: 15vh;
   margin-bottom: auto;
-  width: 40%;
   max-width: 600px;
   height: fit-content;
   background-color: var(--background-color);
   border-radius: 0.5rem;
+  @media (max-width: 768px) {
+    width: 95%;
+  }
+  @media (min-width: 769px) {
+    width: 40%;
+  }
 }
 .status {
   display: flex;

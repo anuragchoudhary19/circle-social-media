@@ -15,11 +15,20 @@
   flex-direction: column;
   margin-top: 15vh;
   margin-bottom: auto;
-  width: 40%;
   max-width: 600px;
   height: fit-content;
   background-color: var(--background-color);
   border-radius: 0.5rem;
+}
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+  }
+}
+@media (min-width: 769px) {
+  .modal {
+    width: 40%;
+  }
 }
 .status {
   display: flex;

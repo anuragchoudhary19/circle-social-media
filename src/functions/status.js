@@ -56,9 +56,10 @@ export const retweet = async (postId, token) => {
     }
   );
 };
-export const commentOnPostHandle = async (comment, postId, token) => {
+export const commentOnPostHandle = async (comment, statusId, token) => {
+  console.log(comment);
   return await axios.post(
-    `${process.env.REACT_APP_API}/status/comment/${postId}`,
+    `${process.env.REACT_APP_API}/status/comment/${statusId}`,
     { comment },
     {
       headers: { Authorization: `Bearer ${token}` },

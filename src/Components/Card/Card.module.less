@@ -9,14 +9,14 @@
   height: fit-content;
   border: 0 solid fade(#9e9d89, 27%);
   border-width: 0px 0 1px 0;
-  > div,
-  header,
+  > header,
   footer {
     display: flex;
   }
   @media (max-width: 768px) {
     // flex-direction: column;
     // grid-template-columns: 10% 1fr 2%;
+    grid-template-columns: auto 1fr auto;
   }
   @media (min-width: 769px) {
     // flex-direction: row;
@@ -31,6 +31,27 @@
   grid-area: dropdown;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--hover-color);
+  }
+}
+@media (max-width: 768px) {
+  .dropdown {
+    display: none !important;
+  }
+}
+.popup {
+  grid-area: dropdown;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0.25rem;
   width: fit-content;
   height: fit-content;

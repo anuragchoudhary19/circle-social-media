@@ -5,7 +5,7 @@ import Loader from '../../../../Components/Elements/Loader/Loader';
 //
 import { SocketContext } from '../../../../App';
 import { getStatusLikedByThisUser } from '../../../../functions/status';
-import styles from './Posts.module.css';
+import styles from './Statuses.module.css';
 
 const Likes = ({ profile, user }) => {
   const { _id } = profile;
@@ -38,7 +38,7 @@ const Likes = ({ profile, user }) => {
       });
   };
   return (
-    <div className={styles.posts}>
+    <div className={styles.statuses}>
       {loading ? (
         <Loader />
       ) : likes?.length ? (

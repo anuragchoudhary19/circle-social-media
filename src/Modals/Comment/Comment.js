@@ -1,36 +1,48 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
 import { useSelector } from 'react-redux';
 import { commentOnPostHandle } from '../../functions/status';
-
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Comment.module.css';
+import TextArea from '../../Components/Elements/TextArea/TextArea';
+import Button from '../../Components/Elements/Button/Button';
 
-const Comment = ({ post, profile, socket }) => {
-  const [comment, setComment] = useState('');
+const initialState = { text: '', photo: { photo_id: '', public_url: '' }, video: '' };
+const Comment = ({ status, profile, socket, setIsOpen }) => {
+  const [comment, setComment] = useState(initialState);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
 
   const closeModal = () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('modal'));
+    setIsOpen(false);
   };
   const handleComment = () => {
-    if (!comment) return setError('Comment is empty');
-    commentOnPostHandle(comment, post._id, user.token)
+    if (!comment.text) return setError('Comment is empty');
+    setLoading(true);
+    commentOnPostHandle({ ...comment, statusId: status._id }, status._id, user.token)
       .then((res) => {
-        socket.emit('update', post._id);
+        setLoading(true);
+        socket.emit('update', status._id);
+        setComment(initialState);
       })
       .then(() => {
         closeModal();
       })
       .catch((err) => {
+        setLoading(false);
         setError('Error in posting comment');
       });
   };
-  const commentHandle = (value) => {
+  const commentHandle = (element) => {
     setError('');
-    setComment(value);
+    console.log(element);
+    if (element) {
+      const target = element.target ? element.target : element;
+      target.style.height = '50px';
+      target.style.height = `${target.scrollHeight}px`;
+    }
+    setComment({ ...comment, text: element.target.value });
   };
 
   return (
@@ -48,7 +60,7 @@ const Comment = ({ post, profile, socket }) => {
             <img src={profile?.photo?.url} alt='profile' />
           </div>
           <header className={styles.header}>
-            <div className={styles.status}>{post?.post}</div>
+            <div className={styles.status}>{status?.text}</div>
           </header>
         </div>
         <div className={styles.username}>
@@ -58,11 +70,11 @@ const Comment = ({ post, profile, socket }) => {
           <div className={styles.avatar}>
             <img src={profile?.photo?.url} alt='profile' />
           </div>
-          <textarea
-            rows='6'
-            placeholder='Post your reply'
-            value={comment}
-            onChange={(e) => commentHandle(e.target.value)}
+          <TextArea
+            comment={comment.text}
+            placeholder='Reply here...'
+            value={comment.text}
+            onChange={(e) => commentHandle(e)}
           />
         </div>
         {error && (
@@ -70,9 +82,9 @@ const Comment = ({ post, profile, socket }) => {
             * {error}
           </div>
         )}
-        <button className={styles.postButton} onClick={handleComment}>
-          Reply
-        </button>
+        <div className={styles.postButton}>
+          <Button text='Reply' loading={loading} onClick={handleComment} />
+        </div>
       </div>
     </div>
   );

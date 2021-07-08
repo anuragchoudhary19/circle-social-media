@@ -4,7 +4,7 @@ import { listStatuses } from '../../../../functions/status';
 //
 import Card from '../../../../Components/Card/Card';
 import Loader from '../../../../Components/Elements/Loader/Loader';
-import styles from './Posts.module.css';
+import styles from './Statuses.module.css';
 
 const Statuses = ({ profile, user }) => {
   const [statuses, setStatuses] = useState([]);
@@ -25,7 +25,7 @@ const Statuses = ({ profile, user }) => {
   };
 
   return (
-    <div className={styles.posts}>
+    <div className={styles.statuses}>
       {loading ? (
         <Loader />
       ) : statuses.length ? (

@@ -7,12 +7,14 @@
   border: 0 solid rgba(158, 157, 137, 0.27);
   border-width: 0px 0 1px 0;
 }
-.card > div,
-.card header,
+.card > header,
 .card footer {
   display: flex;
 }
 @media (max-width: 768px) {
+  .card {
+    grid-template-columns: auto 1fr auto;
+  }
 }
 @media (min-width: 769px) {
   .card {
@@ -27,12 +29,33 @@
   grid-area: dropdown;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0.25rem;
   width: fit-content;
   height: fit-content;
   cursor: pointer;
 }
 .dropdown:hover {
+  background-color: var(--hover-color);
+}
+@media (max-width: 768px) {
+  .dropdown {
+    display: none !important;
+  }
+}
+.popup {
+  grid-area: dropdown;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+}
+.popup:hover {
   background-color: var(--hover-color);
 }
 .avatar {

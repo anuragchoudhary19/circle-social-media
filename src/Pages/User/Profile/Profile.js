@@ -25,17 +25,15 @@ const Profile = () => {
     setLoading(true);
     getProfile(username, user.token)
       .then((res) => {
-        console.log(res.data);
         setProfile(res.data.profile);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   };
   const loadPathname = () => {
-    if (!profile._id) return;
+    if (!profile._id) return null;
     if (history.location.pathname === `/${username}`) {
       return <Statuses profile={profile} user={user} />;
     }

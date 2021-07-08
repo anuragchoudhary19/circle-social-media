@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
 //
 import { createStatus } from '../../functions/status';
 //
@@ -9,23 +8,27 @@ import TextArea from '../../Components/Elements/TextArea/TextArea';
 import Button from '../../Components/Elements/Button/Button';
 import styles from './StatusModal.module.css';
 
-const StatusModal = ({ user, socket }) => {
+const StatusModal = ({ user, socket, setIsOpen }) => {
   const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const closeModal = () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('modal'));
+    setIsOpen(false);
   };
   const postStatus = () => {
     if (!text) return setError('Status cannot be empty');
+    setLoading(true);
     createStatus(text, user.token)
       .then((res) => {
+        setLoading(false);
         socket.emit('new-post', socket.id);
       })
       .then(() => {
         closeModal();
       })
       .catch((err) => {
+        setLoading(false);
         setError('Error in posting the status');
       });
   };
@@ -63,7 +66,7 @@ const StatusModal = ({ user, socket }) => {
           </div>
         )}
         <div className={styles.button}>
-          <Button text='Post' onClick={postStatus} />
+          <Button text='Post' loading={loading} onClick={postStatus} />
         </div>
       </div>
     </div>

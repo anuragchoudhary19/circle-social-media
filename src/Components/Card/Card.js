@@ -1,10 +1,7 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import { SocketContext } from '../../App';
-import { store } from '../../index';
-import { Link, BrowserRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown';
 import Comment from '../../Modals/Comment/Comment';
 import { commentOnPostHandle } from '../../functions/status';
@@ -17,8 +14,11 @@ import TextArea from '../Elements/TextArea/TextArea';
 import Button from '../Elements/Button/Button';
 import { RetweetOutlined } from '@ant-design/icons';
 import styles from './Card.module.css';
+import Modal from '../Modal/Modal';
+import Options from '../../Modals/Options/Options';
 
 const Card = (props) => {
+  const [openCommentModal, setOpenCommentModal] = useState(false);
   const { profile, expand, status } = props;
   const socket = useContext(SocketContext);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -26,10 +26,12 @@ const Card = (props) => {
   const [comments, setComments] = useState(props.status.comments);
   const [forwards, setForward] = useState(props.status.retweets);
   const [likes, setLikes] = useState(props.status.likes);
-  const [dropdown, setDropdown] = useState('');
+  const [statusId, setStatusId] = useState('');
   const [error, setError] = useState('');
+  const [screen, setScreen] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   const node = useRef();
+  const delRef = useRef();
   useEffect(() => {
     socket.on('post-update', (updatedStatus) => {
       console.log(updatedStatus);
@@ -45,13 +47,20 @@ const Card = (props) => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
+  useEffect(() => {
+    window.addEventListener('resize', () => setScreen(window.screen.width));
+    return () => window.removeEventListener('resize', () => setScreen(window.screen.width));
+  }, []);
 
   const handleClick = (e) => {
-    if (node.current && node.current.contains(e.target)) {
+    if (node.current?.contains(e.target)) {
+      return;
+    } else if (delRef.current?.contains(e.target)) {
       return;
     }
-    setDropdown('');
+    setStatusId('');
   };
+
   const deleteHandle = async (id) => {
     if (props.type === 'comment') {
       removeComment(id, user.token)
@@ -85,6 +94,7 @@ const Card = (props) => {
   };
   const commentHandle = (element) => {
     setError('');
+    console.log(element);
     if (element) {
       const target = element.target ? element.target : element;
       target.style.height = '50px';
@@ -105,15 +115,8 @@ const Card = (props) => {
         setError('Error in posting comment');
       });
   };
-  const handleOpenCommentModal = (postId) => {
-    ReactDOM.render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Comment post={status} profile={profile} socket={socket} />
-        </BrowserRouter>
-      </Provider>,
-      document.getElementById('modal')
-    );
+  const handleOpenCommentModal = () => {
+    setOpenCommentModal(true);
   };
   console.log();
   return (
@@ -137,14 +140,27 @@ const Card = (props) => {
           <Link to={`/${profile.username}/post/${status?._id}`}>{status?.text}</Link>
         </div>
       </header>
-      {user._id === profile._id && (
-        <div className={styles.dropdown} ref={node} onClick={() => setDropdown(status?._id)}>
+      {status.postedBy === profile._id && (
+        <div className={styles.dropdown} ref={node} onClick={() => setStatusId(status?._id)}>
           <FontAwesomeIcon icon={faEllipsisH} style={{ color: '#595959' }} />
-          <Dropdown dropdown={dropdown === status?._id}>
+          <Dropdown dropdown={statusId === status?._id}>
             <div onClick={() => deleteHandle(status?._id)}>Delete</div>
           </Dropdown>
         </div>
       )}
+      {status.postedBy === profile._id && (
+        <div className={styles.popup} id='popup' onClick={() => setStatusId(status?._id)}>
+          <FontAwesomeIcon icon={faEllipsisH} style={{ color: '#595959' }} />
+          <Modal isOpen={screen < 768 && statusId === status?._id}>
+            <Options>
+              <div onClick={() => deleteHandle(status?._id)} ref={delRef}>
+                Delete
+              </div>
+            </Options>
+          </Modal>
+        </div>
+      )}
+
       <footer className={styles.footer}>
         <div className={styles.comment} data-card={expand}>
           <TextArea comment={comment} placeholder='Reply here...' onChange={(e) => commentHandle(e)} />
@@ -173,6 +189,9 @@ const Card = (props) => {
           </div>
         </div>
       </footer>
+      <Modal isOpen={openCommentModal}>
+        <Comment status={status} profile={profile} socket={socket} setIsOpen={setOpenCommentModal} />
+      </Modal>
     </div>
   );
 };

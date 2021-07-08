@@ -2,38 +2,29 @@ import React, { useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { logout } from '../../functions/auth';
 import { SocketContext } from '../../App';
-import { store } from '../../index';
 //
+import Input from '../Elements/Input/Input';
+import Modal from '../Modal/Modal';
 import Button from '../../Components/Elements/Button/Button';
-import Post from '../../Modals/StatusModal/StatusModal';
+import StatusModal from '../../Modals/StatusModal/StatusModal';
 //
 import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Sidebar.module.css';
-import Input from '../Elements/Input/Input';
 
 const Sidebar = () => {
   const socket = useContext(SocketContext);
   let [open, setOpen] = useState(false);
+  let [isOpen, setIsOpen] = useState(false);
   let [query, setQuery] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   let dispatch = useDispatch();
   let history = useHistory();
 
   const handleStatusModal = () => {
-    ReactDOM.render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Post user={user} socket={socket} />
-        </BrowserRouter>
-      </Provider>,
-      document.getElementById('modal')
-    );
+    setIsOpen(true);
     toggleSidebar();
   };
   const handleLogout = () => {
@@ -106,6 +97,9 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
+      <Modal isOpen={isOpen}>
+        <StatusModal user={user} socket={socket} setIsOpen={setIsOpen} />
+      </Modal>
     </div>
   );
 };
