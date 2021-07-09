@@ -12,6 +12,8 @@ import { SocketContext } from '../../../App';
 //
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Recommendations from '../Recommendations/Recommendations';
+import Comments from './Comments';
 import styles from './StatusExpanded.module.css';
 
 const StatusExpanded = () => {
@@ -66,23 +68,14 @@ const StatusExpanded = () => {
         ) : (
           <Loader />
         )}
-        {!loading &&
-          status?.comments?.map((comment) => (
-            <Card
-              status={comment}
-              likes={comment.likes}
-              forwards={status.retweets}
-              profile={comment.commentedBy}
-              key={comment._id}
-              type='comment'
-              expand={false}
-            />
-          ))}
+        {status && <Comments statusId={status._id} />}
       </div>
-      <Footer />
+      <Footer>
+        <Recommendations />
+      </Footer>
     </div>
   ) : (
-    <div>error</div>
+    <div>Not Found</div>
   );
 };
 

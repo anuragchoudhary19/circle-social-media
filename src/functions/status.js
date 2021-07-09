@@ -15,6 +15,11 @@ export const getStatus = async (statusId, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+export const getStatusComments = async (statusId, token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/status/comments/${statusId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
 
 export const listStatuses = async (username, token) => {
   return await axios.get(`${process.env.REACT_APP_API}/status/all/${username}`, {
