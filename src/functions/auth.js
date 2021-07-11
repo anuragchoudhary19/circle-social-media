@@ -1,6 +1,6 @@
 import axios from 'axios';
 const headers = {
-  'Content-Type': 'application/json',
+  'Content-Type': 'application/x-www-form-urlencoded',
 };
 export const signup = async (username, email, password) => {
   return await axios.post(`${process.env.REACT_APP_API}/signup`, { username, email, password }, { headers });
