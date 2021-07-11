@@ -30,7 +30,7 @@
   },
   "scripts": {
     "start": "set PORT=3001 && craco start",
-    "build": "craco build",
+    "build": "CI=false && craco build",
     "test": "craco test",
     "eject": "craco eject"
   },
