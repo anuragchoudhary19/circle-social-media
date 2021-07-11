@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+//
 import Button from '../Button/Button';
 import { followUser, unFollowUser, unsubscribe } from '../../../functions/user';
+import styles from './FollowButton.module.css';
 
 const FollowButton = ({ profile, socket }) => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -26,11 +27,11 @@ const FollowButton = ({ profile, socket }) => {
       });
   };
   return (
-    <div style={{ width: '100%', marginLeft: 'auto', marginRight: '1rem' }}>
+    <div className={styles.followButton}>
       {user?.following?.find((ele) => ele._id === profile._id) ? (
-        <Button width='100%' text='Following' onClick={() => handleUnFollow(profile._id)} />
+        <Button text='Following' onClick={() => handleUnFollow(profile._id)} />
       ) : (
-        <Button width='100%' text='Follow' onClick={() => handleFollow(profile._id)} />
+        <Button outline={true} text='Follow' onClick={() => handleFollow(profile._id)} />
       )}
     </div>
   );

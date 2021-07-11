@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { SocketContext } from '../../App';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown';
 import Comment from '../../Modals/Comment/Comment';
 import { commentOnPostHandle } from '../../functions/status';
@@ -20,7 +20,6 @@ import Options from '../../Modals/Options/Options';
 const Card = (props) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const { profile, expand, status } = props;
-  console.log(status);
   const socket = useContext(SocketContext);
   const [btnLoading, setBtnLoading] = useState(false);
   const [comment, setComment] = useState({ text: '', photo: { photo_id: '', public_url: '' }, video: '' });
@@ -31,8 +30,10 @@ const Card = (props) => {
   const [error, setError] = useState('');
   const [screen, setScreen] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
+  const card = useRef();
   const node = useRef();
   const delRef = useRef();
+  const history = useHistory();
   useEffect(() => {
     socket.on('status-update', (updatedStatus) => {
       if (updatedStatus.id === status._id) {
@@ -42,6 +43,7 @@ const Card = (props) => {
       }
     });
   }, []);
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
@@ -51,12 +53,14 @@ const Card = (props) => {
     window.addEventListener('resize', () => setScreen(window.screen.width));
     return () => window.removeEventListener('resize', () => setScreen(window.screen.width));
   }, []);
-
+  console.log(status);
   const handleClick = (e) => {
     if (node.current?.contains(e.target)) {
       return;
     } else if (delRef.current?.contains(e.target)) {
       return;
+    } else if (card.current === e.target) {
+      history.push(`/${profile.username}/post/${status?._id}`);
     }
     setStatusId('');
   };
@@ -116,7 +120,6 @@ const Card = (props) => {
   };
   const commentHandle = (element) => {
     setError('');
-    console.log(element);
     if (element) {
       const target = element.target ? element.target : element;
       target.style.height = '50px';
@@ -140,13 +143,33 @@ const Card = (props) => {
   const handleOpenCommentModal = () => {
     setOpenCommentModal(true);
   };
-  console.log();
+
+  const checkTime = (time) => {
+    const currentDate = new Date();
+    const statusDate = new Date(time);
+    if (date.subtract(currentDate, statusDate).toSeconds() < 60) {
+      return Math.floor(date.subtract(currentDate, statusDate).toSeconds()) + 's';
+    } else if (date.subtract(currentDate, statusDate).toMinutes() < 60) {
+      return Math.floor(date.subtract(currentDate, statusDate).toMinutes()) + 'min';
+    } else if (date.subtract(currentDate, statusDate).toHours() <= 23) {
+      return Math.floor(date.subtract(currentDate, statusDate).toHours()) + 'h';
+    } else if (date.subtract(currentDate, statusDate).toDays() <= 7) {
+      return Math.floor(date.subtract(currentDate, statusDate).toDays()) + 'd';
+    } else if (date.subtract(currentDate, statusDate).toDays() <= 365) {
+      return date.format(new Date(time), 'DD MMM');
+    } else {
+      return date.format(new Date(time), 'DD MMM YYYY');
+    }
+  };
+
   return (
-    <div className={styles.card} data-card={expand}>
+    <div className={styles.card} ref={card} data-card={expand}>
       <div className={styles.avatar}>
+        {props.isComment && <div></div>}
         <Link to={`/${profile.username}`}>
           <img src={profile?.photo?.url} alt='profile' />
         </Link>
+        {props.isStatus && <div></div>}
       </div>
       <header className={styles.header}>
         <div className={styles.statusInfo}>
@@ -156,7 +179,7 @@ const Card = (props) => {
           <Link to={`/${profile.username}`}>
             <div className={styles.username}>@{profile.username}</div>
           </Link>
-          <div className={styles.date}>{date.format(new Date(status?.createdAt.split('T')[0]), 'DD MMM YYYY')}</div>
+          <div className={styles.date}>{checkTime(status?.createdAt)}</div>
         </div>
       </header>
       <div className={styles.status}>

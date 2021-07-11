@@ -5,8 +5,6 @@
   width: 100%;
   height: fit-content;
   padding: 0 0.25rem;
-  border: 0 solid rgba(158, 157, 137, 0.27);
-  border-width: 0px 0 1px 0;
 }
 .card > header,
 .card footer {
@@ -21,6 +19,9 @@
   .card {
     grid-template-columns: 65px 1fr 1.8rem;
   }
+}
+.card:hover {
+  background-color: hsla(0, 0%, 10%, 0.3);
 }
 @media (min-width: 769px) {
   .card[data-card='true'] {
@@ -54,13 +55,25 @@
 }
 .avatar {
   grid-area: avatar;
-  height: 65px;
-  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .avatar img {
+  padding: 4px;
   width: 100%;
-  height: 100%;
+  height: 65px;
   border-radius: 50%;
+}
+.avatar > div:first-child {
+  width: 2px;
+  height: 4px;
+  background-color: hsl(0, 0%, 20%);
+}
+.avatar > div {
+  width: 2px;
+  height: 100%;
+  background-color: hsl(0, 0%, 20%);
 }
 .header {
   flex-direction: column;

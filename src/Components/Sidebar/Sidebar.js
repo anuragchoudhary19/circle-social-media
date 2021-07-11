@@ -10,14 +10,18 @@ import Modal from '../Modal/Modal';
 import Button from '../../Components/Elements/Button/Button';
 import StatusModal from '../../Modals/StatusModal/StatusModal';
 //
+import { getSearchedUsers } from '../../functions/user';
+//
 import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Sidebar.module.css';
+import Usercard from '../Usercard/Usercard';
 
 const Sidebar = () => {
   const socket = useContext(SocketContext);
   let [open, setOpen] = useState(false);
   let [isOpen, setIsOpen] = useState(false);
+  const [users, setUsers] = useState([]);
   let [query, setQuery] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   let dispatch = useDispatch();
@@ -43,12 +47,35 @@ const Sidebar = () => {
 
   const searchHandler = (e) => {
     setQuery(e.target.value);
+    search();
+  };
+  const search = () => {
+    getSearchedUsers(query, user.token)
+      .then((res) => {
+        setUsers(res.data.users);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className={styles.sidebar}>
       <div>
         <FontAwesomeIcon style={{ color: 'blue', fontSize: '2rem' }} icon={faAlignJustify} onClick={toggleSidebar} />
-        <Input value={query} placeholder='Search' onChange={searchHandler} />
+        <div className={styles.search}>
+          <Input type='text' value={query} onChange={searchHandler} placeholder='Search here...' />
+          <div className={styles.dropdown}>
+            {users.length > 0 && (
+              <div className={styles.result}>
+                {users.map((user) => (
+                  <div key={user._id}>
+                    <Usercard profile={user} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
       <div className={styles.menu}>
         <div className={styles.backdrop} onClick={toggleSidebar} data-toggle={open}></div>
@@ -88,15 +115,11 @@ const Sidebar = () => {
             <Button text='Status' width='60%' onClick={handleStatusModal} />
           </li>
           <li>
-            <Button
-              text='Logout'
-              width='60%'
-              onClick={handleLogout}
-              style={{ marginTop: 'auto', marginBottom: '1rem' }}
-            />
+            <Button text='Logout' onClick={handleLogout} style={{ marginTop: 'auto', marginBottom: '1rem' }} />
           </li>
         </ul>
       </div>
+      <div></div>
       <Modal isOpen={isOpen}>
         <StatusModal user={user} socket={socket} setIsOpen={setIsOpen} />
       </Modal>

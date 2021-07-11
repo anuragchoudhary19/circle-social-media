@@ -40,8 +40,8 @@ const UserProfile = ({ profile }) => {
           <img src={profile.photo ? profile.photo.url : DefaultPhoto} alt='profile' />
         </div>
         {profile._id === user._id && (
-          <div style={{ width: '120px', marginLeft: 'auto', marginRight: '1rem' }}>
-            <Button width='100%' text='Edit Profile' onClick={handleEditModal} />
+          <div style={{ width: 'fit-content', marginLeft: 'auto', marginRight: '1rem' }}>
+            <Button text='Edit Profile' onClick={handleEditModal} />
           </div>
         )}
         {profile._id !== user._id && (

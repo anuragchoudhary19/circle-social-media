@@ -6,7 +6,6 @@ import { unsubscribe } from './functions/user';
 
 import LoadingPage from './Components/LoadingPage/LoadingPage';
 import './App.css';
-import Modal from './Components/Modal/Modal';
 const PrivateRoute = lazy(() => import('./Components/Routes/PrivateRoute'));
 const Signup = lazy(() => import('./Pages/Auth/Signup/Signup'));
 const Login = lazy(() => import('./Pages/Auth/Login/Login'));
@@ -15,7 +14,7 @@ const Post = lazy(() => import('./Pages/User/StatusExpanded/StatusExpanded'));
 const Settings = lazy(() => import('./Pages/User/Settings'));
 const Connect = lazy(() => import('./Pages/User/Connect/Connect'));
 const Connections = lazy(() => import('./Pages/User/Connections/Connections'));
-const Home = lazy(() => import('./Pages/User/Home'));
+const Home = lazy(() => import('./Pages/User/Home/Home'));
 
 export const SocketContext = React.createContext();
 

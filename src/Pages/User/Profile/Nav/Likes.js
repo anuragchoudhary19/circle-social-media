@@ -28,12 +28,10 @@ const Likes = ({ profile, user }) => {
     setLoading(true);
     getStatusLikedByThisUser(profile._id, user.token)
       .then((res) => {
-        console.log(res.data);
         setLikes(res.data.status);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   };

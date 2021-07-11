@@ -34,19 +34,22 @@ const Recommendations = () => {
       });
   };
   return (
-    <div>
-      <div>
+    <div className={styles.sidebar}>
+      <div className={styles.search}>
         <Input type='text' value={text} onChange={searchHandle} placeholder='Search here...' />
-        {users.length > 0 && (
-          <div className={styles.recommendation}>
-            {users.map((user) => (
-              <div key={user._id}>
-                <Usercard profile={user} />
-              </div>
-            ))}
-          </div>
-        )}
+        <div className={styles.dropdown}>
+          {users.length > 0 && (
+            <div className={styles.result}>
+              {users.map((user) => (
+                <div key={user._id}>
+                  <Usercard profile={user} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
+
       {newUsers.length > 0 && (
         <div className={styles.recommendation}>
           <header>

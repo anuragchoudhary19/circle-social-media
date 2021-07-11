@@ -30,6 +30,30 @@
     }
   }
 }
+.search {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.dropdown {
+  position: relative;
+  background-color: #fff;
+  width: 100%;
+}
+.result {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  border: 2px solid fade(gray, 50%);
+  border-radius: 0.5rem;
+  color: var(--color);
+  background-color: var(--background-color);
+}
 
 .menu {
   display: flex;
@@ -57,7 +81,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-
     list-style: none;
     width: 100%;
     height: 100%;
@@ -96,9 +119,11 @@
       }
       &:nth-child(6) {
         padding: 1rem;
+        width: 70%;
       }
       &:nth-child(7) {
         height: 20%;
+        width: 70%;
         padding: 1rem;
       }
     }

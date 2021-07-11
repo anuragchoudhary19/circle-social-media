@@ -6,6 +6,7 @@
 .textarea textarea {
   width: 100%;
   height: auto;
+  min-height: 4rem;
   color: var(--color);
   background-color: transparent;
   resize: none;

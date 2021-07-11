@@ -4,7 +4,6 @@ import { useHistory, Link, Switch, Route } from 'react-router-dom';
 import Button from '../../Components/Elements/Button/Button';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Post from '../../Modals/StatusModal/StatusModal';
-import Profile from './Home';
 import { deleteUser } from '../../functions/user';
 import styles from './Home.module.css';
 const Settings = () => {

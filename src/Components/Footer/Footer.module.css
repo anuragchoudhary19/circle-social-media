@@ -1,17 +1,14 @@
 .footer {
-  position: relative;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 0.25rem;
 }
 @media (max-width: 768px) {
   .footer {
     display: none;
-  }
-}
-@media (min-width: 769px) {
-  .footer {
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
   }
 }

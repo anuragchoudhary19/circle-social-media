@@ -30,16 +30,18 @@ const Statuses = ({ profile, user }) => {
         <Loader />
       ) : statuses.length ? (
         statuses.map((status) => (
-          <Card
-            key={status._id}
-            status={status}
-            likes={status.likes}
-            forwards={status.retweets}
-            comments={status.comments}
-            profile={profile}
-            reload={loadStatuses}
-            expand={false}
-          />
+          <div className={styles.card}>
+            <Card
+              key={status._id}
+              status={status}
+              likes={status.likes}
+              forwards={status.retweets}
+              comments={status.comments}
+              profile={profile}
+              reload={loadStatuses}
+              expand={false}
+            />
+          </div>
         ))
       ) : (
         <div>Make your first post</div>

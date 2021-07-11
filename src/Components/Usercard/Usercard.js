@@ -24,9 +24,10 @@ const Usercard = ({ profile }) => {
         <div className={styles.name}>
           {profile.firstname} {profile.lastname}
         </div>
-        <Link to={`/${profile.username}`}>
-          <div className={styles.username}>@{profile.username}</div>
-        </Link>
+
+        <div className={styles.username}>
+          <Link to={`/${profile.username}`}>@{profile.username}</Link>
+        </div>
       </div>
       <div className={styles.button}>
         <FollowButton profile={profile} socket={socket} />

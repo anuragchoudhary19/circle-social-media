@@ -26,6 +26,11 @@ export const listStatuses = async (username, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+export const getFeed = async (token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/status/feed`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
 
 export const getStatusLikedByThisUser = async (userId, token) => {
   return await axios.get(`${process.env.REACT_APP_API}/status/likes/${userId}`, {
