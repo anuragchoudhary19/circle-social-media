@@ -21,7 +21,6 @@ export const SocketContext = React.createContext();
 function App() {
   const { current: socket } = useRef(io.connect(process.env.REACT_APP_API_SOCKET_IO_URL), {
     transports: ['websocket', 'polling', 'flashsocket'],
-    credentials: true,
   });
   const { user } = useSelector((state) => ({ ...state }));
   const socketId = useRef();
