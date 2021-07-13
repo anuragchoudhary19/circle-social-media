@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useRouteMatch, useHistory, NavLink, useLocation } from 'react-router-dom';
+import { useHistory, NavLink, useLocation, useParams } from 'react-router-dom';
 //
 import Sidebar from '../../../Components/Sidebar/Sidebar';
 import Footer from '../../../Components/Footer/Footer';
@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Connections.module.css';
 
 const Connection = () => {
+  const { username } = useParams();
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState();
   const { user } = useSelector((state) => ({ ...state }));
@@ -26,19 +27,35 @@ const Connection = () => {
     borderWidth: '0 0 5px 0',
   };
   useEffect(() => {
-    if (url.pathname === '/followers') {
-      getFollowers(user.username, user.token).then((res) => {
+    if (url.pathname === `/${username}/followers`) {
+      loadFollowers();
+    }
+    if (url.pathname === `/${username}/following`) {
+      loadFollowing();
+    }
+  }, []);
+  const loadFollowers = () => {
+    setLoading(true);
+    getFollowers(username, user.token)
+      .then((res) => {
+        setLoading(false);
         setUsers(res.data.followers);
-        console.log(res.data.followers);
+      })
+      .catch((err) => {
+        setLoading(false);
       });
-    }
-    if (url.pathname === '/following') {
-      getFollowing(user.username, user.token).then((res) => {
+  };
+  const loadFollowing = () => {
+    setLoading(true);
+    getFollowing(username, user.token)
+      .then((res) => {
+        setLoading(false);
         setUsers(res.data.following);
-        console.log(res.data.following);
+      })
+      .catch((err) => {
+        setLoading(false);
       });
-    }
-  }, [url]);
+  };
   return (
     <div className={styles.page}>
       <Sidebar />
@@ -53,13 +70,13 @@ const Connection = () => {
         </header>
         <nav>
           <ul>
-            <li>
-              <NavLink exact to={'followers'} activeStyle={style}>
+            <li onClick={() => loadFollowers()}>
+              <NavLink exact to={`/${username}/followers`} activeStyle={style}>
                 Followers
               </NavLink>
             </li>
-            <li>
-              <NavLink exact to={'/following'} activeStyle={style}>
+            <li onClick={() => loadFollowing()}>
+              <NavLink exact to={`/${username}/following`} activeStyle={style}>
                 Following
               </NavLink>
             </li>

@@ -31,6 +31,11 @@
   width: 100%;
   border-bottom: 1px solid var(--primary-color);
 }
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+  }
+}
 .images {
   display: flex;
   position: relative;
@@ -63,6 +68,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border-radius: 50%;
   background-color: black;
 }
 .photo img {
@@ -71,6 +77,26 @@
   height: 100px;
   border-radius: 50%;
   z-index: 1;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.form > div:first-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .form > div:first-child {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .error {
   width: fit-content;

@@ -69,7 +69,6 @@ const setUserInReduxStore = (res, token, dispatch) => {
 export const unsubscribe = async (token, dispatch) => {
   return await getUser(token)
     .then((res) => {
-      console.log(res);
       setUserInLocalStorage(res, token);
       setUserInReduxStore(res, token, dispatch);
     })

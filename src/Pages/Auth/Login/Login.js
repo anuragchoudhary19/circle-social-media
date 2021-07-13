@@ -23,6 +23,8 @@ const Login = () => {
   useEffect(() => {
     if (user?.token) {
       history.push('/home');
+    } else {
+      history.push('/');
     }
   }, []);
   const handleEmail = (e) => {
@@ -34,12 +36,13 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!email) return setEmailError('Email is required');
     if (!password) return setPasswordError('Password is required');
     setLoading(true);
     setMessage('');
-    await signin(email, password)
+    setError('');
+    signin(email, password)
       .then((res) => {
         setLoading(false);
         if (window !== undefined) {
@@ -52,6 +55,7 @@ const Login = () => {
         history.push(`/home`);
       })
       .catch((err) => {
+        console.log(err.response);
         setLoading(false);
         setError(err.response?.data.error);
       });
@@ -69,7 +73,9 @@ const Login = () => {
           <Input label='Email' type='email' value={email} error={emailError} onChange={handleEmail} />
           <Input label='Password' type='password' value={password} error={passwordError} onChange={handlePassword} />
           <br />
-          <Button type='submit' text='Sign In' loading={loading} onClick={handleSubmit} />
+          <Button btnStyle='primaryOutline' btnSize='md' loading={loading} onClick={handleSubmit}>
+            Sign In
+          </Button>
           <div className={styles.signinLink}>
             <Link to={'/signup'}>Sign Up</Link>
           </div>

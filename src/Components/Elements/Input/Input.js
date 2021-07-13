@@ -2,17 +2,18 @@ import React from 'react';
 import styles from './Input.module.css';
 
 const Input = (props) => {
-  let { error } = props;
+  let { error, label, type, value, onChange, placeholder, autoFocus } = props;
   return (
     <div className={styles.element}>
-      {props.label && <label>{props.label}</label>}
+      {label && <label>{label}</label>}
       <div className={styles.input}>
         <input
-          type={props.type}
-          value={props.value || ''}
-          onChange={props.onChange}
+          type={type}
+          value={value || ''}
+          onChange={onChange}
           autoComplete='true'
-          placeholder={props.placeholder}
+          placeholder={placeholder}
+          autoFocus={autoFocus || false}
         />
       </div>
       {error && (

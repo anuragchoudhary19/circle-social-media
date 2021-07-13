@@ -40,6 +40,7 @@ const Signup = () => {
     signup(username, email, password)
       .then((res) => {
         if (res.data.message) {
+          console.log(res.data.message);
           setLoading(false);
           setForm(initialState);
           setError(initialState);
@@ -47,19 +48,9 @@ const Signup = () => {
         }
       })
       .catch((err) => {
+        setError({ ...error, general: err.response.data.message });
         setLoading(false);
         setMessage('');
-        if (err.response.data) {
-          let param = err.response.data.param;
-          let msg = err.response.data.msg;
-          setError({ ...error, [param]: msg });
-          setLoading(false);
-          return;
-        }
-        if (err.response.data) {
-          setError({ ...error, general: err.response.data });
-          setLoading(false);
-        }
       });
   };
   return (
@@ -67,8 +58,10 @@ const Signup = () => {
       <Logo />
       <div className={styles.signup}>
         <div>
-          <header>Sign Up</header>
-          {error.general && <div className={styles.error}>{error.general}</div>}
+          <header>
+            <h2>Sign Up</h2>
+          </header>
+          {error.general !== '' && <div className={styles.error}>{error.general}</div>}
           {message && <div className={styles.success}>{message}</div>}
           <Input
             label='Username'
@@ -92,7 +85,9 @@ const Signup = () => {
             onChange={handleChange('confirmPassword')}
           />
           <br />
-          <Button type='submit' text='Sign Up' loading={loading} onClick={handleSubmit} />
+          <Button btnStyle='primaryOutline' btnSize='md' loading={loading} onClick={handleSubmit}>
+            Sign Up
+          </Button>
           <div className={styles.login}>
             <Link to={'/login'}>Have an account? Sign In</Link>
           </div>

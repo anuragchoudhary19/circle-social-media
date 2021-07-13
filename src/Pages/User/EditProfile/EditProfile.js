@@ -1,16 +1,19 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import ReactDOM from 'react-dom';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+//
 import { updateUser, getUser } from '../../../functions/user';
 import { uploadImage, deleteImage } from '../../../FileUploads/images';
+//
 import Input from '../../../Components/Elements/Input/Input';
 import Button from '../../../Components/Elements/Button/Button';
 import Loader from '../../../Components/Elements/Loader/Loader';
+//
 import { faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './EditProfile.module.css';
 
-const EditProfile = ({ socket }) => {
+const EditProfile = ({ closeModal }) => {
   const initialState = {
     username: '',
     firstname: '',
@@ -23,11 +26,13 @@ const EditProfile = ({ socket }) => {
   const [info, setInfo] = useState(initialState);
   const [error, setError] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
-  const closeModal = () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('modal'));
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const close = () => {
+    closeModal();
   };
-
   useEffect(() => {
     loadProfile();
   }, []);
@@ -36,16 +41,14 @@ const EditProfile = ({ socket }) => {
     setLoading(true);
     getUser(user.token)
       .then((res) => {
-        setInfo(res.data);
-        console.log(res.data);
         setLoading(false);
+        setInfo(res.data);
       })
       .catch((err) => {
         setLoading(false);
       });
   };
   const handleChange = (label) => (e) => {
-    console.log(e.target.value);
     setError('');
     setInfo({ ...info, [label]: e.target.value });
   };
@@ -60,7 +63,7 @@ const EditProfile = ({ socket }) => {
       setError({ ...error, image: 'Image must be less than 2MB' });
     }
   };
-  const handleUpdateUser = (e) => {
+  const updateProfileHandle = (e) => {
     e.preventDefault();
     if (info.firstname === '') {
       setError({ ...error, firstname: 'Firstname cannot be empty' });
@@ -70,12 +73,27 @@ const EditProfile = ({ socket }) => {
       setError({ ...error, username: 'Username cannot be empty' });
       return;
     }
-    updateUser(info, user.token).then((res) => {
-      console.log(res.data);
-      setInfo(res.data.user);
-      socket.emit('profile-update', socket.id);
-      closeModal();
-    });
+    setProcessing(true);
+    updateUser(info, user.token)
+      .then((res) => {
+        console.log(res.data);
+        setProcessing(false);
+        // setInfo(res.data.user);
+
+        window.localStorage.setItem('user', JSON.stringify({ ...user, ...res.data.updatedUser }));
+        dispatch({
+          type: 'LOGGED_IN_USER',
+          payload: { ...user, ...res.data.updatedUser },
+        });
+        return res.data.updatedUser;
+      })
+      .then((updatedUser) => {
+        history.replace(`/${updatedUser.username}`);
+      })
+      .catch((err) => {
+        setProcessing(false);
+        console.log(err);
+      });
   };
   const loadImage = (info, label) => {
     return (
@@ -115,7 +133,7 @@ const EditProfile = ({ socket }) => {
           <FontAwesomeIcon
             icon={faTimes}
             style={{ marginLeft: 'auto', marginRight: '10px', cursor: 'pointer' }}
-            onClick={closeModal}
+            onClick={close}
           />
         </div>
         <header>
@@ -134,8 +152,8 @@ const EditProfile = ({ socket }) => {
           </label>
         </section>
         {error.image && <span className={styles.error}>{error.image}</span>}
-        <div>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <div className={styles.form}>
+          <div>
             <Input
               label='First Name'
               type='text'
@@ -169,7 +187,9 @@ const EditProfile = ({ socket }) => {
           />
           <br />
           <div style={{ marginLeft: 'auto', marginRight: '0.5rem', width: '40%' }}>
-            <Button text='Save' type='submit' width='100%' onClick={handleUpdateUser} />
+            <Button btnStyle='primaryOutline' btnSize='sm' loading={processing} onClick={updateProfileHandle}>
+              Save
+            </Button>
           </div>
         </div>
       </form>

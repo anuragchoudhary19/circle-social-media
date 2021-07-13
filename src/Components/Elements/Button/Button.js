@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Loader from '../Loader/Loader';
 import styles from './Button.module.css';
 const Button = (props) => {
-  const [style, setStyle] = useState([styles.button]);
-  useEffect(() => {
-    if (props.outline) {
-      setStyle([...style, styles.outlined]);
-    } else {
-      setStyle([...style, styles.solid]);
-    }
-  }, []);
-
+  const { btnStyle, btnSize, children, loading, type, onClick } = props;
+  const STYLES = [
+    'primarySolid',
+    'warningSolid',
+    'dangerSolid',
+    'successSolid',
+    'primaryOutline',
+    'warningOutline',
+    'dangerOutline',
+    'successOutline',
+  ];
+  const SIZES = ['md', 'sm'];
+  const checkBtnStyle = STYLES.includes(btnStyle) ? btnStyle : STYLES[0];
+  const checkBtnSize = SIZES.includes(btnSize) ? btnSize : SIZES[0];
   return (
-    <div className={style.join(' ')} style={props.style} onClick={props.onClick}>
-      {props.loading && <Loader />}
-      <button type={props.type || 'button'}>{props.text}</button>
+    <div className={`${styles.btn} ${styles[checkBtnStyle]} ${styles[checkBtnSize]}`} onClick={onClick}>
+      {loading && <Loader />}
+      <button type={type}>{children}</button>
     </div>
   );
 };

@@ -22,12 +22,10 @@ const Feed = () => {
       .then((res) => {
         setLoading(false);
         setFeed(res.data.feed);
-        console.log(res.data.feed);
       })
       .catch((err) => {
         setLoading(false);
         setError('Something went wrong');
-        console.log(err);
       });
   };
   if (loading) return <Loader />;
@@ -39,9 +37,8 @@ const Feed = () => {
           let card = null;
           if (status.statusId) {
             card = (
-              <div className={styles.card}>
+              <div className={styles.card} key={status.statusId._id}>
                 <Card
-                  key={status.statusId._id}
                   status={status.statusId}
                   likes={status.statusId.likes}
                   forwards={status.statusId.retweets}
@@ -51,7 +48,6 @@ const Feed = () => {
                   expand={false}
                 />
                 <Card
-                  key={status._id}
                   status={status}
                   likes={status.likes}
                   forwards={status.retweets}
@@ -64,9 +60,8 @@ const Feed = () => {
             );
           } else {
             card = (
-              <div className={styles.card}>
+              <div className={styles.card} key={status._id}>
                 <Card
-                  key={status._id}
                   status={status}
                   likes={status.likes}
                   forwards={status.retweets}

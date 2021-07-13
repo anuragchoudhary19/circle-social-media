@@ -6,3 +6,10 @@
   width: 100vw;
   background-color: var(--background-color);
 }
+.loadingPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}

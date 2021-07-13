@@ -19,7 +19,7 @@ const Profile = () => {
   const history = useHistory();
   useEffect(() => {
     loadProfile();
-  }, [username, user]);
+  }, [username, user.token, user.username]);
 
   const loadProfile = () => {
     setLoading(true);

@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
-import ReactDOM from 'react-dom';
-import { useSelector, Provider } from 'react-redux';
-import { BrowserRouter, NavLink, useParams, Link } from 'react-router-dom';
-import { SocketContext } from '../../../../App';
-import { store } from '../../../../index';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink, useParams, Link } from 'react-router-dom';
+//
+import Modal from '../../../../Components/Modal/Modal';
 import Button from '../../../../Components/Elements/Button/Button';
 import FollowButton from '../../../../Components/Elements/FollowButton/FollowButton';
 import EditProfile from '../../EditProfile/EditProfile';
@@ -12,19 +11,12 @@ import DefaultBackground from '../../../../images/images.png';
 import styles from './UserProfile.module.css';
 
 const UserProfile = ({ profile }) => {
+  const [openEditProfile, setOpenEditProfile] = useState(false);
   const { username } = useParams();
-  const socket = useContext(SocketContext);
   const { user } = useSelector((state) => ({ ...state }));
 
   const handleEditModal = () => {
-    ReactDOM.render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <EditProfile profile={profile} socket={socket} />
-        </BrowserRouter>
-      </Provider>,
-      document.getElementById('modal')
-    );
+    setOpenEditProfile(true);
   };
   const style = {
     fontWeight: 'bold',
@@ -41,12 +33,12 @@ const UserProfile = ({ profile }) => {
         </div>
         {profile._id === user._id && (
           <div style={{ width: 'fit-content', marginLeft: 'auto', marginRight: '1rem' }}>
-            <Button text='Edit Profile' onClick={handleEditModal} />
+            <Button onClick={handleEditModal}>Edit Profile</Button>
           </div>
         )}
         {profile._id !== user._id && (
           <div className={styles.follow}>
-            <FollowButton profile={profile} socket={socket} />
+            <FollowButton profileId={profile._id} />
           </div>
         )}
 
@@ -60,10 +52,10 @@ const UserProfile = ({ profile }) => {
           </span>
           {profile.bio && <span className={styles.status}>{profile.bio}</span>}
           <div className={styles.connections}>
-            <Link to='/followers'>
+            <Link to={`/${username}/followers`}>
               <span>Followers {profile?.followers?.length}</span>
             </Link>
-            <Link to='/following'>
+            <Link to={`/${username}/following`}>
               <span>Following {profile?.following?.length}</span>
             </Link>
           </div>
@@ -94,6 +86,9 @@ const UserProfile = ({ profile }) => {
           </li>
         </ul>
       </nav>
+      <Modal isOpen={openEditProfile}>
+        <EditProfile closeModal={setOpenEditProfile} />
+      </Modal>
     </div>
   );
 };

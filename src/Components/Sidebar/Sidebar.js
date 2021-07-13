@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../functions/auth';
-import { SocketContext } from '../../App';
 //
 import Input from '../Elements/Input/Input';
 import Modal from '../Modal/Modal';
@@ -18,7 +17,6 @@ import styles from './Sidebar.module.css';
 import Usercard from '../Usercard/Usercard';
 
 const Sidebar = () => {
-  const socket = useContext(SocketContext);
   let [open, setOpen] = useState(false);
   let [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState([]);
@@ -112,16 +110,16 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <Button text='Status' width='60%' onClick={handleStatusModal} />
+            <Button onClick={handleStatusModal}>Status</Button>
           </li>
           <li>
-            <Button text='Logout' onClick={handleLogout} style={{ marginTop: 'auto', marginBottom: '1rem' }} />
+            <Button onClick={handleLogout}>Logout</Button>
           </li>
         </ul>
       </div>
       <div></div>
       <Modal isOpen={isOpen}>
-        <StatusModal user={user} socket={socket} setIsOpen={setIsOpen} />
+        <StatusModal user={user} setIsOpen={setIsOpen} />
       </Modal>
     </div>
   );

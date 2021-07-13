@@ -83,7 +83,9 @@ const Comment = ({ status, profile, socket, setIsOpen }) => {
           </div>
         )}
         <div className={styles.postButton}>
-          <Button text='Reply' loading={loading} onClick={handleComment} />
+          <Button btnSize='sm' loading={loading} onClick={handleComment}>
+            Reply
+          </Button>
         </div>
       </div>
     </div>

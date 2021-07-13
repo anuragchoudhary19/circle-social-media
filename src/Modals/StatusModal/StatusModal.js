@@ -66,7 +66,9 @@ const StatusModal = ({ user, socket, setIsOpen }) => {
           </div>
         )}
         <div className={styles.button}>
-          <Button text='Post' loading={loading} onClick={postStatus} />
+          <Button btnStyle='primarySolid' btnSize='sm' loading={loading} onClick={postStatus}>
+            Post
+          </Button>
         </div>
       </div>
     </div>

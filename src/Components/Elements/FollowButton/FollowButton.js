@@ -1,39 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 //
+import { followUser, unFollowUser } from '../../../functions/user';
+//
 import Button from '../Button/Button';
-import { followUser, unFollowUser, unsubscribe } from '../../../functions/user';
-import styles from './FollowButton.module.css';
+//
 
-const FollowButton = ({ profile, socket }) => {
+const FollowButton = ({ profileId }) => {
   const { user } = useSelector((state) => ({ ...state }));
+  const [following, setfollowing] = useState([...user?.following]);
   const dispatch = useDispatch();
   const handleFollow = (id) => {
+    const list = [...following];
     followUser(id, user.token)
       .then((res) => {
-        unsubscribe(user.token, dispatch);
+        if (res.data.success) {
+          list.push(id);
+          setfollowing([...list]);
+          window.localStorage.setItem('user', JSON.stringify({ ...user, following: list }));
+          dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: { ...user, following: list },
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const handleUnFollow = (id) => {
+    const list = [...following];
     unFollowUser(id, user.token)
       .then((res) => {
-        unsubscribe(user.token, dispatch);
+        if (res.data.success) {
+          let index = list.indexOf(id);
+          if (index > -1) {
+            list.splice(index, 1);
+          }
+          setfollowing([...list]);
+          window.localStorage.setItem('user', JSON.stringify({ ...user, following: list }));
+          dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: { ...user, following: list },
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  if (profileId === user._id) return null;
   return (
-    <div className={styles.followButton}>
-      {user?.following?.find((ele) => ele._id === profile._id) ? (
-        <Button text='Following' onClick={() => handleUnFollow(profile._id)} />
+    <>
+      {following.includes(profileId) ? (
+        <Button btnStyle='primarySolid' btnSize='sm' onClick={() => handleUnFollow(profileId)}>
+          Following
+        </Button>
       ) : (
-        <Button outline={true} text='Follow' onClick={() => handleFollow(profile._id)} />
+        <Button btnStyle='primaryOutline' btnSize='sm' onClick={() => handleFollow(profileId)}>
+          Follow
+        </Button>
       )}
-    </div>
+    </>
   );
 };
 

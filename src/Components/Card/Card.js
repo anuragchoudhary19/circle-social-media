@@ -42,18 +42,12 @@ const Card = (props) => {
         setLikes(updatedStatus.likes);
       }
     });
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
+  }, [socket, status._id]);
   useEffect(() => {
     setScreen(window.screen.width);
     window.addEventListener('resize', () => setScreen(window.screen.width));
     return () => window.removeEventListener('resize', () => setScreen(window.screen.width));
   }, []);
-  console.log(status);
   const handleClick = (e) => {
     if (node.current?.contains(e.target)) {
       return;
@@ -64,6 +58,10 @@ const Card = (props) => {
     }
     setStatusId('');
   };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
 
   const deleteHandle = async (id) => {
     if (props.type === 'comment') {
@@ -189,7 +187,7 @@ const Card = (props) => {
         <div className={styles.dropdown} ref={node} onClick={() => setStatusId(status?._id)}>
           <FontAwesomeIcon icon={faEllipsisH} style={{ color: '#595959' }} />
           {screen > 768 ? (
-            <Dropdown dropdown={statusId === status?._id}>
+            <Dropdown open={statusId === status?._id}>
               <div onClick={() => deleteHandle(status?._id)}>Delete</div>
             </Dropdown>
           ) : (

@@ -30,9 +30,8 @@ const Statuses = ({ profile, user }) => {
         <Loader />
       ) : statuses.length ? (
         statuses.map((status) => (
-          <div className={styles.card}>
+          <div className={styles.card} key={status._id}>
             <Card
-              key={status._id}
               status={status}
               likes={status.likes}
               forwards={status.retweets}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 //
 import { createStatus } from '../../../functions/status';
@@ -64,7 +64,9 @@ const Home = () => {
             {error && <span>*{error}</span>}
           </div>
           <div className={styles.postButton}>
-            <Button text='Post' onClick={postStatus} loading={loading} />
+            <Button onClick={postStatus} loading={loading}>
+              Post
+            </Button>
           </div>
         </div>
         <div className={styles.feed}>

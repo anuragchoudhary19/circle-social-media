@@ -44,7 +44,11 @@ const Connect = () => {
         {loading ? (
           <Loader />
         ) : users?.length ? (
-          users.map((user) => <Usercard key={user._id} profile={user} />)
+          users.map((user) => (
+            <div key={user._id} className={styles.userCard}>
+              <Usercard profile={user} />
+            </div>
+          ))
         ) : (
           <div>No User To Follow</div>
         )}

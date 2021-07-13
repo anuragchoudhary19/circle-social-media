@@ -37,6 +37,7 @@
 @media (min-width: 1081px) {
   .signup > div {
     width: 70%;
+    max-width: 450px;
   }
 }
 .signup > div > header {
