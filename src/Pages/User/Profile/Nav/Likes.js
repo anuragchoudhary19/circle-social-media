@@ -1,20 +1,21 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 //
 import Card from '../../../../Components/Card/Card';
 import Loader from '../../../../Components/Elements/Loader/Loader';
 //
 import { SocketContext } from '../../../../App';
-import { getStatusLikedByThisUser } from '../../../../functions/status';
-import styles from './Statuses.module.css';
+import { getLikes } from '../../../../functions/timeline';
+import styles from './Tweets.module.css';
 
-const Likes = ({ profile, user }) => {
-  const { _id } = profile;
+const Likes = ({ user }) => {
+  const { username } = useParams();
   const socket = useContext(SocketContext);
   const [likes, setLikes] = useState([]);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
-    socket.on('reload', (id) => {
+    socket.on('status-delete', (id) => {
       if (id === socket.id) {
         loadLikes();
       }
@@ -23,37 +24,41 @@ const Likes = ({ profile, user }) => {
   useEffect(() => {
     loadLikes();
     return () => loadLikes();
-  }, [_id]);
+  }, [username]);
   const loadLikes = () => {
     setLoading(true);
-    getStatusLikedByThisUser(profile._id, user.token)
+    getLikes(username, user.token)
       .then((res) => {
-        setLikes(res.data.status);
+        setLikes(res.data.likes);
         setLoading(false);
       })
       .catch((err) => {
+        setError('Something went wrong');
         setLoading(false);
       });
   };
+  if (error) return <div className={styles.statuses}>{error}</div>;
+  if (loading)
+    return (
+      <div className={styles.statuses}>
+        <Loader />
+      </div>
+    );
   return (
     <div className={styles.statuses}>
-      {loading ? (
-        <Loader />
-      ) : likes?.length ? (
+      {likes?.length > 0 &&
         likes.map((status) => (
-          <Card
-            key={status._id}
-            status={status}
-            likes={status.likes}
-            forwards={status.retweets}
-            comments={status.comments}
-            profile={profile}
-            expand={false}
-          />
-        ))
-      ) : (
-        <div></div>
-      )}
+          <div className={styles.card} key={status._id}>
+            <Card
+              status={status}
+              likes={status.likes}
+              forwards={status.retweets}
+              comments={status.comments}
+              profile={status.postedBy}
+              expand={false}
+            />
+          </div>
+        ))}
     </div>
   );
 };

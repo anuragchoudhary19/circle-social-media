@@ -1,8 +1,8 @@
-import React, { useEffect, lazy, Suspense, useState, useRef, useCallback } from 'react';
+import React, { useEffect, lazy, Suspense, useState, useRef } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
-import { unsubscribe } from './functions/user';
+import { useVerifyLoggedIn } from './customHooks/useVerifyLoggedIn';
 
 import LoadingPage from './Components/LoadingPage/LoadingPage';
 import './App.css';
@@ -10,7 +10,7 @@ const PrivateRoute = lazy(() => import('./Components/Routes/PrivateRoute'));
 const Signup = lazy(() => import('./Pages/Auth/Signup/Signup'));
 const Login = lazy(() => import('./Pages/Auth/Login/Login'));
 const Profile = lazy(() => import('./Pages/User/Profile/Profile'));
-const Post = lazy(() => import('./Pages/User/StatusExpanded/StatusExpanded'));
+const SingleTweet = lazy(() => import('./Pages/User/SingleTweet/SingleTweet'));
 const Settings = lazy(() => import('./Pages/User/Settings'));
 const Connect = lazy(() => import('./Pages/User/Connect/Connect'));
 const Connections = lazy(() => import('./Pages/User/Connections/Connections'));
@@ -21,7 +21,6 @@ export const SocketContext = React.createContext();
 function App() {
   const { user } = useSelector((state) => ({ ...state }));
   const { current: token } = useRef(user?.token);
-  const dispatch = useCallback(() => useDispatch, []);
   const [socket, setSocket] = useState();
   useEffect(() => {
     setSocket(
@@ -31,10 +30,7 @@ function App() {
       })
     );
   }, []);
-  useEffect(() => {
-    if (token) unsubscribe(token, dispatch);
-    return () => unsubscribe;
-  }, [dispatch, token]);
+  useVerifyLoggedIn(token);
 
   return (
     <Suspense
@@ -54,11 +50,8 @@ function App() {
             <PrivateRoute exact path='/:username/followers' component={Connections} />
             <PrivateRoute exact path='/:username/following' component={Connections} />
             <PrivateRoute exact path='/settings' component={Settings} />
-            <PrivateRoute exact path='/:username' component={Profile} />
-            <PrivateRoute exact path='/:username/replies' component={Profile} />
-            <PrivateRoute exact path='/:username/media' component={Profile} />
-            <PrivateRoute exact path='/:username/likes' component={Profile} />
-            <PrivateRoute exact path='/:username/post/:id' component={Post} />
+            <PrivateRoute exact path='/:username/tweet/:id' component={SingleTweet} />
+            <PrivateRoute path='/:username' component={Profile} />
           </Switch>
         </div>
       </SocketContext.Provider>

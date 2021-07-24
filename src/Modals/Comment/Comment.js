@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { commentOnPostHandle } from '../../functions/status';
+import { commentOnTweet } from '../../functions/tweet';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Comment.module.css';
 import TextArea from '../../Components/Elements/TextArea/TextArea';
 import Button from '../../Components/Elements/Button/Button';
 
-const initialState = { text: '', photo: { photo_id: '', public_url: '' }, video: '' };
+const initialState = { tweet: '', photo: { photo_id: '', public_url: '' }, video: '' };
 const Comment = ({ status, profile, socket, setIsOpen }) => {
   const [comment, setComment] = useState(initialState);
   const [loading, setLoading] = useState(false);
@@ -18,9 +18,9 @@ const Comment = ({ status, profile, socket, setIsOpen }) => {
     setIsOpen(false);
   };
   const handleComment = () => {
-    if (!comment.text) return setError('Comment is empty');
+    if (!comment.tweet) return setError('Comment is empty');
     setLoading(true);
-    commentOnPostHandle({ ...comment, statusId: status._id }, status._id, user.token)
+    commentOnTweet(comment, status._id, user.token)
       .then((res) => {
         setLoading(true);
         socket.emit('update', status._id);
@@ -42,7 +42,7 @@ const Comment = ({ status, profile, socket, setIsOpen }) => {
       target.style.height = '50px';
       target.style.height = `${target.scrollHeight}px`;
     }
-    setComment({ ...comment, text: element.target.value });
+    setComment({ ...comment, tweet: element.target.value });
   };
 
   return (
@@ -60,7 +60,7 @@ const Comment = ({ status, profile, socket, setIsOpen }) => {
             <img src={profile?.photo?.url} alt='profile' />
           </div>
           <header className={styles.header}>
-            <div className={styles.status}>{status?.text}</div>
+            <div className={styles.status}>{status?.tweet}</div>
           </header>
         </div>
         <div className={styles.username}>

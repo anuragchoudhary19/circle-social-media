@@ -15,7 +15,7 @@ body {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 } */
 :root {
-  --background-color: rgb(0, 0, 0);
+  --background-color: hsl(217, 66%, 0%);
   --color: hsl(0, 0%, 90%);
   --primary-color: hsla(240, 100%, 60%, 0.7);
   --success-color: hsl(120, 100%, 40%);

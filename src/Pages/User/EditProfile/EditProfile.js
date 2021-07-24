@@ -79,7 +79,6 @@ const EditProfile = ({ closeModal }) => {
         console.log(res.data);
         setProcessing(false);
         // setInfo(res.data.user);
-
         window.localStorage.setItem('user', JSON.stringify({ ...user, ...res.data.updatedUser }));
         dispatch({
           type: 'LOGGED_IN_USER',
@@ -89,6 +88,9 @@ const EditProfile = ({ closeModal }) => {
       })
       .then((updatedUser) => {
         history.replace(`/${updatedUser.username}`);
+      })
+      .then(() => {
+        close();
       })
       .catch((err) => {
         setProcessing(false);

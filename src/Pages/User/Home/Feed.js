@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 //
-import { getFeed } from '../../../functions/status';
+import { getFeed } from '../../../functions/tweet';
 //
 import Loader from '../../../Components/Elements/Loader/Loader';
 import styles from './Home.module.css';

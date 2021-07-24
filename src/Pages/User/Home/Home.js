@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 //
-import { createStatus } from '../../../functions/status';
+import { createTweet } from '../../../functions/tweet';
 //
 import Button from '../../../Components/Elements/Button/Button';
 import Sidebar from '../../../Components/Sidebar/Sidebar';
@@ -35,7 +35,7 @@ const Home = () => {
   const postStatus = () => {
     if (!status) return setError('Status cannot be empty');
     setLoading(true);
-    createStatus(status, user.token)
+    createTweet(status, user.token)
       .then((res) => {
         setLoading(false);
         setStatus('');

@@ -53,6 +53,9 @@
 .dropdown:hover {
   background-color: var(--hover-color);
 }
+.dropdown svg {
+  color: hsl(0, 0%, 30%);
+}
 .avatar {
   grid-area: avatar;
   display: flex;
@@ -169,16 +172,19 @@
   }
 }
 .footer > div > div {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 4px;
   cursor: pointer;
+  text-overflow: clip;
 }
-.footer > div span {
+.footer > div > div > span {
   font-size: 0.8rem;
   padding: 0px 4px;
+  margin: 4px 2px;
 }
 .commentArea[data-card='false'] {
   display: none;

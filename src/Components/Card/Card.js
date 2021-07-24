@@ -1,120 +1,72 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { SocketContext } from '../../App';
 import { Link, useHistory } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown';
 import Comment from '../../Modals/Comment/Comment';
-import { commentOnPostHandle } from '../../functions/status';
-import { removeStatus, removeComment, likeUnlikePost, retweet } from '../../functions/status';
-import { faHeart, faCommentAlt } from '@fortawesome/free-regular-svg-icons';
-import { faHeart as FaHeart, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { commentOnTweet } from '../../functions/tweet';
+import { removeTweet } from '../../functions/tweet';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import date from 'date-and-time';
 import TextArea from '../Elements/TextArea/TextArea';
 import Button from '../Elements/Button/Button';
-import { RetweetOutlined } from '@ant-design/icons';
+
 import styles from './Card.module.css';
 import Modal from '../Modal/Modal';
 import Options from '../../Modals/Options/Options';
+import Footer from './Footer';
+import Loader from '../Elements/Loader/Loader';
 
 const Card = (props) => {
+  const { expand, tweet, loading } = props;
+  const { current: profile } = useRef(tweet.user);
+
   const [openCommentModal, setOpenCommentModal] = useState(false);
-  const { profile, expand, status } = props;
   const socket = useContext(SocketContext);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [comment, setComment] = useState({ text: '', photo: { photo_id: '', public_url: '' }, video: '' });
-  const [comments, setComments] = useState(props.status.comments);
-  const [forwards, setForward] = useState(props.status.retweets);
-  const [likes, setLikes] = useState(props.status.likes);
-  const [statusId, setStatusId] = useState('');
+  const [comment, setComment] = useState({ tweet: '', photo: { photo_id: '', public_url: '' }, video: '' });
+  const [tweetId, setTweetId] = useState('');
   const [error, setError] = useState('');
   const [screen, setScreen] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   const card = useRef();
-  const node = useRef();
-  const delRef = useRef();
+  const dropdownNode = useRef();
+  const popupNode = useRef();
   const history = useHistory();
-  useEffect(() => {
-    socket.on('status-update', (updatedStatus) => {
-      if (updatedStatus.id === status._id) {
-        setComments(updatedStatus.comments);
-        setForward(updatedStatus.forwards);
-        setLikes(updatedStatus.likes);
-      }
-    });
-  }, [socket, status._id]);
+
   useEffect(() => {
     setScreen(window.screen.width);
     window.addEventListener('resize', () => setScreen(window.screen.width));
     return () => window.removeEventListener('resize', () => setScreen(window.screen.width));
   }, []);
-  const handleClick = (e) => {
-    if (node.current?.contains(e.target)) {
+
+  const handleClick = useCallback((e) => {
+    console.log('click');
+    if (dropdownNode.current?.contains(e.target)) {
       return;
-    } else if (delRef.current?.contains(e.target)) {
+    } else if (popupNode.current?.contains(e.target)) {
       return;
     } else if (card.current === e.target) {
-      history.push(`/${profile.username}/post/${status?._id}`);
+      history.push(`/${profile.username}/tweet/${tweet?._id}`);
     }
-    setStatusId('');
-  };
+    setTweetId('');
+  }, []);
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
+  }, [handleClick]);
 
   const deleteHandle = async (id) => {
-    if (props.type === 'comment') {
-      removeComment(id, user.token)
+    import('../../functions/tweet').then(({ removeTweet }) => {
+      removeTweet(id, user.token)
         .then(() => {
           props.reload();
         })
         .catch((err) => {
           console.log(err);
         });
-    } else {
-      removeStatus(id, user.token)
-        .then(() => {
-          props.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-  const likeHandle = (statusId) => {
-    let likesArray = [...likes];
-    let index = likesArray.indexOf(user._id);
-    if (index > -1) {
-      likesArray.splice(index, 1);
-    } else {
-      likesArray.push(user._id);
-    }
-    setLikes(likesArray);
-    likeUnlikePost(statusId, user.token)
-      .then((res) => {
-        //
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const retweetHandle = (postId) => {
-    let forwardsArray = [...forwards];
-    let index = forwardsArray.indexOf(user._id);
-    if (index > -1) {
-      forwardsArray.splice(index, 1);
-    } else {
-      forwardsArray.push(user._id);
-    }
-    setForward(forwardsArray);
-    retweet(postId, user.token)
-      .then((res) => {
-        //
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    });
   };
   const commentHandle = (element) => {
     setError('');
@@ -123,12 +75,12 @@ const Card = (props) => {
       target.style.height = '50px';
       target.style.height = `${target.scrollHeight}px`;
     }
-    setComment({ ...comment, text: element.target.value });
+    setComment({ ...comment, tweet: element.target.value });
   };
   const handleComment = () => {
     if (!comment) return setError('Comment is empty');
     setBtnLoading(true);
-    commentOnPostHandle({ ...comment, statusId: status._id }, status._id, user.token)
+    commentOnTweet(comment, tweet._id, user.token)
       .then((res) => {
         setBtnLoading(false);
         setComment('');
@@ -138,6 +90,7 @@ const Card = (props) => {
         setError('Error in posting comment');
       });
   };
+
   const handleOpenCommentModal = () => {
     setOpenCommentModal(true);
   };
@@ -159,7 +112,6 @@ const Card = (props) => {
       return date.format(new Date(time), 'DD MMM YYYY');
     }
   };
-
   return (
     <div className={styles.card} ref={card} data-card={expand}>
       <div className={styles.avatar}>
@@ -171,29 +123,29 @@ const Card = (props) => {
       </div>
       <header className={styles.header}>
         <div className={styles.statusInfo}>
-          <div className={styles.name}>
-            {profile.firstname} {profile.lastname}
-          </div>
           <Link to={`/${profile.username}`}>
-            <div className={styles.username}>@{profile.username}</div>
+            <div className={styles.name}>
+              {profile.firstname} {profile.lastname}
+            </div>
           </Link>
-          <div className={styles.date}>{checkTime(status?.createdAt)}</div>
+          <div className={styles.username}>@{profile.username}</div>
+          <div className={styles.date}>{checkTime(tweet?.createdAt)}</div>
         </div>
       </header>
       <div className={styles.status}>
-        <Link to={`/${profile.username}/post/${status?._id}`}>{status?.text}</Link>
+        <Link to={`/${profile.username}/tweet/${tweet?._id}`}>{tweet?.tweet}</Link>
       </div>
-      {(status.postedBy || status.postedBy?._id || status.commentedBy?._id) && (
-        <div className={styles.dropdown} ref={node} onClick={() => setStatusId(status?._id)}>
-          <FontAwesomeIcon icon={faEllipsisH} style={{ color: '#595959' }} />
+      {tweet.user?._id === user._id && (
+        <div className={styles.dropdown} ref={dropdownNode} onClick={() => setTweetId(tweet?._id)}>
+          <FontAwesomeIcon icon={faEllipsisH} />
           {screen > 768 ? (
-            <Dropdown open={statusId === status?._id}>
-              <div onClick={() => deleteHandle(status?._id)}>Delete</div>
+            <Dropdown open={tweetId === tweet?._id}>
+              <div onClick={() => deleteHandle(tweet?._id)}>Delete</div>
             </Dropdown>
           ) : (
-            <Modal isOpen={statusId === status?._id}>
+            <Modal isOpen={tweetId === tweet?._id}>
               <Options>
-                <div onClick={() => deleteHandle(status?._id)} ref={delRef}>
+                <div onClick={() => deleteHandle(tweet?._id)} ref={popupNode}>
                   Delete
                 </div>
               </Options>
@@ -204,36 +156,15 @@ const Card = (props) => {
       <div className={styles.commentArea} data-card={expand}>
         <TextArea comment={comment} placeholder='Reply here...' onChange={(e) => commentHandle(e)} />
         <div>
-          <Button width='100%' text='Reply' loading={btnLoading} onClick={handleComment} />
+          <Button loading={btnLoading} onClick={handleComment}>
+            Reply
+          </Button>
         </div>
         {error && <span>*{error}</span>}
       </div>
-      <footer className={styles.footer}>
-        <div>
-          {!status.statusId && (
-            <div className={styles.commentIcon} onClick={() => handleOpenCommentModal(status._id)}>
-              <FontAwesomeIcon icon={faCommentAlt} style={{ fontSize: '1rem', color: '#595959' }} />
-              <span>{comments?.length > 0 && comments.length}</span>
-            </div>
-          )}
-          <div
-            className={styles.forwardsIcon}
-            onClick={() => retweetHandle(status._id)}
-            style={{ color: forwards?.includes(user._id) ? '#00ff00' : '#595959' }}>
-            <RetweetOutlined style={{ fontSize: '1.2rem' }} />
-            <span>{forwards?.length > 0 && forwards.length}</span>
-          </div>
-          <div
-            className={styles.likeIcon}
-            onClick={() => likeHandle(status._id)}
-            style={{ color: likes?.includes(user._id) ? 'red' : '#595959' }}>
-            <FontAwesomeIcon icon={likes.includes(user._id) ? FaHeart : faHeart} />
-            <span>{likes?.length > 0 && likes.length}</span>
-          </div>
-        </div>
-      </footer>
+      <Footer tweet={tweet} socket={socket} handleOpenCommentModal={handleOpenCommentModal} />
       <Modal isOpen={openCommentModal}>
-        <Comment status={status} profile={profile} socket={socket} setIsOpen={setOpenCommentModal} />
+        <Comment status={tweet} profile={profile} socket={socket} setIsOpen={setOpenCommentModal} />
       </Modal>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -7,7 +7,7 @@ import { logout } from '../../functions/auth';
 import Input from '../Elements/Input/Input';
 import Modal from '../Modal/Modal';
 import Button from '../../Components/Elements/Button/Button';
-import StatusModal from '../../Modals/StatusModal/StatusModal';
+import StatusModal from '../../Modals/TweetModal/TweetModal';
 //
 import { getSearchedUsers } from '../../functions/user';
 //

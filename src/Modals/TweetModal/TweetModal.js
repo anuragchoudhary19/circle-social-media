@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 //
-import { createStatus } from '../../functions/status';
+import { createTweet } from '../../functions/tweet';
 //
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextArea from '../../Components/Elements/TextArea/TextArea';
 import Button from '../../Components/Elements/Button/Button';
-import styles from './StatusModal.module.css';
+import styles from './TweetModal.module.css';
 
-const StatusModal = ({ user, socket, setIsOpen }) => {
-  const [text, setText] = useState('');
+const TweetModal = ({ user, setIsOpen }) => {
+  const [tweet, setTweet] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -17,12 +17,11 @@ const StatusModal = ({ user, socket, setIsOpen }) => {
     setIsOpen(false);
   };
   const postStatus = () => {
-    if (!text) return setError('Status cannot be empty');
+    if (!tweet) return setError('Status cannot be empty');
     setLoading(true);
-    createStatus(text, user.token)
+    createTweet(tweet, user.token)
       .then((res) => {
         setLoading(false);
-        socket.emit('new-post', socket.id);
       })
       .then(() => {
         closeModal();
@@ -32,14 +31,14 @@ const StatusModal = ({ user, socket, setIsOpen }) => {
         setError('Error in posting the status');
       });
   };
-  const handleStatus = (element) => {
+  const statusHandler = (element) => {
     setError('');
     if (element) {
       const target = element.target ? element.target : element;
       target.style.height = '150px';
       target.style.height = `${target.scrollHeight}px`;
     }
-    setText(element.target.value);
+    setTweet(element.target.value);
   };
 
   return (
@@ -57,7 +56,7 @@ const StatusModal = ({ user, socket, setIsOpen }) => {
             <img src={user?.photo?.url} alt='profile' />
           </div>
           <div className={styles.textarea}>
-            <TextArea rows='8' placeholder='Write here...' value={text} onChange={(e) => handleStatus(e)} />
+            <TextArea rows='8' placeholder='Write here...' value={tweet} onChange={(e) => statusHandler(e)} />
           </div>
         </div>
         {error && (
@@ -75,4 +74,4 @@ const StatusModal = ({ user, socket, setIsOpen }) => {
   );
 };
 
-export default StatusModal;
+export default TweetModal;

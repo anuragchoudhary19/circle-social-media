@@ -13,27 +13,30 @@ const initialState = { username: '', email: '', password: '', confirmPassword: '
 const Signup = () => {
   const [form, setForm] = useState(initialState);
   let { username, email, password, confirmPassword } = form;
-  const [error, setError] = useState({ ...initialState, general: '' });
-  const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState(initialState);
+  const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const history = useHistory();
 
   useEffect(() => {
     if (user?.token) {
-      history.push(`/profile/${user._id}`);
+      history.push(`/home`);
     }
   }, []);
 
   const handleChange = (label) => (e) => {
-    console.log(e.target.value);
-    setError({ ...error, [label]: '' });
+    setFormError({ ...formError, [label]: '' });
     setForm({ ...form, [label]: e.target.value });
   };
 
   const handleSubmit = async () => {
+    setError('');
+    setMessage('');
+    setFormError(initialState);
     if (password !== confirmPassword) {
-      setError({ ...error, password: 'Passwords do not match' });
+      setFormError({ ...formError, password: 'Passwords do not match' });
       return;
     }
     setLoading(true);
@@ -43,12 +46,11 @@ const Signup = () => {
           console.log(res.data.message);
           setLoading(false);
           setForm(initialState);
-          setError(initialState);
           setMessage(res.data.message);
         }
       })
       .catch((err) => {
-        setError({ ...error, general: err.response.data.message });
+        setError(err.response.data.message);
         setLoading(false);
         setMessage('');
       });
@@ -61,21 +63,21 @@ const Signup = () => {
           <header>
             <h2>Sign Up</h2>
           </header>
-          {error.general !== '' && <div className={styles.error}>{error.general}</div>}
+          {error !== '' && <div className={styles.error}>{error}</div>}
           {message && <div className={styles.success}>{message}</div>}
           <Input
             label='Username'
             type='text'
             value={username}
-            error={error.username}
+            error={formError.username}
             onChange={handleChange('username')}
           />
-          <Input label='Email' type='email' value={email} error={error.email} onChange={handleChange('email')} />
+          <Input label='Email' type='email' value={email} error={formError.email} onChange={handleChange('email')} />
           <Input
             label='Password'
             type='password'
             value={password}
-            error={error.password}
+            error={formError.password}
             onChange={handleChange('password')}
           />
           <Input

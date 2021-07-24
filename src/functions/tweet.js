@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-export const createStatus = async (text, token) => {
+export const createTweet = async (tweet, token) => {
   return await axios.post(
-    `${process.env.REACT_APP_API}/status`,
-    { text },
+    `${process.env.REACT_APP_API}/tweet`,
+    { tweet },
     {
       headers: { Authorization: `Bearer ${token}` },
     }
   );
 };
 
-export const getStatus = async (statusId, token) => {
-  return await axios.get(`${process.env.REACT_APP_API}/status/${statusId}`, {
+export const getTweet = async (tweetId, token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/tweet/${tweetId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
@@ -21,8 +21,8 @@ export const getStatusComments = async (statusId, token) => {
   });
 };
 
-export const listStatuses = async (username, token) => {
-  return await axios.get(`${process.env.REACT_APP_API}/status/all/${username}`, {
+export const listTweets = async (userId, token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/tweets/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
@@ -38,38 +38,34 @@ export const getStatusLikedByThisUser = async (userId, token) => {
   });
 };
 
-export const removeStatus = async (id, token) => {
-  return await axios.delete(`${process.env.REACT_APP_API}/status/${id}`, {
+export const removeTweet = async (id, token) => {
+  return await axios.delete(`${process.env.REACT_APP_API}/tweet/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
-export const removeComment = async (id, token) => {
-  return await axios.delete(`${process.env.REACT_APP_API}//status/comment/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-};
-export const likeUnlikePost = async (postId, token) => {
+
+export const likeTweet = async (tweetId, token) => {
   return await axios.put(
-    `${process.env.REACT_APP_API}/status/like/${postId}`,
+    `${process.env.REACT_APP_API}/tweet/like/${tweetId}`,
     {},
     {
       headers: { Authorization: `Bearer ${token}` },
     }
   );
 };
-export const retweet = async (postId, token) => {
+export const retweetTweet = async (tweetId, token) => {
   return await axios.put(
-    `${process.env.REACT_APP_API}/status/retweet/${postId}`,
+    `${process.env.REACT_APP_API}/tweet/retweet/${tweetId}`,
     {},
     {
       headers: { Authorization: `Bearer ${token}` },
     }
   );
 };
-export const commentOnPostHandle = async (comment, statusId, token) => {
+export const commentOnTweet = async (comment, tweetId, token) => {
   console.log(comment);
   return await axios.post(
-    `${process.env.REACT_APP_API}/status/comment/${statusId}`,
+    `${process.env.REACT_APP_API}/tweet/comment/${tweetId}`,
     { comment },
     {
       headers: { Authorization: `Bearer ${token}` },

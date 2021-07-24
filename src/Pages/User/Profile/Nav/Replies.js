@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 //
-import { listStatuses } from '../../../../functions/status';
+import { getComments } from '../../../../functions/timeline';
 //
 import Card from '../../../../Components/Card/Card';
 import Loader from '../../../../Components/Elements/Loader/Loader';
-import styles from './Statuses.module.css';
+import styles from './Tweets.module.css';
 
-const Statuses = ({ profile, user }) => {
+const Replies = ({ profile, user }) => {
   const [statuses, setStatuses] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -14,9 +14,10 @@ const Statuses = ({ profile, user }) => {
   }, [profile]);
   const loadStatuses = () => {
     setLoading(true);
-    listStatuses(profile._id, user.token)
+    getComments(profile.username, user.token)
       .then((res) => {
-        setStatuses(res.data.statuses);
+        setStatuses(res.data.comments);
+        console.log(res.data.comments);
         setLoading(false);
       })
       .catch((err) => {
@@ -30,14 +31,23 @@ const Statuses = ({ profile, user }) => {
         <Loader />
       ) : statuses.length ? (
         statuses.map((status) => (
-          <div className={styles.card} key={status._id}>
+          <div className={styles.card} key={status.statusId._id}>
+            <Card
+              status={status.statusId}
+              likes={status.statusId.likes}
+              forwards={status.statusId.retweets}
+              comments={status.statusId.comments}
+              profile={status.statusId.postedBy}
+              isStatus={true}
+              expand={false}
+            />
             <Card
               status={status}
               likes={status.likes}
               forwards={status.retweets}
               comments={status.comments}
-              profile={profile}
-              reload={loadStatuses}
+              profile={status.commentedBy}
+              isComment={true}
               expand={false}
             />
           </div>
@@ -49,4 +59,4 @@ const Statuses = ({ profile, user }) => {
   );
 };
 
-export default Statuses;
+export default Replies;

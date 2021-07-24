@@ -57,25 +57,25 @@ export const deleteUser = async (token) => {
   });
 };
 
-const setUserInLocalStorage = (res, token) => {
-  window.localStorage.setItem('user', JSON.stringify({ ...res.data }));
-};
-const setUserInReduxStore = (res, token, dispatch) => {
-  dispatch({
-    type: 'LOGGED_IN_USER',
-    payload: { ...res.data },
-  });
-};
-export const unsubscribe = async (token, dispatch) => {
-  return await getUser(token)
-    .then((res) => {
-      setUserInLocalStorage(res, token);
-      setUserInReduxStore(res, token, dispatch);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+// const setUserInLocalStorage = (res, token) => {
+//   window.localStorage.setItem('user', JSON.stringify({ ...res.data }));
+// };
+// const setUserInReduxStore = (res, token, dispatch) => {
+//   dispatch({
+//     type: 'LOGGED_IN_USER',
+//     payload: { ...res.data },
+//   });
+// };
+// export const unsubscribe = async (token, dispatch) => {
+//   return await getUser(token)
+//     .then((res) => {
+//       setUserInLocalStorage(res, token);
+//       setUserInReduxStore(res, token, dispatch);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
 
 export const followUser = async (id, token) => {
   return await axios.patch(

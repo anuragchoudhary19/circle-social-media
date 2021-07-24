@@ -3,12 +3,16 @@
   grid-template-columns: 1fr 45vw 1fr;
   width: 100%;
   background-color: transparent;
-  @media (max-width: 768px) {
+}
+@media (max-width: 768px) {
+  .page {
     display: flex;
     flex-direction: column;
     width: 100vw;
   }
-  @media (min-width: 769px) {
+}
+@media (min-width: 769px) {
+  .page {
     display: grid;
     grid-template-columns: 25% 1fr 25%;
     grid-template-rows: auto;
@@ -23,33 +27,36 @@
   width: 100%;
   max-width: 700px;
   min-height: 100vh;
-  border: 0px solid fade(#ccc, 40%);
+  border: 0px solid rgba(204, 204, 204, 0.4);
   border-width: 0 1px;
-  @media (max-width: 768px) {
+}
+@media (max-width: 768px) {
+  .main {
     width: 100vw;
   }
-  @media (min-width: 769px) {
+}
+@media (min-width: 769px) {
+  .main {
     border: 0 solid #454545;
     border-width: 0px 1px 0px 1px;
   }
 }
-
-.main {
-  > header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    color: var(--color);
-    width: 100%;
-    height: 3rem;
-    border: 0px solid hsl(0, 0%, 30%);
-    border-width: 0 0 3px 0;
-  }
-  > .card {
-    display: flex;
-    width: 100%;
-    border-bottom: 8px solid hsl(0, 0%, 10%);
-  }
+.main > header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--color);
+  width: 100%;
+  height: 3rem;
+  border: 0px solid hsl(0, 0%, 30%);
+  border-width: 0 0 3px 0;
+}
+.main > .card {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  width: 100%;
+  border-bottom: 8px solid hsl(0, 0%, 10%);
 }
 .comments {
   display: flex;
@@ -58,4 +65,11 @@
   align-items: center;
   width: 100%;
   height: fit-content;
+}
+.comments .card {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  width: 100%;
+  border-bottom: 2px solid hsl(0, 0%, 10%);
 }
