@@ -17,7 +17,9 @@ const Signup = () => {
   const [formError, setFormError] = useState(initialState);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [counter, setCounter] = useState(5);
   const { user } = useSelector((state) => ({ ...state }));
   const history = useHistory();
   useEffect(() => {
@@ -25,8 +27,21 @@ const Signup = () => {
       history.push('/home');
     }
   }, [history, user]);
-
+  useEffect(() => {
+    if (redirect) {
+      setTimeout(() => {
+        if (counter > 0) {
+          setCounter((prevValue) => prevValue - 1);
+          setMessage(`Redirecting to Login Page in ${counter} secs`);
+        } else {
+          history.push('/login');
+        }
+      }, 1000);
+    }
+  }, [counter, redirect, history]);
   const handleChange = (label) => (e) => {
+    setError('');
+    setMessage('');
     setFormError({ ...formError, [label]: '' });
     setForm({ ...form, [label]: e.target.value });
   };
@@ -35,6 +50,14 @@ const Signup = () => {
     setError('');
     setMessage('');
     setFormError(initialState);
+    if (!username) {
+      setFormError({ ...formError, username: 'Username is required' });
+      return;
+    }
+    if (!email) {
+      setFormError({ ...formError, email: 'Email is required' });
+      return;
+    }
     if (password !== confirmPassword) {
       setFormError({ ...formError, password: 'Passwords do not match' });
       return;
@@ -46,7 +69,8 @@ const Signup = () => {
           console.log(res.data.message);
           setLoading(false);
           setForm(initialState);
-          setMessage(res.data.message);
+          setMessage(`Redirecting to Login Page in ${counter} secs`);
+          setRedirect(true);
         }
       })
       .catch((err) => {
@@ -63,7 +87,7 @@ const Signup = () => {
           <header>
             <h2>Sign Up</h2>
           </header>
-          {error !== '' && <div className={styles.error}>{error}</div>}
+          {error && <div className={styles.error}>{error}</div>}
           {message && <div className={styles.success}>{message}</div>}
           <Input
             label='Username'
