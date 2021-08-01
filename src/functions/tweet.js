@@ -15,25 +15,25 @@ export const getTweet = async (tweetId, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
-export const getStatusComments = async (statusId, token) => {
-  return await axios.get(`${process.env.REACT_APP_API}/status/comments/${statusId}`, {
+export const getReplies = async (userId, token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/tweets/replies/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const listTweets = async (userId, token) => {
-  return await axios.get(`${process.env.REACT_APP_API}/tweets/${userId}`, {
+  return await axios.get(`${process.env.REACT_APP_API}/tweets/all/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 export const getFeed = async (token) => {
-  return await axios.get(`${process.env.REACT_APP_API}/status/feed`, {
+  return await axios.get(`${process.env.REACT_APP_API}/feed`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
-export const getStatusLikedByThisUser = async (userId, token) => {
-  return await axios.get(`${process.env.REACT_APP_API}/status/likes/${userId}`, {
+export const getLikedTweets = async (userId, token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/tweets/likes/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };

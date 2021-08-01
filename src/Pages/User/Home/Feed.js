@@ -22,6 +22,7 @@ const Feed = () => {
       .then((res) => {
         setLoading(false);
         setFeed(res.data.feed);
+        console.log(res.data.feed);
       })
       .catch((err) => {
         setLoading(false);
@@ -33,42 +34,19 @@ const Feed = () => {
   return (
     <>
       {feed.length > 0 &&
-        feed.map((status) => {
+        feed.map((tweet) => {
           let card = null;
-          if (status.statusId) {
+          if (tweet.isReply) {
             card = (
-              <div className={styles.card} key={status.statusId._id}>
-                <Card
-                  status={status.statusId}
-                  likes={status.statusId.likes}
-                  forwards={status.statusId.retweets}
-                  comments={status.statusId.comments}
-                  profile={status.statusId.postedBy}
-                  isStatus={true}
-                  expand={false}
-                />
-                <Card
-                  status={status}
-                  likes={status.likes}
-                  forwards={status.retweets}
-                  comments={status.comments}
-                  profile={status.commentedBy}
-                  isComment={true}
-                  expand={false}
-                />
+              <div className={styles.card} key={tweet._id}>
+                <Card tweet={tweet.repliedTo} isTweet={true} expand={false} />
+                <Card tweet={tweet} isReply={true} expand={false} />
               </div>
             );
           } else {
             card = (
-              <div className={styles.card} key={status._id}>
-                <Card
-                  status={status}
-                  likes={status.likes}
-                  forwards={status.retweets}
-                  comments={status.comments}
-                  profile={status.postedBy || status.commentedBy}
-                  expand={false}
-                />
+              <div className={styles.card} key={tweet._id}>
+                <Card tweet={tweet} expand={false} />
               </div>
             );
           }

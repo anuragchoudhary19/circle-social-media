@@ -115,11 +115,11 @@ const Card = (props) => {
   return (
     <div className={styles.card} ref={card} data-card={expand}>
       <div className={styles.avatar}>
-        {props.isComment && <div></div>}
+        {props.isReply && <div></div>}
         <Link to={`/${profile.username}`}>
           <img src={profile?.photo?.url} alt='profile' />
         </Link>
-        {props.isStatus && <div></div>}
+        {props.isTweet && <div></div>}
       </div>
       <header className={styles.header}>
         <div className={styles.statusInfo}>

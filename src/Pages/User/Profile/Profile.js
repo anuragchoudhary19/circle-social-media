@@ -73,11 +73,17 @@ const Profile = () => {
         {profile && (
           <Switch>
             <Route exact path={`${path}`} component={() => <Tweets userId={profile._id} user={user} />} />
-            <Route path={`${path}/replies`} component={() => <Replies profile={profile} user={user} />} />
-            <Route path={`${path}/media`} component={() => <Replies profile={profile} user={user} />} />
+            <Route
+              path={`${path}/replies`}
+              component={() => <Replies userId={profile._id} profile={profile} user={user} />}
+            />
+            <Route
+              path={`${path}/media`}
+              component={() => <Replies userId={profile._id} profile={profile} user={user} />}
+            />
             <Route
               path={`${path}/likes`}
-              component={() => <Likes username={username} profile={profile} user={user} />}
+              component={() => <Likes userId={profile._id} profile={profile} user={user} />}
             />
           </Switch>
         )}

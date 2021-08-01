@@ -1,19 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 //
 import Card from '../../../../Components/Card/Card';
 import Loader from '../../../../Components/Elements/Loader/Loader';
 //
 import { SocketContext } from '../../../../App';
-import { getLikes } from '../../../../functions/timeline';
+import { getLikedTweets } from '../../../../functions/tweet';
 import styles from './Tweets.module.css';
 
-const Likes = ({ user }) => {
-  const { username } = useParams();
+const Likes = (props) => {
+  const { userId } = props;
   const socket = useContext(SocketContext);
   const [likes, setLikes] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => ({ ...state }));
   useEffect(() => {
     socket.on('status-delete', (id) => {
       if (id === socket.id) {
@@ -24,12 +25,12 @@ const Likes = ({ user }) => {
   useEffect(() => {
     loadLikes();
     return () => loadLikes();
-  }, [username]);
+  }, [userId]);
   const loadLikes = () => {
     setLoading(true);
-    getLikes(username, user.token)
+    getLikedTweets(userId, user.token)
       .then((res) => {
-        setLikes(res.data.likes);
+        setLikes(res.data.tweets);
         setLoading(false);
       })
       .catch((err) => {
@@ -47,16 +48,9 @@ const Likes = ({ user }) => {
   return (
     <div className={styles.statuses}>
       {likes?.length > 0 &&
-        likes.map((status) => (
-          <div className={styles.card} key={status._id}>
-            <Card
-              status={status}
-              likes={status.likes}
-              forwards={status.retweets}
-              comments={status.comments}
-              profile={status.postedBy}
-              expand={false}
-            />
+        likes.map((tweet) => (
+          <div className={styles.card} key={tweet._id}>
+            <Card tweet={tweet} expand={false} />
           </div>
         ))}
     </div>

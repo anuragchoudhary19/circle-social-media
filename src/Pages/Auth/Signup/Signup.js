@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+//
 import Logo from '../../../Components/Logo/Logo';
 import Input from '../../../Components/Elements/Input/Input';
 import Button from '../../../Components/Elements/Button/Button';
-
+//
 import { signup } from '../../../functions/auth';
 import styles from './Signup.module.css';
 
@@ -19,12 +20,11 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const history = useHistory();
-
   useEffect(() => {
     if (user?.token) {
-      history.push(`/home`);
+      history.push('/home');
     }
-  }, []);
+  }, [history, user]);
 
   const handleChange = (label) => (e) => {
     setFormError({ ...formError, [label]: '' });
@@ -70,6 +70,7 @@ const Signup = () => {
             type='text'
             value={username}
             error={formError.username}
+            autoFocus={true}
             onChange={handleChange('username')}
           />
           <Input label='Email' type='email' value={email} error={formError.email} onChange={handleChange('email')} />

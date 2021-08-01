@@ -16,13 +16,13 @@ import Feed from './Feed';
 import styles from './Home.module.css';
 
 const Home = () => {
-  const [status, setStatus] = useState();
+  const [tweet, setTweet] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   const history = useHistory();
 
-  const handleStatus = (element) => {
+  const handleTweet = (element) => {
     console.log(element);
     setError('');
     if (element) {
@@ -30,15 +30,15 @@ const Home = () => {
       target.style.height = '4rem';
       target.style.height = `${target.scrollHeight}px`;
     }
-    setStatus(element.target.value);
+    setTweet(element.target.value);
   };
-  const postStatus = () => {
-    if (!status) return setError('Status cannot be empty');
+  const postTweet = () => {
+    if (!tweet) return setError('Write a tweet');
     setLoading(true);
-    createTweet(status, user.token)
+    createTweet(tweet, user.token)
       .then((res) => {
         setLoading(false);
-        setStatus('');
+        setTweet('');
       })
       .catch((err) => {
         setLoading(false);
@@ -57,14 +57,16 @@ const Home = () => {
           />
           <h2>Home</h2>
         </header>
-        <div className={styles.status}>
-          <img src={user.photo.url} alt='profile' />
+        <div className={styles.tweetBox}>
+          <div className={styles.profilePic}>
+            <img src={user.photo.url} alt='profile' />
+          </div>
           <div className={styles.textarea}>
-            <TextArea value={status} onChange={(e) => handleStatus(e)} placeholder='Write here...' />
+            <TextArea value={tweet} onChange={(e) => handleTweet(e)} placeholder='Write here...' />
             {error && <span>*{error}</span>}
           </div>
           <div className={styles.postButton}>
-            <Button onClick={postStatus} loading={loading}>
+            <Button onClick={postTweet} loading={loading}>
               Post
             </Button>
           </div>

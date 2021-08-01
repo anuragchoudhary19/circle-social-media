@@ -1,8 +1,8 @@
 .page {
-  width: 100vw;
+  width: 100%;
   height: fit-content;
   min-height: 100vh;
-  background-color: var(--background-color);
+  background-color: transparent;
 }
 @media (max-width: 768px) {
   .page {
@@ -16,7 +16,7 @@
     display: grid;
     grid-template-columns: 25% 1fr 25%;
     grid-template-rows: auto;
-    max-width: 1300px;
+    max-width: 1366px;
   }
 }
 .main {
@@ -47,7 +47,7 @@
   border: 0px solid hsl(0, 0%, 30%);
   border-width: 0 0 3px 0;
 }
-.status {
+.tweetBox {
   display: grid;
   grid-template-areas: 'img textarea' 'img button';
   grid-template-columns: 65px 1fr;
@@ -57,11 +57,16 @@
   align-items: center;
   width: 100%;
   height: fit-content;
-  padding: 0.25rem 1rem;
+  padding: 0.25rem 0.5rem;
   border-bottom: 10px solid hsla(0, 0%, 50%, 0.5);
 }
-.status > img {
+.profilePic {
+  display: flex;
+  height: 100%;
+  justify-content: flex-start;
   grid-area: img;
+}
+.profilePic > img {
   width: 100%;
   height: 65px;
   border-radius: 50%;
@@ -71,15 +76,20 @@
   flex-direction: column;
   width: 100%;
   height: auto;
-  padding: 0.5rem;
+  padding: 0.25rem;
 }
 .textarea > span {
   font-size: 0.8rem;
   color: red;
 }
 .postButton {
-  width: 100px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
   margin: 0.5rem 0 0 auto;
+}
+.postButton > div {
+  width: 100px;
 }
 .feed {
   display: flex;

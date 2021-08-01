@@ -6,7 +6,6 @@ const LoadingPage = (props) => {
       <div className={styles.spinner} style={props.styles}>
         <div className={styles.spinnerSector}></div>
       </div>
-      Loading...
     </div>
   );
 };
