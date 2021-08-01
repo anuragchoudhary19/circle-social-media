@@ -15,6 +15,7 @@ export const getTweet = async (tweetId, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
 export const getReplies = async (userId, token) => {
   return await axios.get(`${process.env.REACT_APP_API}/tweets/replies/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },

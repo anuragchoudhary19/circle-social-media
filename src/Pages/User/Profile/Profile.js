@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useParams, Switch, Route, useRouteMatch, NavLink } from 'react-router-dom';
 import UserProfile from './UserProfile/UserProfile';
@@ -14,16 +15,20 @@ import styles from './Profile.module.css';
 
 const Profile = () => {
   const { username } = useParams();
-
   const [profile, setProfile] = useState();
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const { url, path } = useRouteMatch();
-
+  const history = useHistory();
+  useEffect(() => {
+    if (!user?.token) {
+      history.push('/');
+    }
+  }, [history, user]);
   useEffect(() => {
     loadProfile();
+    return () => loadProfile();
   }, [username, user]);
-
   const loadProfile = () => {
     setLoading(true);
     getProfile(username, user.token)

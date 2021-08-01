@@ -1,17 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 //
 import { getFeed } from '../../../functions/tweet';
+import { SocketContext } from '../../../App';
 //
 import Loader from '../../../Components/Elements/Loader/Loader';
 import styles from './Home.module.css';
 import Card from '../../../Components/Card/Card';
 
 const Feed = () => {
+  const socket = useContext(SocketContext);
   const [feed, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
+  useEffect(() => {
+    socket.on('tweet-insert', (tweetId) => {
+      getFeed(user?.token)
+        .then((res) => {
+          setFeed(res.data.feed);
+        })
+        .catch((err) => {
+          setError('Something went wrong');
+        });
+    });
+  }, []);
   useEffect(() => {
     loadFeed();
     return () => loadFeed();
@@ -22,7 +35,6 @@ const Feed = () => {
       .then((res) => {
         setLoading(false);
         setFeed(res.data.feed);
-        console.log(res.data.feed);
       })
       .catch((err) => {
         setLoading(false);

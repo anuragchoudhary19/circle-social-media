@@ -1,4 +1,6 @@
 .page {
+  position: fixed;
+  top: 0;
   width: 100%;
   height: fit-content;
   min-height: 100vh;
@@ -19,7 +21,11 @@
     max-width: 1366px;
   }
 }
+.main::-webkit-scrollbar {
+  display: none;
+}
 .main {
+  overflow-x: scroll;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
