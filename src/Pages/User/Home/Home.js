@@ -28,13 +28,7 @@ const Home = () => {
     }
   }, [history, user]);
   const handleTweet = (element) => {
-    console.log(element);
     setError('');
-    if (element) {
-      const target = element.target ? element.target : element;
-      target.style.height = '4rem';
-      target.style.height = `${target.scrollHeight}px`;
-    }
     setTweet(element.target.value);
   };
   const postTweet = () => {

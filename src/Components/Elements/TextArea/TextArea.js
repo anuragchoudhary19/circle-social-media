@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styles from './TextArea.module.css';
 
 const TextArea = (props) => {
-  const textarea = React.createRef();
+  const textarea = useRef();
+  useEffect(() => {
+    textarea.current.style.height = 'fit-content';
+    textarea.current.style.height = `${textarea.current.scrollHeight}px`;
+  }, [props.value]);
   return (
     <div className={styles.textarea}>
       <textarea
