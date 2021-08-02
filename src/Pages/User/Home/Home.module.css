@@ -10,7 +10,7 @@
   .page {
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
   }
 }
 @media (min-width: 769px) {
@@ -35,7 +35,9 @@
 }
 @media (max-width: 768px) {
   .main {
-    width: 100vw;
+    width: 100%;
+    border: 0 solid #454545;
+    border-width: 0px 2px 0px 2px;
   }
 }
 @media (min-width: 769px) {
