@@ -44,7 +44,7 @@ const Feed = () => {
   if (loading) return <Loader />;
   if (error) return <div>{error}</div>;
   return (
-    <>
+    <div className={styles.feed}>
       {feed.length > 0 &&
         feed.map((tweet) => {
           let card = null;
@@ -64,7 +64,7 @@ const Feed = () => {
           }
           return card;
         })}
-    </>
+    </div>
   );
 };
 

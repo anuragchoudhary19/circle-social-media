@@ -124,12 +124,10 @@ const Card = (props) => {
       <header className={styles.header}>
         <div className={styles.statusInfo}>
           <Link to={`/${profile.username}`}>
-            <div className={styles.name}>
-              {profile.firstname} {profile.lastname}
-            </div>
+            <span className={styles.name}>{`${profile.firstname} ${profile.lastname}`}</span>
           </Link>
-          <div className={styles.username}>@{profile.username}</div>
-          <div className={styles.date}>{checkTime(tweet?.createdAt)}</div>
+          <span className={styles.username}>@{profile.username}</span>
+          <span className={styles.date}>{checkTime(tweet?.createdAt)}</span>
         </div>
       </header>
       <div className={styles.status}>

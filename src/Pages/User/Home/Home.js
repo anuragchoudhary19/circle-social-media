@@ -76,9 +76,7 @@ const Home = () => {
             </Button>
           </div>
         </div>
-        <div className={styles.feed}>
-          <Feed />
-        </div>
+        <Feed />
       </div>
       <Footer>
         <Recommendations />

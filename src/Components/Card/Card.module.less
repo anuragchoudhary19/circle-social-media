@@ -7,15 +7,12 @@
   grid-template-rows: 1fr 1fr 2rem;
   width: 100%;
   height: fit-content;
-  padding: 0 0.25rem;
-  // border: 0 solid fade(#9e9d89, 27%);
-  // border-width: 0px 0 1px 0;
   > header,
   footer {
     display: flex;
   }
   @media (max-width: 768px) {
-    grid-template-columns: 65px 1fr 1.8rem;
+    grid-template-columns: 65px auto 1rem;
   }
   @media (min-width: 769px) {
     grid-template-columns: 65px 1fr 1.8rem;
@@ -53,7 +50,7 @@
   justify-content: center;
   align-items: center;
   padding: 0.25rem;
-  width: fit-content;
+  width: 100%;
   height: fit-content;
   cursor: pointer;
   &:hover {
@@ -69,6 +66,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   img {
     padding: 4px;
     width: 100%;
@@ -106,17 +104,20 @@
     grid-template-areas: 'name username date';
     grid-template-columns: auto auto auto;
     grid-template-rows: auto;
-    width: fit-content;
+    width: 100%;
     height: fit-content;
     color: var(--color);
     .name {
       grid-area: name;
       font-weight: 700;
+      width: 100%;
+      white-space: nowrap;
     }
     .username {
       margin-left: 0.2rem;
       grid-area: username;
       color: #595959;
+      width: fit-content;
       &:hover {
         color: hsl(0, 0%, 50%);
       }
@@ -151,6 +152,7 @@
   align-items: flex-start;
   padding: 0.25rem;
   height: auto;
+  width: 100%;
   > div {
     display: flex;
     flex-direction: row;
