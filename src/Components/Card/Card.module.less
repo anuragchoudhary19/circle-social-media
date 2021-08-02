@@ -4,20 +4,21 @@
     'avatar header dropdown'
     'avatar status dropdown'
     'avatar footer dropdown';
-  grid-template-rows: 1fr 1fr 2rem;
+  grid-template-rows: 1fr 1fr auto;
   width: 100%;
   height: fit-content;
   justify-content: center;
   align-items: flex-start;
+  cursor: pointer;
   > header,
   footer {
     display: flex;
   }
   @media (max-width: 768px) {
-    grid-template-columns: 65px 1fr 16px;
+    grid-template-columns: 65px 1fr 32px;
   }
   @media (min-width: 769px) {
-    grid-template-columns: 65px 1fr 16px;
+    grid-template-columns: 65px 1fr 32px;
   }
   &:hover {
     background-color: hsla(0, 0%, 10%, 0.3);
@@ -51,7 +52,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0.25rem;
   width: 100%;
   height: fit-content;
   cursor: pointer;
@@ -88,12 +88,15 @@
 }
 
 .header {
-  flex-direction: row;
   grid-area: header;
+  display: grid;
+  grid-template-areas: 'name username date';
+  grid-template-columns: auto minmax(12ch, auto) auto;
+  grid-template-rows: auto;
+  justify-content: flex-start;
   height: fit-content;
-  width: 100%;
   padding: 0.25rem;
-  overflow: hidden;
+  color: var(--color);
   a {
     width: 100%;
     height: 100%;
@@ -101,45 +104,39 @@
     color: var(--color);
     cursor: pointer;
   }
-  .statusInfo {
-    display: grid;
-    grid-template-areas: 'name username date';
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: auto;
-    justify-content: flex-start;
+  .name {
+    display: flex;
+    grid-area: name;
+    font-weight: 700;
+    white-space: nowrap;
     width: fit-content;
-    height: fit-content;
-    color: var(--color);
-    .name {
-      grid-area: name;
-      font-weight: 700;
-      width: 100%;
-      white-space: nowrap;
-    }
-    .username {
-      margin-left: 0.2rem;
-      grid-area: username;
-      color: #595959;
-      width: fit-content;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      &:hover {
-        color: hsl(0, 0%, 50%);
-      }
-    }
-    .date {
-      grid-area: date;
-      margin-left: 1rem;
-      margin-right: auto;
-      color: #595959;
-    }
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+      'Helvetica Neue', sans-serif;
+  }
+  .username {
+    display: flex;
+    margin-left: 0.2rem;
+    grid-area: username;
+    color: hsl(0, 0%, 40%);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+    font-weight: 400;
+  }
+  .date {
+    grid-area: date;
+    margin-left: 0.25rem;
+    margin-right: auto;
+    width: fit-content;
+    color: #595959;
   }
 }
+
 .status {
   grid-area: status;
   display: flex;
   overflow-wrap: break-word;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--color);
   padding: 0 0.5rem;
   a {
@@ -152,12 +149,12 @@
 }
 .footer {
   grid-area: footer;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  padding: 0.25rem;
-  height: auto;
+  height: 100%;
   width: 100%;
+  padding: 4px;
   > div {
     display: flex;
     flex-direction: row;
@@ -166,7 +163,6 @@
     width: 100%;
     > .commentIcon {
       color: #6e767d;
-
       @media (min-width: 768px) {
         &:hover {
           path {
@@ -194,6 +190,12 @@
             color: red;
           }
         }
+        &:focus {
+          path {
+            box-shadow: 0px 0px 10px 0px hsl(0, 100%, 10%);
+            color: red;
+          }
+        }
       }
     }
     > div {
@@ -202,7 +204,6 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      padding: 4px;
       cursor: pointer;
       text-overflow: clip;
       > span {

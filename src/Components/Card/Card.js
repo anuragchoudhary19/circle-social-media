@@ -121,15 +121,13 @@ const Card = (props) => {
         </Link>
         {props.isTweet && <div></div>}
       </div>
-      <header className={styles.header}>
-        <div className={styles.statusInfo}>
-          <Link to={`/${profile.username}`}>
-            <span className={styles.name}>{`${profile.firstname} ${profile.lastname}`}</span>
-          </Link>
-          <span className={styles.username}>@{profile.username}</span>
-          <span className={styles.date}>{checkTime(tweet?.createdAt)}</span>
-        </div>
-      </header>
+      <div className={styles.header}>
+        <Link to={`/${profile.username}`}>
+          <span className={styles.name}>{`${profile.firstname} ${profile.lastname}`}</span>
+        </Link>
+        <div className={styles.username}>@{profile.username} .</div>
+        <span className={styles.date}>{checkTime(tweet?.createdAt)}</span>
+      </div>
       <div className={styles.status}>
         <Link to={`/${profile.username}/tweet/${tweet?._id}`}>{tweet?.tweet}</Link>
       </div>
