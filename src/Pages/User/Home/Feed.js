@@ -15,14 +15,16 @@ const Feed = () => {
   const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   useEffect(() => {
-    socket.on('tweet-insert', (tweetId) => {
-      getFeed(user?.token)
-        .then((res) => {
-          setFeed(res.data.feed);
-        })
-        .catch((err) => {
-          setError('Something went wrong');
-        });
+    socket.on('feed-reload', (socketId) => {
+      if (socketId === socket.id) {
+        getFeed(user?.token)
+          .then((res) => {
+            setFeed(res.data.feed);
+          })
+          .catch((err) => {
+            setError('Something went wrong');
+          });
+      }
     });
   }, []);
   useEffect(() => {

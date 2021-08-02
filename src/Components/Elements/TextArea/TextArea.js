@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styles from './TextArea.module.css';
 
 const TextArea = (props) => {
