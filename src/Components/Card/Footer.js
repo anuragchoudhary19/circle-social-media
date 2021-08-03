@@ -6,6 +6,8 @@ import { faHeart as FaHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RetweetOutlined } from '@ant-design/icons';
 import styles from './Card.module.css';
+import Modal from '../Modal/Modal';
+import Comment from '../../Modals/Comment/Comment';
 
 const Footer = (props) => {
   const { tweet, socket, handleOpenCommentModal } = props;
@@ -57,7 +59,6 @@ const Footer = (props) => {
           <FontAwesomeIcon icon={faCommentAlt} style={{ fontSize: '1rem', color: '#6e767d' }} />
           <span className='counter'>{comments > 0 && comments}</span>
         </div>
-
         <div
           className={styles.forwardsIcon}
           onClick={() => retweetHandle(tweet._id)}

@@ -5,7 +5,6 @@ import { Link, useHistory } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown';
 import Comment from '../../Modals/Comment/Comment';
 import { commentOnTweet } from '../../functions/tweet';
-import { removeTweet } from '../../functions/tweet';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import date from 'date-and-time';
@@ -16,10 +15,9 @@ import styles from './Card.module.css';
 import Modal from '../Modal/Modal';
 import Options from '../../Modals/Options/Options';
 import Footer from './Footer';
-import Loader from '../Elements/Loader/Loader';
 
 const Card = (props) => {
-  const { expand, tweet, loading } = props;
+  const { expand, tweet } = props;
   const { current: profile } = useRef(tweet.user);
 
   const [openCommentModal, setOpenCommentModal] = useState(false);
@@ -160,7 +158,7 @@ const Card = (props) => {
       </div>
       <Footer tweet={tweet} socket={socket} handleOpenCommentModal={handleOpenCommentModal} />
       <Modal isOpen={openCommentModal}>
-        <Comment status={tweet} profile={profile} socket={socket} setIsOpen={setOpenCommentModal} />
+        <Comment tweet={tweet} profile={profile} socket={socket} setIsOpen={setOpenCommentModal} />
       </Modal>
     </div>
   );

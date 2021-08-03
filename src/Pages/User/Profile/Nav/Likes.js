@@ -16,7 +16,7 @@ const Likes = (props) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   useEffect(() => {
-    socket.on('status-delete', (id) => {
+    socket.on('feed-reload', (id) => {
       if (id === socket.id) {
         loadLikes();
       }

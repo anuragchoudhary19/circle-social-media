@@ -6,11 +6,11 @@
 }
 .textarea textarea {
   width: 100%;
-  min-height: 4rem;
+  min-height: fit-content;
   color: var(--color);
   background-color: transparent;
   resize: none;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: none;
   overflow: auto;
   outline: none;

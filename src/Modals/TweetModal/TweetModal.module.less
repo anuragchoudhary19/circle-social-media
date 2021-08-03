@@ -8,17 +8,17 @@
   justify-content: center;
   align-items: center;
   color: var(--color);
-  background-color: fade(white, 20%);
+  background-color: var(--backdrop-color);
 }
 .modal {
   display: flex;
   flex-direction: column;
-  margin-top: 15vh;
+  margin-top: 10vh;
   margin-bottom: auto;
   max-width: 600px;
   height: fit-content;
   background-color: var(--background-color);
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
   @media (max-width: 768px) {
     width: 95%;
   }
@@ -55,13 +55,25 @@
   }
 }
 .close {
-  color: #f1f1f1;
+  color: var(--primary-color);
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  height: 50px;
+  height: 3rem;
   font-size: 1.5rem;
+  padding: 1rem;
   border-bottom: 1px solid hsl(0, 0%, 30%);
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    &:hover {
+      background-color: var(--primary-hover-color);
+    }
+  }
 }
 
 .button {

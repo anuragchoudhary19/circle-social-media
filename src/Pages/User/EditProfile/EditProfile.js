@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 //
 import { updateUser, getUser } from '../../../functions/user';
-import { uploadImage, deleteImage } from '../../../FileUploads/images';
+import { uploadImage } from '../../../FileUploads/images';
 //
 import Input from '../../../Components/Elements/Input/Input';
 import Button from '../../../Components/Elements/Button/Button';
@@ -24,12 +23,11 @@ const EditProfile = ({ closeModal }) => {
     background: '',
   };
   const [info, setInfo] = useState(initialState);
+  const [uploading, setUploading] = useState({ background: false, photo: false });
   const [error, setError] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [processing, setProcessing] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
-  const history = useHistory();
-  const dispatch = useDispatch();
   const close = () => {
     closeModal();
   };
@@ -54,14 +52,21 @@ const EditProfile = ({ closeModal }) => {
   };
 
   const imageUploadHandle = (e, label) => {
-    setError({ ...error, image: '' });
-    if (e.target.files[0].size <= 2000000) {
-      uploadImage(e.target.files[0], user.token, label).then((res) => {
-        setInfo({ ...info, [label]: res });
-      });
-    } else {
-      setError({ ...error, image: 'Image must be less than 2MB' });
+    setError({ ...error, background: '', photo: '' });
+    if (e.target.files[0].size > 2000000) {
+      setError({ ...error, [label]: 'Image must be less than 2MB' });
+      return;
     }
+    setUploading({ ...uploading, [label]: true });
+    uploadImage(e.target.files[0], user.token, label)
+      .then((res) => {
+        setUploading({ ...uploading, [label]: false });
+        setInfo({ ...info, [label]: res });
+      })
+      .catch((err) => {
+        setUploading({ ...uploading, [label]: false });
+        setInfo({ ...info, [label]: '' });
+      });
   };
   const updateProfileHandle = (e) => {
     e.preventDefault();
@@ -76,31 +81,19 @@ const EditProfile = ({ closeModal }) => {
     setProcessing(true);
     updateUser(info, user.token)
       .then((res) => {
-        console.log(res.data);
-        setProcessing(false);
-        // setInfo(res.data.user);
-        window.localStorage.setItem('user', JSON.stringify({ ...user, ...res.data.updatedUser }));
-        dispatch({
-          type: 'LOGGED_IN_USER',
-          payload: { ...user, ...res.data.updatedUser },
-        });
-        return res.data.updatedUser;
-      })
-      .then((updatedUser) => {
-        history.replace(`/${updatedUser.username}`);
+        window.location.replace(`/${res.data.username}`);
       })
       .then(() => {
         close();
       })
       .catch((err) => {
         setProcessing(false);
-        console.log(err);
       });
   };
   const loadImage = (info, label) => {
     return (
-      <>
-        <img src={info.url} alt={label} />
+      <div>
+        {info?.url && <img src={info.url} alt={label} />}
         <FontAwesomeIcon
           icon={faCamera}
           style={{
@@ -109,50 +102,53 @@ const EditProfile = ({ closeModal }) => {
             zIndex: '1',
           }}
         />
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faTimes}
           style={{
             position: 'absolute',
-            bottom: '1rem',
+            top: '-0.5rem',
+            right: '-0.7rem',
             cursor: 'pointer',
             zIndex: '1',
           }}
           onClick={() => removeImage(info.public_id, label)}
-        />
-      </>
+        /> */}
+      </div>
     );
   };
-  const removeImage = (id, label) => {
-    console.log(id);
-    deleteImage(id, user.token).then((res) => {
-      setInfo({ ...info, [label]: '' });
-    });
-  };
+  // const removeImage = (id, label) => {
+  //   console.log(id);
+  //   deleteImage(id, user.token).then((res) => {
+  //     setInfo({ ...info, [label]: '' });
+  //   });
+  // };
   return (
     <div className={styles.backdrop}>
       <form className={styles.modal}>
-        <div className={styles.close}>
-          <FontAwesomeIcon
-            icon={faTimes}
-            style={{ marginLeft: 'auto', marginRight: '10px', cursor: 'pointer' }}
-            onClick={close}
-          />
-        </div>
         <header>
           <h2>Edit Profile</h2>
+          <div className={styles.close}>
+            <FontAwesomeIcon
+              icon={faTimes}
+              style={{ marginLeft: 'auto', marginRight: '10px', cursor: 'pointer' }}
+              onClick={close}
+            />
+          </div>
         </header>
-        <section className={styles.images}>
-          <div>
-            <label className={styles.background}>
+        <div className={styles.images}>
+          <div className={styles.background}>
+            <label>
               <input type='file' hidden accept='image/*' onChange={(e) => imageUploadHandle(e, 'background')} />
-              {loading ? <Loader /> : info?.background?.url ? loadImage(info?.background, 'background') : '+'}
+              {uploading.background ? <Loader /> : loadImage(info?.background, 'background')}
             </label>
           </div>
-          <label className={styles.photo}>
-            <input type='file' hidden accept='image/*' onChange={(e) => imageUploadHandle(e, 'photo')} />
-            {loading ? <Loader /> : info?.photo?.url ? loadImage(info?.photo, 'photo') : '+'}
-          </label>
-        </section>
+          <div className={styles.photo}>
+            <label>
+              <input type='file' hidden accept='image/*' onChange={(e) => imageUploadHandle(e, 'photo')} />
+              {uploading.photo ? <Loader /> : loadImage(info?.photo, 'photo')}
+            </label>
+          </div>
+        </div>
         {error.image && <span className={styles.error}>{error.image}</span>}
         <div className={styles.form}>
           <div>

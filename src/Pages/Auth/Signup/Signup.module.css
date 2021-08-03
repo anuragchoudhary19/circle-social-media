@@ -78,7 +78,21 @@
   padding: 0.5rem;
 }
 .success {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.success > div:first-child {
   background-color: rgba(173, 255, 47, 0.4);
   color: greenyellow;
   padding: 0.5rem;
+}
+.success > a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: var(--color);
+  font-weight: bold;
+}
+.success > a:hover {
+  text-decoration: underline;
 }

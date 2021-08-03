@@ -8,22 +8,21 @@ import TextArea from '../../Components/Elements/TextArea/TextArea';
 import Button from '../../Components/Elements/Button/Button';
 
 const initialState = { tweet: '', photo: { photo_id: '', public_url: '' }, video: '' };
-const Comment = ({ status, profile, socket, setIsOpen }) => {
+const Comment = ({ tweet, profile, socket, setIsOpen }) => {
   const [comment, setComment] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
-
   const closeModal = () => {
     setIsOpen(false);
   };
   const handleComment = () => {
     if (!comment.tweet) return setError('Comment is empty');
     setLoading(true);
-    commentOnTweet(comment, status._id, user.token)
+    commentOnTweet(comment, tweet._id, user.token)
       .then((res) => {
         setLoading(true);
-        socket.emit('update', status._id);
+        socket.emit('update', tweet._id);
         setComment(initialState);
       })
       .then(() => {
@@ -36,11 +35,9 @@ const Comment = ({ status, profile, socket, setIsOpen }) => {
   };
   const commentHandle = (element) => {
     setError('');
-    console.log(element);
     if (element) {
-      const target = element.target ? element.target : element;
-      target.style.height = '50px';
-      target.style.height = `${target.scrollHeight}px`;
+      element.target.style.height = 'fit-content';
+      element.target.style.height = `${element.target.scrollHeight}px`;
     }
     setComment({ ...comment, tweet: element.target.value });
   };
@@ -49,18 +46,16 @@ const Comment = ({ status, profile, socket, setIsOpen }) => {
     <div className={styles.page}>
       <div className={styles.modal}>
         <div className={styles.close}>
-          <FontAwesomeIcon
-            icon={faTimes}
-            style={{ marginLeft: 'auto', marginRight: '10px', cursor: 'pointer' }}
-            onClick={closeModal}
-          />
+          <div>
+            <FontAwesomeIcon icon={faTimes} style={{ cursor: 'pointer' }} onClick={closeModal} />
+          </div>
         </div>
-        <div className={styles.post}>
+        <div className={styles.tweet}>
           <div className={styles.avatar}>
             <img src={profile?.photo?.url} alt='profile' />
           </div>
           <header className={styles.header}>
-            <div className={styles.status}>{status?.tweet}</div>
+            <div className={styles.status}>{tweet?.tweet}</div>
           </header>
         </div>
         <div className={styles.username}>
@@ -70,12 +65,7 @@ const Comment = ({ status, profile, socket, setIsOpen }) => {
           <div className={styles.avatar}>
             <img src={profile?.photo?.url} alt='profile' />
           </div>
-          <TextArea
-            comment={comment.text}
-            placeholder='Reply here...'
-            value={comment.text}
-            onChange={(e) => commentHandle(e)}
-          />
+          <TextArea placeholder='Reply here...' value={comment?.text} onChange={(e) => commentHandle(e)} />
         </div>
         {error && (
           <div className={styles.error} style={{ color: 'red' }}>
@@ -83,7 +73,7 @@ const Comment = ({ status, profile, socket, setIsOpen }) => {
           </div>
         )}
         <div className={styles.postButton}>
-          <Button btnSize='sm' loading={loading} onClick={handleComment}>
+          <Button btnSize='sm' btnStyle='primarySolid' loading={loading} onClick={handleComment}>
             Reply
           </Button>
         </div>

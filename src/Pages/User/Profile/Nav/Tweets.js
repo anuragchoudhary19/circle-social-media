@@ -13,7 +13,7 @@ const Statuses = ({ userId, user }) => {
   const [loading, setLoading] = useState(false);
   const socket = useContext(SocketContext);
   useEffect(() => {
-    socket.on('status-insert', (id) => {
+    socket.on('feed-reload', (id) => {
       if (id === socket.id) {
         loadTweets();
       }

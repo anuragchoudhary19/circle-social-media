@@ -45,11 +45,13 @@ const TweetModal = ({ user, setIsOpen }) => {
     <div className={styles.page}>
       <div className={styles.modal} draggable='true'>
         <header className={styles.close}>
-          <FontAwesomeIcon
-            icon={faTimes}
-            style={{ marginLeft: 'auto', marginRight: '10px', cursor: 'pointer' }}
-            onClick={closeModal}
-          />
+          <div>
+            <FontAwesomeIcon
+              icon={faTimes}
+              style={{ marginLeft: 'auto', marginRight: '10px', cursor: 'pointer' }}
+              onClick={closeModal}
+            />
+          </div>
         </header>
         <div className={styles.status}>
           <div className={styles.avatar}>

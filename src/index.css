@@ -12,10 +12,11 @@ body {
 
 :root {
   --background-color: hsl(217, 66%, 0%);
+  --backdrop-color: hsla(240, 100%, 60%, 0.1);
   --color: hsl(0, 0%, 90%);
-  --primary-color: hsla(240, 100%, 60%, 0.7);
+  --primary-color: hsla(240, 100%, 60%, 0.9);
   --success-color: hsl(120, 100%, 40%);
-  --button-hover-color: hsla(240, 100%, 60%, 0.9);
+  --button-hover-color: hsla(240, 100%, 60%, 0.7);
   --success-hover-color: hsl(120, 100%, 50%);
   --hover-color: hsl(203, 90%, 8%);
   --danger-color: hsl(0, 100%, 40%);
