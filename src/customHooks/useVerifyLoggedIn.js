@@ -14,14 +14,17 @@ const setUserInReduxStore = (res, dispatch) => {
 export const useVerifyLoggedIn = (token) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    getUser(token)
-      .then((res) => {
-        setUserInLocalStorage(res);
-        setUserInReduxStore(res, dispatch);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (token) {
+      getUser(token)
+        .then((res) => {
+          setUserInLocalStorage(res);
+          setUserInReduxStore(res, dispatch);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     return () => getUser;
   }, [dispatch, token]);
 };
