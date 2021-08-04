@@ -19,7 +19,9 @@ const Home = lazy(() => import('./Pages/User/Home/Home'));
 export const SocketContext = React.createContext();
 
 function App() {
+  const { user } = useSelector((state) => ({ ...state }));
   const [socket, setSocket] = useState();
+  useVerifyLoggedIn(user?.token);
   useEffect(() => {
     setSocket(
       io(process.env.REACT_APP_API_SOCKET_IO_URL, {
