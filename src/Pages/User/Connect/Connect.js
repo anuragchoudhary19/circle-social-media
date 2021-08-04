@@ -17,17 +17,17 @@ const Connect = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const history = useHistory();
   useEffect(() => {
+    const loadProfile = () => {
+      setLoading(true);
+      getAllUsers(user.token).then((res) => {
+        setLoading(false);
+        setUsers(res.data.users);
+        console.log(res.data.users);
+      });
+    };
     loadProfile();
+    return () => loadProfile();
   }, [user]);
-
-  const loadProfile = () => {
-    setLoading(true);
-    getAllUsers(user.token).then((res) => {
-      setLoading(false);
-      setUsers(res.data.users);
-      console.log(res.data.users);
-    });
-  };
 
   return (
     <div className={styles.page}>

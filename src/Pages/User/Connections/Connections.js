@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, NavLink, useLocation, useParams } from 'react-router-dom';
 //
@@ -26,15 +26,7 @@ const Connection = () => {
     border: '0px solid #3333ff',
     borderWidth: '0 0 5px 0',
   };
-  useEffect(() => {
-    if (url.pathname === `/${username}/followers`) {
-      loadFollowers();
-    }
-    if (url.pathname === `/${username}/following`) {
-      loadFollowing();
-    }
-  }, []);
-  const loadFollowers = () => {
+  const loadFollowers = useCallback(() => {
     setLoading(true);
     getFollowers(username, user.token)
       .then((res) => {
@@ -44,8 +36,8 @@ const Connection = () => {
       .catch((err) => {
         setLoading(false);
       });
-  };
-  const loadFollowing = () => {
+  }, [user.token, username]);
+  const loadFollowing = useCallback(() => {
     setLoading(true);
     getFollowing(username, user.token)
       .then((res) => {
@@ -55,7 +47,16 @@ const Connection = () => {
       .catch((err) => {
         setLoading(false);
       });
-  };
+  }, [user.token, username]);
+  useEffect(() => {
+    if (url.pathname === `/${username}/followers`) {
+      loadFollowers();
+    }
+    if (url.pathname === `/${username}/following`) {
+      loadFollowing();
+    }
+  }, [loadFollowers, loadFollowing, url.pathname, username]);
+
   return (
     <div className={styles.page}>
       <Sidebar />

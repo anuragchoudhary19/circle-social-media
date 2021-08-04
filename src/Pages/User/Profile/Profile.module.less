@@ -36,7 +36,12 @@
 }
 .main nav {
   width: 100%;
-  margin-top: 0.25rem;
+  > div {
+    width: 25%;
+    height: fit-content;
+    border: 0px solid #3333ff;
+    border-width: 0 0 5px 0;
+  }
   ul {
     display: flex;
     flex-direction: row;
@@ -51,18 +56,24 @@
       width: 100%;
       cursor: pointer;
       a {
-        padding: 8px;
-        text-align: center;
-        height: 100%;
         width: 100%;
+        text-align: center;
+        padding: 12px 0;
         color: var(--color);
         text-decoration: none;
+        border-radius: 4px;
         &:hover {
           color: var(--primary-color);
           background-color: var(--hover-color);
-          color: hsl(240, 100%, 60%);
+          color: #3333ff;
         }
       }
     }
   }
+}
+.profile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 300px;
 }

@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useParams, Switch, Route, useRouteMatch, NavLink } from 'react-router-dom';
+import { useParams, Switch, Route, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
+//
+import { getProfile } from '../../../functions/user';
+//
 import UserProfile from './UserProfile/UserProfile';
 import Sidebar from '../../../Components/Sidebar/Sidebar';
 import Footer from '../../../Components/Footer/Footer';
-import Loader from '../../../Components/Elements/Loader/Loader';
 import Tweets from './Nav/Tweets';
 import Likes from './Nav/Likes';
 import Replies from './Nav/Replies';
-import { getProfile } from '../../../functions/user';
 import Recommendations from '../Recommendations/Recommendations';
+//
 import styles from './Profile.module.css';
 
 const Profile = () => {
   const { username } = useParams();
   const [profile, setProfile] = useState();
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   const { url, path } = useRouteMatch();
   const history = useHistory();
@@ -26,20 +27,19 @@ const Profile = () => {
     }
   }, [history, user]);
   useEffect(() => {
+    const loadProfile = () => {
+      getProfile(username, user.token)
+        .then((res) => {
+          setProfile(res.data.profile);
+        })
+        .catch((err) => {
+          setError("Couldn't load profile");
+        });
+    };
     loadProfile();
     return () => loadProfile();
   }, [username, user]);
-  const loadProfile = () => {
-    setLoading(true);
-    getProfile(username, user.token)
-      .then((res) => {
-        setProfile(res.data.profile);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
-  };
+
   const style = {
     fontWeight: 'bold',
     color: '#087fc4',
@@ -50,12 +50,15 @@ const Profile = () => {
     <div className={styles.page}>
       <Sidebar />
       <div className={styles.main}>
-        {!profile ? <Loader styles={{ width: '40px', height: '40px' }} /> : <UserProfile profile={profile} />}
+        <div className={styles.profile}>
+          {error && <div style={{ color: 'white', textAlign: 'center' }}>{error}</div>}
+          {profile && <UserProfile profile={profile} />}
+        </div>
         <nav>
           <ul>
             <li>
               <NavLink exact to={`${url}`} activeStyle={style}>
-                Posts
+                Tweets
               </NavLink>
             </li>
             <li>

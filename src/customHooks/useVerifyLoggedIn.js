@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { getUser } from '../functions/user';
 import { useDispatch } from 'react-redux';
 
-const setUserInLocalStorage = (res, token) => {
+const setUserInLocalStorage = (res) => {
   window.localStorage.setItem('user', JSON.stringify({ ...res.data }));
 };
-const setUserInReduxStore = (res, token, dispatch) => {
+const setUserInReduxStore = (res, dispatch) => {
   dispatch({
     type: 'LOGGED_IN_USER',
     payload: { ...res.data },
@@ -16,8 +16,8 @@ export const useVerifyLoggedIn = (token) => {
   useEffect(() => {
     getUser(token)
       .then((res) => {
-        setUserInLocalStorage(res, token);
-        setUserInReduxStore(res, token, dispatch);
+        setUserInLocalStorage(res);
+        setUserInReduxStore(res, dispatch);
       })
       .catch((err) => {
         console.log(err);

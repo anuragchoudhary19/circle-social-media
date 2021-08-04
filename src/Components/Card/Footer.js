@@ -6,8 +6,6 @@ import { faHeart as FaHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RetweetOutlined } from '@ant-design/icons';
 import styles from './Card.module.css';
-import Modal from '../Modal/Modal';
-import Comment from '../../Modals/Comment/Comment';
 
 const Footer = (props) => {
   const { tweet, socket, handleOpenCommentModal } = props;

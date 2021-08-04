@@ -127,13 +127,13 @@
 .status {
   grid-area: status;
   display: flex;
-  overflow-wrap: break-word;
   font-weight: 300;
   color: var(--color);
   padding: 0 0.5rem;
 }
 .status a {
   width: 100%;
+  word-break: break-all;
   text-decoration: none;
   color: var(--color);
   cursor: pointer;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 //
 import Card from '../../../../Components/Card/Card';
@@ -15,18 +15,7 @@ const Likes = (props) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
-  useEffect(() => {
-    socket.on('feed-reload', (id) => {
-      if (id === socket.id) {
-        loadLikes();
-      }
-    });
-  }, []);
-  useEffect(() => {
-    loadLikes();
-    return () => loadLikes();
-  }, [userId]);
-  const loadLikes = () => {
+  const loadLikes = useCallback(() => {
     setLoading(true);
     getLikedTweets(userId, user.token)
       .then((res) => {
@@ -37,7 +26,17 @@ const Likes = (props) => {
         setError('Something went wrong');
         setLoading(false);
       });
-  };
+  }, [userId, user.token]);
+  useEffect(() => {
+    socket.on('fetch-new-list', () => {
+      loadLikes();
+    });
+  }, [socket, loadLikes]);
+  useEffect(() => {
+    loadLikes();
+    return () => loadLikes();
+  }, [userId, user.token, loadLikes]);
+
   if (error) return <div className={styles.statuses}>{error}</div>;
   if (loading)
     return (

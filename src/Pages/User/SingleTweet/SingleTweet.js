@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 //
@@ -22,23 +22,21 @@ const SingleTweet = () => {
   const [error, setError] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const history = useHistory();
-  useEffect(() => {
-    loadTweet();
-    return () => loadTweet;
-  }, [id]);
-
-  const loadTweet = async () => {
+  const loadTweet = useCallback(async () => {
     try {
       setLoading(true);
       const res = await getTweet(id, user.token);
       setTweet(res.data.tweet);
-      console.log(res.data.tweet);
       setLoading(false);
     } catch (error) {
       setError(true);
       setLoading(false);
     }
-  };
+  }, [id, user.token]);
+  useEffect(() => {
+    loadTweet();
+    return () => loadTweet;
+  }, [id, loadTweet]);
   return (
     <div className={styles.page}>
       <Sidebar />
@@ -52,13 +50,10 @@ const SingleTweet = () => {
           <h2>Tweet</h2>
         </header>
         {error && <div>Not Found</div>}
-        {loading && <Loader />}
-        {!loading && tweet && (
-          <div className={styles.card}>
-            <Card tweet={tweet} expand={true} />
-          </div>
-        )}
-        {tweet && <Comments comments={tweet.comments} />}
+        <div className={styles.card}>
+          {loading ? <Loader /> : tweet ? <Card tweet={tweet} expand={true} /> : <div>Not Found</div>}
+        </div>
+        {tweet && <Comments tweetId={tweet._id} />}
       </div>
       <Footer>
         <Recommendations />

@@ -15,7 +15,7 @@ import styles from './Card.module.css';
 import Modal from '../Modal/Modal';
 import Options from '../../Modals/Options/Options';
 import Footer from './Footer';
-
+const initialState = { tweet: '', photo: { photo_id: '', public_url: '' }, video: '' };
 const Card = (props) => {
   const { expand, tweet } = props;
   const { current: profile } = useRef(tweet.user);
@@ -23,7 +23,7 @@ const Card = (props) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const socket = useContext(SocketContext);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [comment, setComment] = useState({ tweet: '', photo: { photo_id: '', public_url: '' }, video: '' });
+  const [comment, setComment] = useState(initialState);
   const [tweetId, setTweetId] = useState('');
   const [error, setError] = useState('');
   const [screen, setScreen] = useState('');
@@ -39,17 +39,19 @@ const Card = (props) => {
     return () => window.removeEventListener('resize', () => setScreen(window.screen.width));
   }, []);
 
-  const handleClick = useCallback((e) => {
-    console.log('click');
-    if (dropdownNode.current?.contains(e.target)) {
-      return;
-    } else if (popupNode.current?.contains(e.target)) {
-      return;
-    } else if (card.current === e.target) {
-      history.push(`/${profile.username}/tweet/${tweet?._id}`);
-    }
-    setTweetId('');
-  }, []);
+  const handleClick = useCallback(
+    (e) => {
+      if (dropdownNode.current?.contains(e.target)) {
+        return;
+      } else if (popupNode.current?.contains(e.target)) {
+        return;
+      } else if (card.current === e.target) {
+        history.push(`/${profile.username}/tweet/${tweet?._id}`);
+      }
+      setTweetId('');
+    },
+    [history, profile.username, tweet._id]
+  );
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
@@ -59,7 +61,7 @@ const Card = (props) => {
     import('../../functions/tweet').then(({ removeTweet }) => {
       removeTweet(id, user.token)
         .then(() => {
-          props.reload();
+          //
         })
         .catch((err) => {
           console.log(err);
@@ -81,7 +83,7 @@ const Card = (props) => {
     commentOnTweet(comment, tweet._id, user.token)
       .then((res) => {
         setBtnLoading(false);
-        setComment('');
+        setComment(initialState);
       })
       .catch((err) => {
         setBtnLoading(false);
@@ -148,7 +150,7 @@ const Card = (props) => {
         </div>
       )}
       <div className={styles.commentArea} data-card={expand}>
-        <TextArea comment={comment} placeholder='Reply here...' onChange={(e) => commentHandle(e)} />
+        <TextArea value={comment.tweet} placeholder='Reply here...' onChange={(e) => commentHandle(e)} />
         <div>
           <Button loading={btnLoading} onClick={handleComment}>
             Reply

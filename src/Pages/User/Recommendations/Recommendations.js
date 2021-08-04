@@ -18,7 +18,7 @@ const Recommendations = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [user.token]);
   const searchHandle = (e) => {
     setText(e.target.value);
     console.log(text);

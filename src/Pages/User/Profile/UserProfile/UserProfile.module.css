@@ -1,20 +1,14 @@
-.profile {
+.header {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-width: 300px;
-}
-.profile > header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: fit-content;
 }
-.follow {
+.follow,
+.editProfile {
   margin-left: auto;
   margin-right: 1rem;
-  width: 150px;
 }
 .images {
   position: relative;
@@ -35,59 +29,51 @@
   border-radius: 50%;
   border: 4px solid var(--background-color);
 }
-.bio {
+.user {
   display: grid;
-  grid-template-areas: 'name name' 'username username' 'status status' 'connections connections' 'date date';
+  grid-template-areas: 'name' 'username' 'status' 'connections' 'date';
   flex-direction: column;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
   grid-template-rows: repeat(1fr, 4);
   width: 100%;
   height: fit-content;
-  padding-left: 0.25rem;
+  justify-content: flex-start;
+  padding-left: 0.5rem;
   margin-top: 1rem;
+  margin-bottom: 1rem;
   color: var(--color);
 }
-.bio .name {
-  display: flex;
-  flex-direction: row;
-}
-.bio .name h3 {
+.user .name {
+  grid-area: name;
   padding: 0 4px;
 }
-.bio .username {
+.user .username {
   grid-area: username;
-  display: flex;
-  flex-direction: row;
   color: hsl(0, 0%, 60%);
-  padding: 4px;
+  padding: 0 4px;
 }
-.bio .status {
+.user .bio {
   grid-area: status;
-  display: flex;
-  flex-direction: row;
-  color: #f1f1f1;
   padding: 4px;
+  margin-top: 1rem;
 }
-.bio .connections {
+.user .connections {
   grid-area: connections;
   display: flex;
   flex-direction: row;
 }
-.bio .connections a {
-  color: #f1f1f1;
+.user .connections a {
+  color: var(--color);
   text-decoration: none;
-  padding: 0.25rem;
+  padding: 4px;
 }
-.bio .connections a:hover {
-  color: hsl(0, 0%, 30%);
+.user .connections a:hover {
+  color: hsl(0, 0%, 70%);
 }
-.bio .connections span {
-  font-weight: bold;
+.user .connections span {
+  font-weight: 600;
 }
-.bio .date {
+.user .date {
   grid-area: date;
-  display: flex;
-  flex-direction: row;
-  color: #f1f1f1;
   padding: 4px;
 }

@@ -32,7 +32,7 @@ const Signup = () => {
       setTimeout(() => {
         if (counter > 0) {
           setCounter((prevValue) => prevValue - 1);
-          setMessage(`Successful! Redirecting to Login Page in ${counter} secs`);
+          setMessage(`Successful! Redirecting to Sign In Page in ${counter} secs`);
         } else {
           history.push('/login');
         }
@@ -69,7 +69,7 @@ const Signup = () => {
           console.log(res.data.message);
           setLoading(false);
           setForm(initialState);
-          setMessage(`Successful! Redirecting to Login Page in ${counter} secs`);
+          setMessage(`Successful! Redirecting to Signin Page in ${counter} secs`);
           setRedirect(true);
         }
       })

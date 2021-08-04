@@ -22,6 +22,7 @@ function App() {
   const { user } = useSelector((state) => ({ ...state }));
   const { current: token } = useRef(user?.token);
   const [socket, setSocket] = useState();
+  useVerifyLoggedIn(token);
   useEffect(() => {
     setSocket(
       io(process.env.REACT_APP_API_SOCKET_IO_URL, {
@@ -30,7 +31,7 @@ function App() {
       })
     );
   }, []);
-  useVerifyLoggedIn(token);
+
   return (
     <Suspense
       fallback={

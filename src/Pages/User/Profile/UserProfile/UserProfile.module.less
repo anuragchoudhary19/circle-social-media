@@ -1,20 +1,15 @@
-.profile {
+.header {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-width: 300px;
-  > header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: fit-content;
-  }
+  justify-content: flex-start;
+  align-items: center;
+  height: fit-content;
 }
-.follow {
+
+.follow,
+.editProfile {
   margin-left: auto;
   margin-right: 1rem;
-  width: 150px;
 }
 .images {
   position: relative;
@@ -35,66 +30,56 @@
     border: 4px solid var(--background-color);
   }
 }
-.bio {
+.user {
   display: grid;
   grid-template-areas:
-    'name name'
-    'username username'
-    'status status'
-    'connections connections'
-    'date date';
+    'name'
+    'username'
+    'status'
+    'connections'
+    'date';
   flex-direction: column;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
   grid-template-rows: repeat(1fr, 4);
   width: 100%;
   height: fit-content;
-  padding-left: 0.25rem;
+  justify-content: flex-start;
+  padding-left: 0.5rem;
   margin-top: 1rem;
+  margin-bottom: 1rem;
   color: var(--color);
   .name {
-    display: flex;
-    flex-direction: row;
-    h3 {
-      padding: 0 4px;
-    }
+    grid-area: name;
+    padding: 0 4px;
   }
   .username {
     grid-area: username;
-    display: flex;
-    flex-direction: row;
     color: hsl(0, 0%, 60%);
-    padding: 4px;
+    padding: 0 4px;
   }
-  .status {
+  .bio {
     grid-area: status;
-    display: flex;
-    flex-direction: row;
-    color: #f1f1f1;
     padding: 4px;
+    margin-top: 1rem;
   }
   .connections {
     grid-area: connections;
     display: flex;
     flex-direction: row;
     a {
-      color: #f1f1f1;
+      color: var(--color);
       text-decoration: none;
-      padding: 0.25rem;
+      padding: 4px;
       &:hover {
-        color: hsl(0, 0%, 30%);
+        color: hsl(0, 0%, 70%);
       }
     }
     span {
-      font-weight: bold;
+      font-weight: 600;
     }
   }
   .date {
     grid-area: date;
-    display: flex;
-    flex-direction: row;
-    color: #f1f1f1;
     padding: 4px;
   }
 }
-
-

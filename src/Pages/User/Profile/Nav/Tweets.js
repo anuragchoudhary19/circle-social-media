@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 //
 import { listTweets } from '../../../../functions/tweet';
 import { SocketContext } from '../../../../App';
@@ -7,22 +7,13 @@ import Card from '../../../../Components/Card/Card';
 import Loader from '../../../../Components/Elements/Loader/Loader';
 import styles from './Tweets.module.css';
 
-const Statuses = ({ userId, user }) => {
+const Tweets = ({ userId, user }) => {
   const [tweets, setTweets] = useState([]);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const socket = useContext(SocketContext);
-  useEffect(() => {
-    socket.on('feed-reload', (id) => {
-      if (id === socket.id) {
-        loadTweets();
-      }
-    });
-  }, []);
-  useEffect(() => {
-    loadTweets();
-  }, [userId]);
-  const loadTweets = () => {
+
+  const loadTweets = useCallback(() => {
     setLoading(true);
     listTweets(userId, user.token)
       .then((res) => {
@@ -33,7 +24,16 @@ const Statuses = ({ userId, user }) => {
         setError('Not Found');
         setLoading(false);
       });
-  };
+  }, [userId, user.token]);
+  useEffect(() => {
+    socket.on('fetch-new-list', () => {
+      loadTweets();
+    });
+  }, [socket, loadTweets]);
+  useEffect(() => {
+    loadTweets();
+    return () => loadTweets();
+  }, [userId, user.token, loadTweets]);
   if (loading)
     return (
       <div className={styles.statuses}>
@@ -46,7 +46,7 @@ const Statuses = ({ userId, user }) => {
       {tweets.length > 0 ? (
         tweets.map((tweet) => (
           <div className={styles.card} key={tweet._id}>
-            <Card tweet={tweet} reload={loadTweets} expand={false} />
+            <Card tweet={tweet} expand={false} />
           </div>
         ))
       ) : (
@@ -56,4 +56,4 @@ const Statuses = ({ userId, user }) => {
   );
 };
 
-export default Statuses;
+export default Tweets;

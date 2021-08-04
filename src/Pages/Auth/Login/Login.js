@@ -26,7 +26,7 @@ const Login = () => {
     } else {
       history.push('/');
     }
-  }, []);
+  }, [history, user.token]);
   const handleEmail = (e) => {
     setEmailError('');
     setEmail(e.target.value);

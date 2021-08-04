@@ -15,6 +15,11 @@ export const getTweet = async (tweetId, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+export const getTweetComments = async (tweetId, token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/tweet/comments/${tweetId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
 
 export const getReplies = async (userId, token) => {
   return await axios.get(`${process.env.REACT_APP_API}/tweets/replies/${userId}`, {
@@ -64,7 +69,6 @@ export const retweetTweet = async (tweetId, token) => {
   );
 };
 export const commentOnTweet = async (comment, tweetId, token) => {
-  console.log(comment);
   return await axios.post(
     `${process.env.REACT_APP_API}/tweet/comment/${tweetId}`,
     { comment },

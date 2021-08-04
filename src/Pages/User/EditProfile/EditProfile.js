@@ -25,27 +25,25 @@ const EditProfile = ({ closeModal }) => {
   const [info, setInfo] = useState(initialState);
   const [uploading, setUploading] = useState({ background: false, photo: false });
   const [error, setError] = useState(initialState);
-  const [loading, setLoading] = useState(false);
   const [processing, setProcessing] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const close = () => {
     closeModal();
   };
   useEffect(() => {
+    const loadProfile = () => {
+      getUser(user.token)
+        .then((res) => {
+          setInfo(res.data);
+        })
+        .catch((err) => {
+          //
+        });
+    };
     loadProfile();
-  }, []);
+    return () => loadProfile();
+  }, [user.token]);
 
-  const loadProfile = () => {
-    setLoading(true);
-    getUser(user.token)
-      .then((res) => {
-        setLoading(false);
-        setInfo(res.data);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
-  };
   const handleChange = (label) => (e) => {
     setError('');
     setInfo({ ...info, [label]: e.target.value });
