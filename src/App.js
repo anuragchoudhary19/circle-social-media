@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense, useState, useRef } from 'react';
+import React, { useEffect, lazy, Suspense, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
@@ -20,9 +20,8 @@ export const SocketContext = React.createContext();
 
 function App() {
   const { user } = useSelector((state) => ({ ...state }));
-  const { current: token } = useRef(user?.token);
   const [socket, setSocket] = useState();
-  useVerifyLoggedIn(token);
+  useVerifyLoggedIn(user.token);
   useEffect(() => {
     setSocket(
       io(process.env.REACT_APP_API_SOCKET_IO_URL, {
