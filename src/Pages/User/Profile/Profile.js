@@ -26,22 +26,17 @@ const Profile = () => {
       history.push('/');
     }
   }, [history, user]);
-  const loadProfile = useCallback(() => {
-    getProfile(username, user.token)
-      .then((res) => {
-        setProfile(res.data.profile);
-      })
-      .catch((err) => {
-        setError("Couldn't load profile");
-      });
+  const loadProfile = useCallback(async () => {
+    try {
+      let res = await getProfile(username, user.token);
+      setProfile({ ...res.data.profile });
+    } catch (e) {
+      setError("Couldn't load profile");
+    }
   }, [user.token, username]);
   useEffect(() => {
     loadProfile();
-    return () => {
-      loadProfile();
-      setProfile();
-      setError('');
-    };
+    return () => loadProfile();
   }, [username, user, loadProfile]);
 
   const style = {
@@ -56,7 +51,7 @@ const Profile = () => {
       <div className={styles.main}>
         <div className={styles.profile}>
           {error && <div style={{ color: 'white', textAlign: 'center' }}>{error}</div>}
-          {profile && <UserProfile profile={profile} />}
+          {profile?._id && <UserProfile profile={profile} />}
         </div>
         <nav>
           <ul>
@@ -82,7 +77,7 @@ const Profile = () => {
             </li>
           </ul>
         </nav>
-        {profile && (
+        {profile?._id && (
           <Switch>
             <Route exact path={`${path}`} component={() => <Tweets userId={profile._id} user={user} />} />
             <Route
