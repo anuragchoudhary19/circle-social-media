@@ -26,11 +26,10 @@ const Footer = (props) => {
     });
   }, [socket, tweet._id]);
   const likeHandle = (statusId) => {
-    setLiked(!liked);
     import('../../functions/tweet').then(({ likeTweet }) => {
       likeTweet(statusId, user.token)
         .then((res) => {
-          console.log(res);
+          setLiked(!liked);
         })
         .catch((err) => {
           console.log(err);
@@ -38,11 +37,10 @@ const Footer = (props) => {
     });
   };
   const retweetHandle = (postId) => {
-    setReweeted(!retweeted);
     import('../../functions/tweet').then(({ retweetTweet }) => {
       retweetTweet(postId, user.token)
         .then((res) => {
-          console.log(res);
+          setReweeted(!retweeted);
         })
         .catch((err) => {
           console.log(err);
