@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, Switch, Route, useRouteMatch, NavLink, useHistory } from 'react-router-dom';
 //
@@ -15,30 +15,34 @@ import Recommendations from '../Recommendations/Recommendations';
 import styles from './Profile.module.css';
 
 const Profile = () => {
-  const { username } = useParams();
   const [profile, setProfile] = useState();
   const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   const { url, path } = useRouteMatch();
+  const { username } = useParams();
   const history = useHistory();
   useEffect(() => {
     if (!user?.token) {
       history.push('/');
     }
   }, [history, user]);
+  const loadProfile = useCallback(() => {
+    getProfile(username, user.token)
+      .then((res) => {
+        setProfile(res.data.profile);
+      })
+      .catch((err) => {
+        setError("Couldn't load profile");
+      });
+  }, [user.token, username]);
   useEffect(() => {
-    const loadProfile = () => {
-      getProfile(username, user.token)
-        .then((res) => {
-          setProfile(res.data.profile);
-        })
-        .catch((err) => {
-          setError("Couldn't load profile");
-        });
-    };
     loadProfile();
-    return () => loadProfile();
-  }, [username, user]);
+    return () => {
+      loadProfile();
+      setProfile();
+      setError('');
+    };
+  }, [username, user, loadProfile]);
 
   const style = {
     fontWeight: 'bold',

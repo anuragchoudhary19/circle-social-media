@@ -32,7 +32,12 @@ const Tweets = ({ userId, user }) => {
   }, [socket, loadTweets]);
   useEffect(() => {
     loadTweets();
-    return () => loadTweets();
+    return () => {
+      loadTweets();
+      setLoading(false);
+      setTweets([]);
+      setError('');
+    };
   }, [userId, user.token, loadTweets]);
   if (loading)
     return (

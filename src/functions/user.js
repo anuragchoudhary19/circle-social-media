@@ -46,6 +46,17 @@ export const updateUser = (userData, token) => {
     }
   );
 };
+export const changePassword = (password, token) => {
+  return axios.put(
+    `${process.env.REACT_APP_API}/user/changePassword`,
+    { password },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
 export const removeImage = async (image, token) => {
   return await axios.delete(`${process.env.REACT_APP_API}/user/delete-image/${image}`, {
     headers: { Authorization: `Bearer ${token}` },

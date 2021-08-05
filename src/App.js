@@ -11,7 +11,7 @@ const Signup = lazy(() => import('./Pages/Auth/Signup/Signup'));
 const Login = lazy(() => import('./Pages/Auth/Login/Login'));
 const Profile = lazy(() => import('./Pages/User/Profile/Profile'));
 const SingleTweet = lazy(() => import('./Pages/User/SingleTweet/SingleTweet'));
-const Settings = lazy(() => import('./Pages/User/Settings'));
+const Settings = lazy(() => import('./Pages/User/Settings/Settings'));
 const Connect = lazy(() => import('./Pages/User/Connect/Connect'));
 const Connections = lazy(() => import('./Pages/User/Connections/Connections'));
 const Home = lazy(() => import('./Pages/User/Home/Home'));

@@ -110,7 +110,7 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <Button onClick={handleStatusModal}>Status</Button>
+            <Button onClick={handleStatusModal}>Tweet</Button>
           </li>
           <li>
             <Button onClick={handleLogout}>Logout</Button>
