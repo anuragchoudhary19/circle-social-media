@@ -30,7 +30,7 @@ const Footer = (props) => {
     import('../../functions/tweet').then(({ likeTweet }) => {
       likeTweet(statusId, user.token)
         .then((res) => {
-          //
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -42,7 +42,7 @@ const Footer = (props) => {
     import('../../functions/tweet').then(({ retweetTweet }) => {
       retweetTweet(postId, user.token)
         .then((res) => {
-          //
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);

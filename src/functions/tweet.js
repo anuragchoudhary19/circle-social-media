@@ -69,7 +69,7 @@ export const retweetTweet = async (tweetId, token) => {
   );
 };
 export const commentOnTweet = async (comment, tweetId, token) => {
-  return await axios.post(
+  return await axios.put(
     `${process.env.REACT_APP_API}/tweet/comment/${tweetId}`,
     { comment },
     {
