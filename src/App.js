@@ -1,8 +1,8 @@
-import React, { useEffect, lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { io } from 'socket.io-client';
 import { useVerifyLoggedIn } from './customHooks/useVerifyLoggedIn';
+import { SocketProvider } from './SocketProvider';
 
 import LoadingPage from './Components/LoadingPage/LoadingPage';
 import './App.css';
@@ -20,16 +20,7 @@ export const SocketContext = React.createContext();
 
 function App() {
   const { user } = useSelector((state) => ({ ...state }));
-  const [socket, setSocket] = useState();
   useVerifyLoggedIn(user?.token);
-  useEffect(() => {
-    setSocket(
-      io(process.env.REACT_APP_API_SOCKET_IO_URL, {
-        transports: ['websocket', 'polling', 'flashsocket'],
-        credentials: true,
-      })
-    );
-  }, []);
 
   return (
     <Suspense
@@ -38,7 +29,7 @@ function App() {
           <LoadingPage />
         </div>
       }>
-      <SocketContext.Provider value={socket}>
+      <SocketProvider id={user ? user._id : ''}>
         <div className='App' id='App'>
           <Switch>
             <Route exact path='/' component={Login} />
@@ -53,7 +44,7 @@ function App() {
             <PrivateRoute path='/:username' component={Profile} />
           </Switch>
         </div>
-      </SocketContext.Provider>
+      </SocketProvider>
     </Suspense>
   );
 }

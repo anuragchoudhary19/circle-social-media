@@ -12,7 +12,6 @@ const TweetModal = ({ user, setIsOpen }) => {
   const [tweet, setTweet] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
   const closeModal = () => {
     setIsOpen(false);
   };

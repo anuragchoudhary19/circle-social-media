@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 //
 import Card from '../../../../Components/Card/Card';
 import Loader from '../../../../Components/Elements/Loader/Loader';
 //
-import { SocketContext } from '../../../../App';
+import { useSocket } from '../../../../SocketProvider';
 import { getLikedTweets } from '../../../../functions/tweet';
 import styles from './Tweets.module.css';
 
 const Likes = (props) => {
   const { userId } = props;
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const [likes, setLikes] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,10 +28,15 @@ const Likes = (props) => {
       });
   }, [userId, user.token]);
   useEffect(() => {
-    socket.on('fetch-new-list', () => {
-      loadLikes();
+    socket.on('unlike', (unLikedBy, tweetId) => {
+      if (unLikedBy === userId) {
+        setLikes((prevValue) => [...prevValue.filter((item) => item._id !== tweetId)]);
+      }
     });
-  }, [socket, loadLikes]);
+    socket.on('tweet-deleted', (tweetId) => {
+      setLikes((prevValue) => [...prevValue.filter((item) => item._id !== tweetId)]);
+    });
+  }, [socket, userId]);
   useEffect(() => {
     loadLikes();
     return () => loadLikes();

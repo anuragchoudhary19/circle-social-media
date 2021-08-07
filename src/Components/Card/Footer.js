@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 //
+import { useSocket } from '../../SocketProvider';
+//
 import { faHeart, faCommentAlt } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as FaHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,20 +10,34 @@ import { RetweetOutlined } from '@ant-design/icons';
 import styles from './Card.module.css';
 
 const Footer = (props) => {
-  const { tweet, socket, handleOpenCommentModal } = props;
+  const { tweet, handleOpenCommentModal } = props;
   const [liked, setLiked] = useState(tweet.liked);
   const [retweeted, setReweeted] = useState(tweet.retweeted);
   const [likes, setLikes] = useState(tweet.likes.length);
   const [retweets, setRetweets] = useState(tweet.retweets.length);
   const [comments, setComments] = useState(tweet.comments.length);
+  const socket = useSocket();
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    socket.on('tweet-update', (updatedStatus) => {
-      if (updatedStatus.id === tweet._id) {
-        setComments(updatedStatus.comments);
-        setRetweets(updatedStatus.retweets);
-        setLikes(updatedStatus.likes);
+    socket.on(`liked ${tweet._id}`, () => {
+      setLikes((prevValue) => prevValue + 1);
+    });
+    socket.on(`unliked ${tweet._id}`, () => {
+      setLikes((prevValue) => prevValue - 1);
+    });
+    socket.on(`retweet ${tweet._id}`, () => {
+      setRetweets((prevValue) => prevValue + 1);
+    });
+    socket.on(`undo-retweet ${tweet._id}`, () => {
+      setRetweets((prevValue) => prevValue - 1);
+    });
+    socket.on(`comment on ${tweet._id}`, () => {
+      setComments((prevValue) => prevValue + 1);
+    });
+    socket.on('delete-comment', (userId, result) => {
+      if (result.repliedTo === tweet._id) {
+        setComments((prevValue) => prevValue - 1);
       }
     });
   }, [socket, tweet._id]);

@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 //
 import { getFeed } from '../../../functions/tweet';
-import { SocketContext } from '../../../App';
+import { useSocket } from '../../../SocketProvider';
 //
 import Loader from '../../../Components/Elements/Loader/Loader';
 import styles from './Home.module.css';
 import Card from '../../../Components/Card/Card';
 
 const Feed = () => {
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const [feed, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

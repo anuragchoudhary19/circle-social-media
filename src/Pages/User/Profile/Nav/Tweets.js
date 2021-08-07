@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 //
 import { listTweets } from '../../../../functions/tweet';
-import { SocketContext } from '../../../../App';
+import { useSocket } from '../../../../SocketProvider';
 //
 import Card from '../../../../Components/Card/Card';
 import Loader from '../../../../Components/Elements/Loader/Loader';
@@ -11,7 +11,7 @@ const Tweets = ({ userId, user }) => {
   const [tweets, setTweets] = useState([]);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
 
   const loadTweets = useCallback(() => {
     setLoading(true);
@@ -26,10 +26,13 @@ const Tweets = ({ userId, user }) => {
       });
   }, [userId, user.token]);
   useEffect(() => {
-    socket.on('fetch-new-list', () => {
-      loadTweets();
+    socket.on(`new tweet on profile ${userId}`, (tweet) => {
+      setTweets((prevValue) => [tweet, ...prevValue]);
     });
-  }, [socket, loadTweets]);
+    socket.on('tweet-deleted', (tweetId) => {
+      setTweets((prevValue) => [...prevValue.filter((item) => item._id !== tweetId)]);
+    });
+  }, [socket, userId]);
   useEffect(() => {
     loadTweets();
     return () => {

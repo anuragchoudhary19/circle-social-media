@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { SocketContext } from '../../App';
+import { useSocket } from '../../SocketProvider';
 import { Link, useHistory } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown';
 import Comment from '../../Modals/Comment/Comment';
@@ -21,7 +21,7 @@ const Card = (props) => {
   const { current: profile } = useRef(tweet.user);
 
   const [openCommentModal, setOpenCommentModal] = useState(false);
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const [btnLoading, setBtnLoading] = useState(false);
   const [comment, setComment] = useState(initialState);
   const [tweetId, setTweetId] = useState('');
@@ -158,7 +158,7 @@ const Card = (props) => {
         </div>
         {error && <span>*{error}</span>}
       </div>
-      <Footer tweet={tweet} socket={socket} handleOpenCommentModal={handleOpenCommentModal} />
+      <Footer tweet={tweet} handleOpenCommentModal={handleOpenCommentModal} />
       <Modal isOpen={openCommentModal}>
         <Comment tweet={tweet} profile={profile} socket={socket} setIsOpen={setOpenCommentModal} />
       </Modal>
