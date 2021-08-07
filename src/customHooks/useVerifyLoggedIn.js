@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getUser } from '../functions/user';
 import { logout } from '../functions/auth';
