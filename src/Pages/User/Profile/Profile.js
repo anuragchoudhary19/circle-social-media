@@ -20,7 +20,6 @@ const Profile = () => {
   const [profile, setProfile] = useState();
   const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
-  // const [showHeader, setShowHeader] = useState('none');
   const { url, path } = useRouteMatch();
   const { username } = useParams();
   const history = useHistory();
@@ -37,10 +36,11 @@ const Profile = () => {
     }
   }, [history, user]);
   const displayHeader = (e) => {
+    if (e.target.scrollTop < 55) {
+      header.current.style.display = 'none';
+    }
     if (e.target.scrollTop > 200) {
       header.current.style.display = 'flex';
-    } else {
-      header.current.style.display = 'none';
     }
   };
   const loadProfile = useCallback(async () => {
@@ -66,14 +66,14 @@ const Profile = () => {
     <div className={styles.page}>
       <Sidebar />
       <div className={styles.main} ref={node}>
-        <header ref={header}>
+        <div ref={header}>
           <FontAwesomeIcon
             icon={faArrowLeft}
             style={{ fontSize: '1.5rem', color: '#f1f1f1', margin: '0 1rem', cursor: 'pointer' }}
             onClick={() => history.goBack()}
           />
           <h2>Profile</h2>
-        </header>
+        </div>
         <div className={styles.profile}>
           {error && <div style={{ color: 'white', textAlign: 'center' }}>{error}</div>}
           {profile?._id && <UserProfile profile={profile} />}
