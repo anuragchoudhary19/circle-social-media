@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 //
 import Card from '../../../Components/Card/Card';
 import Loader from '../../../Components/Elements/Loader/Loader';
 //
 import { getTweetComments } from '../../../functions/tweet';
-import { SocketContext } from '../../../App';
+import { useSocket } from '../../../SocketProvider';
 //
 import styles from './SingleTweet.module.css';
 
 const Comments = ({ tweetId }) => {
-  const socket = useContext(SocketContext);
-  const [comments, setComments] = useState();
+  const socket = useSocket();
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
@@ -28,10 +28,10 @@ const Comments = ({ tweetId }) => {
     }
   }, [tweetId, user.token]);
   useEffect(() => {
-    socket.on('fetch-new-list', () => {
-      loadComments();
+    socket.on(`comment on ${tweetId}`, (comment) => {
+      setComments((prevValue) => [comment, ...prevValue]);
     });
-  }, [loadComments, socket]);
+  }, [loadComments, socket, tweetId]);
   useEffect(() => {
     loadComments();
     return () => loadComments;
