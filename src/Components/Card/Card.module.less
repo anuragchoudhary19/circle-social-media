@@ -4,46 +4,43 @@
     'avatar header dropdown'
     'avatar status dropdown'
     'avatar footer dropdown';
-  grid-template-rows: 1fr fit-content auto;
-  width: 100%;
+  grid-template-rows: auto 1fr auto;
   height: fit-content;
   justify-content: center;
   align-items: flex-start;
   cursor: pointer;
-  > header,
-  footer {
-    display: flex;
-  }
   @media (max-width: 768px) {
-    grid-template-columns: 65px 1fr 32px;
+    width: 100%;
+    grid-template-columns: 15% 1fr 32px;
   }
   @media (min-width: 769px) {
-    grid-template-columns: 65px 1fr 32px;
-  }
-  &:hover {
-    background-color: hsla(0, 0%, 10%, 0.3);
+    width: 100%;
+    grid-template-columns: 10% 1fr 32px;
+    &:hover {
+      background-color: hsla(0, 0%, 10%, 0.3);
+    }
   }
 }
 .card[data-card='true'] {
-  @media (min-width: 769px) {
-    grid-template-areas:
-      'avatar header dropdown'
-      'avatar status dropdown'
-      'avatar commentArea dropdown'
-      'avatar footer dropdown';
-    height: fit-content;
-    grid-template-columns: 65px 1fr 1.8rem;
-    grid-template-rows: auto auto auto 2rem;
-  }
   @media (max-width: 768px) {
     grid-template-areas:
       'avatar header dropdown'
       'avatar status dropdown'
-      'commentArea commentArea commentArea'
-      'footer footer footer';
+      'avatar footer dropdown'
+      'avatar commentArea dropdown';
     height: fit-content;
-    grid-template-columns: 65px 1fr 1.8rem;
-    grid-template-rows: auto auto auto 2rem;
+    grid-template-columns: 15% 1fr 1.8rem;
+    grid-template-rows: auto auto auto auto;
+  }
+  @media (min-width: 769px) {
+    grid-template-areas:
+      'avatar header dropdown'
+      'avatar status dropdown'
+      'avatar footer dropdown'
+      'avatar commentArea dropdown';
+    height: fit-content;
+    grid-template-columns: 10% 1fr 1.8rem;
+    grid-template-rows: auto auto auto auto;
   }
 }
 .dropdown {
@@ -53,7 +50,8 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: fit-content;
+  height: 32px;
+  border-radius: 50%;
   cursor: pointer;
   &:hover {
     background-color: var(--hover-color);
@@ -64,35 +62,58 @@
 }
 
 .avatar {
+  position: relative;
   grid-area: avatar;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  width: 100%;
   height: 100%;
+  svg:first-child {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+  }
+  svg:nth-child(3) {
+    width: 100%;
+    height: auto;
+  }
+  a {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding-top: 100%;
+  }
   img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     padding: 4px;
     width: 100%;
-    height: 65px;
+    height: 100%;
     border-radius: 50%;
   }
-  > div:first-child {
-    width: 2px;
-    height: 4px;
-    background-color: hsla(0, 0%, 50%, 0.5);
-  }
-  > div {
-    width: 2px;
-    height: 100%;
-    background-color: hsla(0, 0%, 50%, 0.5);
-  }
+}
+.topLine {
+  display: flex;
+  width: 2px;
+  height: 6px;
+  background-color: hsla(0, 0%, 50%, 0.6);
+}
+.bottomLine {
+  display: flex;
+  flex-grow: 1;
+  width: 2px;
+  background-color: hsla(0, 0%, 50%, 0.6);
 }
 
 .header {
   grid-area: header;
   display: grid;
   grid-template-areas: 'name username date';
-  grid-template-columns: auto minmax(12ch, auto) auto;
+  grid-template-columns: auto minmax(fit-content, 50%) auto;
   grid-template-rows: auto;
   justify-content: flex-start;
   height: fit-content;
@@ -118,18 +139,21 @@
     display: flex;
     margin-left: 0.2rem;
     grid-area: username;
-    color: hsl(0, 0%, 40%);
+    color: hsla(0, 0%, 80%, 0.6);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: clip;
     font-weight: 400;
+    > span {
+      margin-left: 0.5rem;
+    }
   }
   .date {
     grid-area: date;
-    margin-left: 0.25rem;
+    margin-left: 0.5rem;
     margin-right: auto;
     width: fit-content;
-    color: #595959;
+    color: hsla(0, 0%, 80%, 0.6);
   }
 }
 
@@ -161,6 +185,7 @@
     justify-content: space-around;
     align-items: center;
     width: 100%;
+    margin-top: 1rem;
     > .commentIcon {
       color: #6e767d;
       @media (min-width: 768px) {
@@ -214,10 +239,10 @@
     }
   }
 }
-.commentArea[data-card='false'] {
+.comment[data-card='false'] {
   display: none;
 }
-.commentArea[data-card='true'] {
+.comment[data-card='true'] {
   grid-area: commentArea;
   display: grid;
   grid-template-areas:
@@ -231,13 +256,14 @@
   margin-bottom: 1rem;
   padding: 0.5rem;
   border: 1px solid hsl(0, 0%, 30%);
+  border-radius: 0.5rem;
   > div:first-child {
     grid-area: textarea;
   }
   > div:nth-child(2) {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     grid-area: button;
   }
   > span {

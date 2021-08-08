@@ -1,32 +1,35 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useSocket } from '../../SocketProvider';
 import { Link, useHistory } from 'react-router-dom';
-import Dropdown from '../Dropdown/Dropdown';
-import Comment from '../../Modals/Comment/Comment';
+//
+import { useSocket } from '../../SocketProvider';
+
 import { commentOnTweet } from '../../functions/tweet';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import date from 'date-and-time';
+//
+import Dropdown from '../Dropdown/Dropdown';
+import Comment from '../../Modals/Comment/Comment';
 import TextArea from '../Elements/TextArea/TextArea';
 import Button from '../Elements/Button/Button';
-
-import styles from './Card.module.css';
 import Modal from '../Modal/Modal';
 import Options from '../../Modals/Options/Options';
 import Footer from './Footer';
+//
+import date from 'date-and-time';
+import styles from './Card.module.css';
+
 const initialState = { tweet: '', photo: { photo_id: '', public_url: '' }, video: '' };
 const Card = (props) => {
+  const socket = useSocket();
   const { expand, tweet } = props;
   const { current: profile } = useRef(tweet.user);
-
   const [openCommentModal, setOpenCommentModal] = useState(false);
-  const socket = useSocket();
   const [btnLoading, setBtnLoading] = useState(false);
   const [comment, setComment] = useState(initialState);
-  const [tweetId, setTweetId] = useState('');
+  const [tweetId, setTweetId] = useState();
   const [error, setError] = useState('');
-  const [screen, setScreen] = useState('');
+  const [screen, setScreen] = useState(window.screen.width);
   const { user } = useSelector((state) => ({ ...state }));
   const card = useRef();
   const dropdownNode = useRef();
@@ -34,7 +37,6 @@ const Card = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    setScreen(window.screen.width);
     window.addEventListener('resize', () => setScreen(window.screen.width));
     return () => window.removeEventListener('resize', () => setScreen(window.screen.width));
   }, []);
@@ -115,27 +117,32 @@ const Card = (props) => {
   return (
     <div className={styles.card} ref={card} data-card={expand}>
       <div className={styles.avatar}>
-        {props.isReply && <div></div>}
+        {props.isReply && <div className={styles.topLine}></div>}
         <Link to={`/${profile.username}`}>
           <img src={profile?.photo?.url} alt='profile' />
         </Link>
-        {props.isTweet && <div></div>}
+        {props.isTweet && <div className={styles.bottomLine}></div>}
       </div>
       <div className={styles.header}>
         <Link to={`/${profile.username}`}>
           <span className={styles.name}>{`${profile.firstname} ${profile.lastname}`}</span>
         </Link>
-        <div className={styles.username}>@{profile.username} .</div>
+        <div className={styles.username}>
+          @{profile.username}
+          <span>&#8226;</span>
+        </div>
         <span className={styles.date}>{checkTime(tweet?.createdAt)}</span>
       </div>
       <div className={styles.status}>
         <Link to={`/${profile.username}/tweet/${tweet?._id}`}>{tweet?.tweet}</Link>
       </div>
       {tweet.user?._id === user._id && (
-        <div className={styles.dropdown} ref={dropdownNode} onClick={() => setTweetId(tweet?._id)}>
-          <FontAwesomeIcon icon={faEllipsisH} />
+        <div className={styles.dropdown}>
+          <div ref={dropdownNode} onClick={() => setTweetId(() => (tweetId !== '' ? '' : tweet._id))}>
+            <FontAwesomeIcon icon={faEllipsisH} />
+          </div>
           {screen > 768 ? (
-            <Dropdown open={tweetId === tweet?._id}>
+            <Dropdown open={tweetId === tweet._id}>
               <div onClick={() => deleteHandle(tweet?._id)}>Delete</div>
             </Dropdown>
           ) : (
@@ -149,7 +156,8 @@ const Card = (props) => {
           )}
         </div>
       )}
-      <div className={styles.commentArea} data-card={expand}>
+      <Footer tweet={tweet} handleOpenCommentModal={handleOpenCommentModal} />
+      <div className={styles.comment} data-card={expand}>
         <TextArea value={comment.tweet} placeholder='Reply here...' onChange={(e) => commentHandle(e)} />
         <div>
           <Button loading={btnLoading} onClick={handleComment}>
@@ -158,7 +166,6 @@ const Card = (props) => {
         </div>
         {error && <span>*{error}</span>}
       </div>
-      <Footer tweet={tweet} handleOpenCommentModal={handleOpenCommentModal} />
       <Modal isOpen={openCommentModal}>
         <Comment tweet={tweet} profile={profile} socket={socket} setIsOpen={setOpenCommentModal} />
       </Modal>

@@ -44,6 +44,21 @@
     border-width: 0px 1px 0px 1px;
   }
 }
+.main > header {
+  z-index: 20;
+  position: sticky;
+  top: 0;
+  display: none;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--color);
+  background: var(--background-color);
+  width: 100%;
+  min-height: 55px;
+  border: 0px solid hsl(0, 0%, 30%);
+  border-width: 0 0 4px 0;
+}
 .main nav {
   width: 100%;
 }
