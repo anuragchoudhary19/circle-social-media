@@ -10,6 +10,8 @@ import { signin } from '../../../functions/auth';
 import styles from './Login.module.css';
 
 const Login = () => {
+  const dummyEmail = 'anurag@gmail.com';
+  const dummyPassword = 'password123';
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
@@ -60,6 +62,26 @@ const Login = () => {
         setError(err.response?.data.error);
       });
   };
+
+  const handleDummySignin = () => {
+    signin(dummyEmail, dummyPassword)
+      .then((res) => {
+        setLoading(false);
+        if (window !== undefined) {
+          localStorage.setItem('user', JSON.stringify(res.data.user));
+        }
+        dispatch({
+          type: 'LOGGED_IN_USER',
+          payload: res.data.user,
+        });
+        history.push(`/home`);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        setError(err.response?.data.error);
+      });
+  };
   return (
     <div className={styles.page}>
       <Logo />
@@ -75,6 +97,10 @@ const Login = () => {
           <br />
           <Button btnStyle='primaryOutline' btnSize='md' loading={loading} onClick={handleSubmit}>
             Sign In
+          </Button>
+          <br />
+          <Button btnStyle='primaryOutline' btnSize='md' loading={loading} onClick={handleDummySignin}>
+            Dummy Sign In
           </Button>
           <div className={styles.signinLink}>
             <Link to={'/signup'}>Sign Up</Link>

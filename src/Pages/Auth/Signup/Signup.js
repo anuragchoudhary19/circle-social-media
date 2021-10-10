@@ -66,7 +66,6 @@ const Signup = () => {
     signup(username, email, password)
       .then((res) => {
         if (res.data.message) {
-          console.log(res.data.message);
           setLoading(false);
           setForm(initialState);
           setMessage(`Successful! Redirecting to Signin Page in ${counter} secs`);
@@ -74,7 +73,7 @@ const Signup = () => {
         }
       })
       .catch((err) => {
-        setError(err.response.data.message);
+        setError(err.response.data.msg);
         setLoading(false);
         setMessage('');
       });

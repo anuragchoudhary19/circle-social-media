@@ -46,7 +46,11 @@ const Feed = () => {
           if (tweet.isReply) {
             card = (
               <div className={styles.card} key={tweet._id}>
-                <Card tweet={tweet.repliedTo} isTweet={true} expand={false} />
+                {tweet.repliedTo ? (
+                  <Card tweet={tweet.repliedTo} isTweet={true} expand={false} />
+                ) : (
+                  <div className={styles.deletedTweet}>This tweet has been deleted.</div>
+                )}
                 <Card tweet={tweet} isReply={true} expand={false} />
               </div>
             );

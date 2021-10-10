@@ -59,7 +59,7 @@ const Card = (props) => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [handleClick]);
 
-  const deleteHandle = async (id) => {
+  const deleteHandle = (id) => {
     import('../../functions/tweet').then(({ removeTweet }) => {
       removeTweet(id, user.token)
         .then(() => {
@@ -137,8 +137,11 @@ const Card = (props) => {
         <Link to={`/${profile.username}/tweet/${tweet?._id}`}>{tweet?.tweet}</Link>
       </div>
       {tweet.user?._id === user._id && (
-        <div className={styles.dropdown}>
-          <div ref={dropdownNode} onClick={() => setTweetId(() => (tweetId !== '' ? '' : tweet._id))}>
+        <div
+          className={styles.dropdown}
+          ref={dropdownNode}
+          onClick={() => setTweetId(() => (tweetId !== '' ? '' : tweet._id))}>
+          <div>
             <FontAwesomeIcon icon={faEllipsisH} />
           </div>
           {screen > 768 ? (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 //
@@ -22,11 +22,21 @@ const Home = () => {
   const [error, setError] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   const history = useHistory();
+  const main = useRef();
   useEffect(() => {
     if (!user?.token) {
       history.push('/');
     }
   }, [history, user]);
+  useEffect(() => {
+    document.addEventListener('keydown', scrollPage);
+    return () => document.removeEventListener('keydown', scrollPage);
+  });
+  const scrollPage = (e) => {
+    if (e.code === 'Home') {
+      main.current.scrollTop = 0;
+    }
+  };
   const handleTweet = (element) => {
     setError('');
     setTweet(element.target.value);
@@ -47,7 +57,7 @@ const Home = () => {
   return (
     <div className={styles.page}>
       <Sidebar />
-      <div className={styles.main}>
+      <div className={styles.main} ref={main}>
         <header>
           <FontAwesomeIcon
             icon={faArrowLeft}

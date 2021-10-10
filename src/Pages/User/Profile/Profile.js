@@ -23,13 +23,22 @@ const Profile = () => {
   const { url, path } = useRouteMatch();
   const { username } = useParams();
   const history = useHistory();
-  const node = useRef();
   const header = useRef();
+  const main = useRef();
   useEffect(() => {
-    const element = node.current;
+    const element = main.current;
     element.addEventListener('scroll', displayHeader);
     return () => element.removeEventListener('scroll', displayHeader);
   }, []);
+  useEffect(() => {
+    document.addEventListener('keydown', scrollPage);
+    return () => document.removeEventListener('keydown', scrollPage);
+  });
+  const scrollPage = (e) => {
+    if (e.code === 'Home') {
+      main.current.scrollTop = 0;
+    }
+  };
   useEffect(() => {
     if (!user?.token) {
       history.push('/');
@@ -65,7 +74,7 @@ const Profile = () => {
   return (
     <div className={styles.page}>
       <Sidebar />
-      <div className={styles.main} ref={node}>
+      <div className={styles.main} ref={main}>
         <div ref={header}>
           <FontAwesomeIcon
             icon={faArrowLeft}

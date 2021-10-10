@@ -11,7 +11,7 @@ body {
 }
 
 :root {
-  --background-color: hsl(217, 66%, 0%);
+  --background-color: hsl(0, 0%, 9%);
   --backdrop-color: hsla(240, 100%, 60%, 0.1);
   --color: hsl(0, 0%, 90%);
   --primary-color: hsla(240, 100%, 60%, 0.9);

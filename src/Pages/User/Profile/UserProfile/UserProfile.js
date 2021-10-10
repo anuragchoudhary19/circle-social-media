@@ -12,6 +12,7 @@ import DefaultBackground from '../../../../images/images.png';
 import styles from './UserProfile.module.css';
 
 const UserProfile = ({ profile }) => {
+  const { firstname, lastname } = profile;
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const { username } = useParams();
   const { user } = useSelector((state) => ({ ...state }));
@@ -37,9 +38,11 @@ const UserProfile = ({ profile }) => {
         </div>
       )}
       <div className={styles.user}>
-        <div className={styles.name}>
-          <h2>{`${profile.firstname} ${profile.lastname}`}</h2>
-        </div>
+        {firstname && (
+          <div className={styles.name}>
+            <h2>{`${firstname} ${lastname || ''}`}</h2>
+          </div>
+        )}
         <span className={styles.username}>
           <h4>@{profile.username}</h4>
         </span>

@@ -29,9 +29,13 @@ const Comments = ({ tweetId }) => {
   }, [tweetId, user.token]);
   useEffect(() => {
     socket.on(`comment on ${tweetId}`, (comment) => {
-      setComments((prevValue) => [comment, ...prevValue]);
+      setComments((prevValue) => [...prevValue, comment]);
     });
-  }, [loadComments, socket, tweetId]);
+    socket.on('tweet-deleted', (commentId) => {
+      console.log(commentId);
+      setComments((prevValue) => [...prevValue.filter((item) => item._id !== commentId)]);
+    });
+  }, [socket, tweetId]);
   useEffect(() => {
     loadComments();
     return () => loadComments;
