@@ -16,6 +16,8 @@
     grid-template-rows: 100vh;
     width: 100%;
     max-width: 1366px;
+    margin-right: calc((100vw - 1366px) / 2);
+    margin-left: auto;
   }
 }
 .main::-webkit-scrollbar {
@@ -39,20 +41,28 @@
     border: 0 solid #454545;
     border-width: 0px 1px 0px 1px;
   }
-  > header {
-    z-index: 20;
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    color: var(--color);
-    background: var(--background-color);
-    width: 100%;
-    min-height: 55px;
-    border: 0px solid hsl(0, 0%, 30%);
-    border-width: 0 0 4px 0;
+}
+.header {
+  z-index: 20;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--color);
+  background: var(--background-color);
+  width: 100%;
+  min-height: 55px;
+  padding: 0 1rem;
+  border: 0px solid hsl(0, 0%, 30%);
+  border-width: 0 0 4px 0;
+  * {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  h2 {
+    margin-left: 1rem;
   }
 }
 
@@ -64,7 +74,7 @@
   margin-top: 0.5rem;
   width: 100%;
   min-height: fit-content;
-  border-bottom: 8px solid hsl(0, 0%, 10%);
+  border-bottom: 4px solid var(--dark-white);
 }
 
 .comments {
@@ -75,16 +85,25 @@
   width: 100%;
   height: fit-content;
   color: var(--color);
-  .error {
-    padding: 1rem;
-  }
-  .card {
+  .commentCard {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 0.5rem;
     width: 100%;
-    border-bottom: 2px solid hsl(0, 0%, 10%);
+    border-bottom: 1px solid var(--dark-white);
   }
+}
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  width: 50%;
+  padding: 0.25rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  color: var(--color);
+  background-color: hsl(0, 0%, 22%);
 }

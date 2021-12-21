@@ -11,6 +11,8 @@
     height: 8vh;
     width: 100%;
     z-index: 1000;
+    border: 0 solid #454545;
+    border-width: 0px 2px 0px 2px;
   }
 }
 @media (min-width: 769px) {
@@ -25,11 +27,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100vw;
   min-width: 100vw;
   height: 100%;
   padding: 1.5rem 0.5rem;
+  border-bottom: 2px solid var(--dark-white);
 }
 @media (min-width: 769px) {
   .sidebar > div:first-child {
@@ -42,23 +45,36 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--background-color);
+  width: calc(100% - 2.5rem);
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  height: auto;
 }
 .dropdown {
   position: relative;
-  background-color: #fff;
   width: 100%;
 }
 .result {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  max-height: 400px;
+  height: fit-content;
   width: 100%;
+  display: block;
+  overflow-y: scroll;
+  overflow-x: hidden;
   border: 2px solid rgba(128, 128, 128, 0.5);
   border-radius: 0.5rem;
   color: var(--color);
   background-color: var(--background-color);
+}
+.result::-webkit-scrollbar {
+  display: none;
 }
 .menu {
   display: flex;

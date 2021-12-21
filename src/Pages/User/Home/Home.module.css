@@ -123,7 +123,7 @@
   align-items: center;
   width: 100%;
   height: fit-content;
-  border-bottom: 1px solid hsla(0, 0%, 50%, 0.5);
+  border-bottom: 1px solid var(--dark-white);
 }
 .deletedTweet {
   display: flex;

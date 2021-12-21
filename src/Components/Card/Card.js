@@ -50,10 +50,7 @@ const Card = (props) => {
     [history, profile.username, tweet._id]
   );
   useEffect(() => {
-    let isMounted = true;
-    if (isMounted) {
-      document.addEventListener('mousedown', handleClick);
-    }
+    document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [handleClick]);
 

@@ -22,11 +22,9 @@ const Connect = () => {
       getAllUsers(user.token).then((res) => {
         setLoading(false);
         setUsers(res.data.users);
-        console.log(res.data.users);
       });
     };
     loadProfile();
-    return () => loadProfile();
   }, [user]);
 
   return (
@@ -45,7 +43,7 @@ const Connect = () => {
           <Loader />
         ) : users?.length ? (
           users.map((user) => (
-            <div key={user._id} className={styles.userCard}>
+            <div key={user._id} className={styles.user}>
               <Usercard profile={user} />
             </div>
           ))

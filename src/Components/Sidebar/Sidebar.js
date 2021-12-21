@@ -15,7 +15,7 @@ import { getSearchedUsers } from '../../functions/user';
 import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Sidebar.module.css';
-import Usercard from '../Usercard/Usercard';
+import Searchcard from '../Usercard/SearchCard';
 
 const Sidebar = () => {
   const socket = useSocket();
@@ -62,20 +62,24 @@ const Sidebar = () => {
   return (
     <div className={styles.sidebar}>
       <div>
-        <FontAwesomeIcon style={{ color: 'blue', fontSize: '2rem' }} icon={faAlignJustify} onClick={toggleSidebar} />
+        <FontAwesomeIcon
+          style={{ color: 'var(--primary-color)', fontSize: '2rem', width: '2.5rem' }}
+          icon={faAlignJustify}
+          onClick={toggleSidebar}
+        />
         <div className={styles.search}>
           <Input type='text' value={query} onChange={searchHandler} placeholder='Search here...' />
-          <div className={styles.dropdown}>
-            {users.length > 0 && (
+          {users.length > 0 && (
+            <div className={styles.dropdown}>
               <div className={styles.result}>
                 {users.map((user) => (
-                  <div key={user._id}>
-                    <Usercard profile={user} />
+                  <div key={user._id} className={styles.list}>
+                    <Searchcard profile={user} />
                   </div>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.menu}>

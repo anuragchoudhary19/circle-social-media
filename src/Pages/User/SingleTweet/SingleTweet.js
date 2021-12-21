@@ -35,23 +35,24 @@ const SingleTweet = () => {
   }, [id, user.token]);
   useEffect(() => {
     loadTweet();
-    return () => loadTweet;
-  }, [id, loadTweet]);
+  }, [loadTweet]);
   return (
     <div className={styles.page}>
       <Sidebar />
       <div className={styles.main}>
-        <header>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            style={{ fontSize: '1.5rem', color: '#f1f1f1', margin: '0 1rem', cursor: 'pointer' }}
-            onClick={() => history.goBack()}
-          />
+        <header className={styles.header}>
+          <FontAwesomeIcon icon={faArrowLeft} onClick={() => history.goBack()} />
           <h2>Tweet</h2>
         </header>
-        {error && <div>Not Found</div>}
+        {error && <div className={styles.error}>This tweet is doesn't exist.</div>}
         <div className={styles.card}>
-          {loading ? <Loader /> : tweet ? <Card tweet={tweet} expand={true} /> : <div>Not Found</div>}
+          {loading ? (
+            <Loader />
+          ) : tweet ? (
+            <Card tweet={tweet} expand={true} />
+          ) : (
+            <div className={styles.error}>This tweet is unavailable.</div>
+          )}
         </div>
         {tweet && <Comments tweetId={tweet._id} />}
       </div>

@@ -1,18 +1,26 @@
 .card {
   display: grid;
   grid-template-areas: 'avatar user button';
-  grid-template-columns: 65px 1fr auto;
+  grid-template-columns: auto 1fr auto;
   grid-template-rows: auto;
   width: 100%;
   height: fit-content;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
+}
+.searchCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem;
 }
 .avatar {
   grid-area: avatar;
-  height: 65px;
-  width: auto;
+  height: 60px;
+  width: 60px;
   padding: 2px;
 }
 .avatar img {
@@ -25,21 +33,24 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: fit-content;
+  max-width: 100%;
   height: fit-content;
   color: var(--color);
   padding: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
 }
 .user a {
   text-decoration: none;
-  color: var(--color);
+  color: hsl(0, 0%, 90%);
   cursor: pointer;
 }
 .user .name {
   font-weight: 700;
 }
 .user .username a {
-  color: #595959;
+  color: hsl(0, 0%, 50%);
 }
 .button {
   grid-area: button;

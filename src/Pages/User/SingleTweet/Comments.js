@@ -40,18 +40,16 @@ const Comments = ({ tweetId }) => {
     loadComments();
     return () => loadComments;
   }, [tweetId, loadComments]);
-
-  return !loading ? (
+  if (loading) return <Loader />;
+  return (
     <div className={styles.comments}>
       {error && <div className={styles.error}>{error}</div>}
       {comments?.map((comment) => (
-        <div className={styles.card} key={comment._id}>
+        <div className={styles.commentCard} key={comment._id}>
           <Card tweet={comment} expand={false} />
         </div>
       ))}
     </div>
-  ) : (
-    <Loader />
   );
 };
 
