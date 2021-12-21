@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../functions/auth';
+import { useSocket } from '../../SocketProvider';
 //
 import Input from '../Elements/Input/Input';
 import Modal from '../Modal/Modal';
@@ -17,6 +18,7 @@ import styles from './Sidebar.module.css';
 import Usercard from '../Usercard/Usercard';
 
 const Sidebar = () => {
+  const socket = useSocket();
   let [open, setOpen] = useState(false);
   let [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState([]);
@@ -36,6 +38,7 @@ const Sidebar = () => {
         type: 'LOGOUT',
         payload: '',
       });
+      socket.emit('end');
       history.push('/');
     });
   };

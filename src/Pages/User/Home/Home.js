@@ -33,6 +33,7 @@ const Home = () => {
     return () => document.removeEventListener('keydown', scrollPage);
   });
   const scrollPage = (e) => {
+    console.log(e);
     if (e.code === 'Home') {
       main.current.scrollTop = 0;
     }

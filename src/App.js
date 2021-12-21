@@ -21,7 +21,6 @@ export const SocketContext = React.createContext();
 function App() {
   const { user } = useSelector((state) => ({ ...state }));
   useVerifyLoggedIn(user?.token);
-
   return (
     <Suspense
       fallback={

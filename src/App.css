@@ -5,7 +5,7 @@
   align-items: center;
   min-height: 100vh;
   max-width: 100vw;
-  background-color: transparent;
+  background-color: var(--background-color);
 }
 .loadingPage {
   display: flex;
@@ -13,4 +13,5 @@
   align-items: center;
   min-height: 100vh;
   max-width: 100vw;
+  background-color: var(--background-color);
 }

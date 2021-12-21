@@ -16,8 +16,9 @@ const Login = () => {
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [error, setError] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [dummyLoading, setDummyLoading] = useState(false);
   const [message, setMessage] = useState('');
   const { user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const Login = () => {
     if (!password) return setPasswordError('Password is required');
     setLoading(true);
     setMessage('');
-    setError('');
+    setLoginError('');
     signin(email, password)
       .then((res) => {
         setLoading(false);
@@ -54,19 +55,23 @@ const Login = () => {
           type: 'LOGGED_IN_USER',
           payload: res.data.user,
         });
+      })
+      .then(() => {
         history.push(`/home`);
       })
       .catch((err) => {
-        console.log(err.response);
         setLoading(false);
-        setError(err.response?.data.error);
+        setLoginError(err.response?.data.error);
       });
   };
 
   const handleDummySignin = () => {
+    setDummyLoading(true);
+    setMessage('');
+    setLoginError('');
     signin(dummyEmail, dummyPassword)
       .then((res) => {
-        setLoading(false);
+        setDummyLoading(false);
         if (window !== undefined) {
           localStorage.setItem('user', JSON.stringify(res.data.user));
         }
@@ -74,12 +79,13 @@ const Login = () => {
           type: 'LOGGED_IN_USER',
           payload: res.data.user,
         });
+      })
+      .then(() => {
         history.push(`/home`);
       })
       .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        setError(err.response?.data.error);
+        setDummyLoading(false);
+        setLoginError(err.response?.data.error);
       });
   };
   return (
@@ -90,16 +96,16 @@ const Login = () => {
           <header>
             <h2>Sign In</h2>
           </header>
-          {error && <div className={styles.error}>{error}</div>}
+          {loginError && <div className={styles.error}>{loginError}</div>}
           {message && <div className={styles.success}>{message}</div>}
-          <Input label='Email' type='email' value={email} error={emailError} onChange={handleEmail} />
+          <Input label='Email' type='email' value={email} error={emailError} onChange={handleEmail} autoFocus={true} />
           <Input label='Password' type='password' value={password} error={passwordError} onChange={handlePassword} />
           <br />
           <Button btnStyle='primaryOutline' btnSize='md' loading={loading} onClick={handleSubmit}>
             Sign In
           </Button>
           <br />
-          <Button btnStyle='primaryOutline' btnSize='md' loading={loading} onClick={handleDummySignin}>
+          <Button btnStyle='primaryOutline' btnSize='md' loading={dummyLoading} onClick={handleDummySignin}>
             Dummy Sign In
           </Button>
           <div className={styles.signinLink}>

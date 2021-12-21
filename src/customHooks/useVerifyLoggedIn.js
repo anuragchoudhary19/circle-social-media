@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getUser } from '../functions/user';
-import { logout } from '../functions/auth';
 import { useDispatch } from 'react-redux';
 
 const setUserInLocalStorage = (res) => {
@@ -27,16 +26,9 @@ export const useVerifyLoggedIn = (token) => {
           console.log(err);
         });
     } else {
-      logout().then((res) => {
-        localStorage.setItem('user', '');
-        dispatch({
-          type: 'LOGOUT',
-          payload: '',
-        });
+      if (history?.location?.pathname !== '/signup') {
         history.push('/');
-      });
+      }
     }
-
-    return () => getUser;
   }, [dispatch, token, history]);
 };

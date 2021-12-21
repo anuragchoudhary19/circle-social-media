@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 //
 import { useSocket } from '../../SocketProvider';
-
 import { commentOnTweet } from '../../functions/tweet';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +12,7 @@ import Comment from '../../Modals/Comment/Comment';
 import TextArea from '../Elements/TextArea/TextArea';
 import Button from '../Elements/Button/Button';
 import Modal from '../Modal/Modal';
+import DropdownModal from '../DropdownModal/DropdownModal';
 import Options from '../../Modals/Options/Options';
 import Footer from './Footer';
 //
@@ -25,21 +25,16 @@ const Card = (props) => {
   const { expand, tweet } = props;
   const { current: profile } = useRef(tweet.user);
   const [openCommentModal, setOpenCommentModal] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [comment, setComment] = useState(initialState);
-  const [tweetId, setTweetId] = useState();
   const [error, setError] = useState('');
-  const [screen, setScreen] = useState(window.screen.width);
+  const [showDropdown, setShowDropdown] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const card = useRef();
   const dropdownNode = useRef();
   const popupNode = useRef();
   const history = useHistory();
-
-  useEffect(() => {
-    window.addEventListener('resize', () => setScreen(window.screen.width));
-    return () => window.removeEventListener('resize', () => setScreen(window.screen.width));
-  }, []);
 
   const handleClick = useCallback(
     (e) => {
@@ -50,12 +45,15 @@ const Card = (props) => {
       } else if (card.current === e.target) {
         history.push(`/${profile.username}/tweet/${tweet?._id}`);
       }
-      setTweetId('');
+      setShowDropdown(false);
     },
     [history, profile.username, tweet._id]
   );
   useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
+    let isMounted = true;
+    if (isMounted) {
+      document.addEventListener('mousedown', handleClick);
+    }
     return () => document.removeEventListener('mousedown', handleClick);
   }, [handleClick]);
 
@@ -63,7 +61,7 @@ const Card = (props) => {
     import('../../functions/tweet').then(({ removeTweet }) => {
       removeTweet(id, user.token)
         .then(() => {
-          //
+          props.loadFeed();
         })
         .catch((err) => {
           console.log(err);
@@ -137,26 +135,18 @@ const Card = (props) => {
         <Link to={`/${profile.username}/tweet/${tweet?._id}`}>{tweet?.tweet}</Link>
       </div>
       {tweet.user?._id === user._id && (
-        <div
-          className={styles.dropdown}
-          ref={dropdownNode}
-          onClick={() => setTweetId(() => (tweetId !== '' ? '' : tweet._id))}>
-          <div>
-            <FontAwesomeIcon icon={faEllipsisH} />
-          </div>
-          {screen > 768 ? (
-            <Dropdown open={tweetId === tweet._id}>
-              <div onClick={() => deleteHandle(tweet?._id)}>Delete</div>
-            </Dropdown>
-          ) : (
-            <Modal isOpen={tweetId === tweet?._id}>
-              <Options>
-                <div onClick={() => deleteHandle(tweet?._id)} ref={popupNode}>
-                  Delete
-                </div>
-              </Options>
-            </Modal>
-          )}
+        <div className={styles.dropdown} ref={dropdownNode} onClick={() => setShowDropdown(true)}>
+          <FontAwesomeIcon icon={faEllipsisH} />
+          <Dropdown open={showDropdown}>
+            <div onClick={() => setOpenConfirmModal(true)}>Delete</div>
+          </Dropdown>
+          <DropdownModal isOpen={showDropdown}>
+            <Options>
+              <div onClick={() => setOpenConfirmModal(true)} ref={popupNode}>
+                Delete
+              </div>
+            </Options>
+          </DropdownModal>
         </div>
       )}
       <Footer tweet={tweet} handleOpenCommentModal={handleOpenCommentModal} />
@@ -171,6 +161,21 @@ const Card = (props) => {
       </div>
       <Modal isOpen={openCommentModal}>
         <Comment tweet={tweet} profile={profile} socket={socket} setIsOpen={setOpenCommentModal} />
+      </Modal>
+      <Modal isOpen={openConfirmModal}>
+        <div className={styles.confirmModal}>
+          <div className={styles.modal}>
+            <p>Are you sure you want to delete this tweet?</p>
+            <div>
+              <Button btnStyle='dangerSolid' btnSize='sm' onClick={() => deleteHandle(tweet?._id)}>
+                Confirm
+              </Button>
+              <Button btnSize='sm' onClick={() => setOpenConfirmModal(false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   );

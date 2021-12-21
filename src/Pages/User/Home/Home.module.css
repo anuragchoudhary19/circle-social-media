@@ -27,13 +27,14 @@
 .main {
   height: 100vh;
   width: 100%;
-  overflow-x: scroll;
+  overflow-y: scroll;
   scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   color: var(--color);
+  overflow-x: hidden;
 }
 @media (max-width: 768px) {
   .main {

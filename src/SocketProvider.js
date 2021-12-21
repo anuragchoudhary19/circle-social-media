@@ -8,15 +8,21 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = ({ id, children }) => {
-  const [socket, setSocket] = useState();
+  const [socket, setSocket] = useState(null);
   useEffect(() => {
-    const newSocket = io(process.env.REACT_APP_API_SOCKET_IO_URL, {
-      transports: ['websocket', 'polling', 'flashsocket'],
-      credentials: true,
-      query: { id },
-    });
-    setSocket(newSocket);
-    return () => newSocket.close();
+    let isMounted = true;
+    let socketConnection;
+    if (isMounted && id !== '') {
+      socketConnection = io(process.env.REACT_APP_API_SOCKET_IO_URL, {
+        transports: ['websocket', 'polling', 'flashsocket'],
+        credentials: true,
+        query: { id },
+      });
+      setSocket(socketConnection);
+    }
+    return () => {
+      setSocket(null);
+    };
   }, [id]);
   return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
 };
