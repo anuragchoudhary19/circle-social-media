@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 //
 import { getReplies } from '../../../../functions/tweet';
-import { SocketContext } from '../../../../App';
+import { useSocket } from '../../../../SocketProvider';
 //
 import Card from '../../../../Components/Card/Card';
 import Loader from '../../../../Components/Elements/Loader/Loader';
@@ -11,7 +11,7 @@ const Replies = ({ userId, user }) => {
   const [tweets, setTweets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const loadReplies = useCallback(() => {
     setLoading(true);
     getReplies(userId, user.token)

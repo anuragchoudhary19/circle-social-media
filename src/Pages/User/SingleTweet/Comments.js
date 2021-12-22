@@ -46,7 +46,7 @@ const Comments = ({ tweetId }) => {
       {error && <div className={styles.error}>{error}</div>}
       {comments?.map((comment) => (
         <div className={styles.commentCard} key={comment._id}>
-          <Card tweet={comment} expand={false} />
+          <Card tweet={comment} expand={false} reload={loadComments} />
         </div>
       ))}
     </div>

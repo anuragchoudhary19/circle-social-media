@@ -47,17 +47,17 @@ const Feed = () => {
             card = (
               <div className={styles.card} key={tweet._id}>
                 {tweet.repliedTo ? (
-                  <Card tweet={tweet.repliedTo} isTweet={true} expand={false} loadFeed={loadFeed} />
+                  <Card tweet={tweet.repliedTo} isTweet={true} expand={false} reload={loadFeed} />
                 ) : (
                   <div className={styles.deletedTweet}>This tweet has been deleted.</div>
                 )}
-                <Card tweet={tweet} isReply={true} expand={false} loadFeed={loadFeed} />
+                <Card tweet={tweet} isReply={true} expand={false} reload={loadFeed} />
               </div>
             );
           } else {
             card = (
               <div className={styles.card} key={tweet._id}>
-                <Card tweet={tweet} expand={false} loadFeed={loadFeed} />
+                <Card tweet={tweet} expand={false} reload={loadFeed} />
               </div>
             );
           }

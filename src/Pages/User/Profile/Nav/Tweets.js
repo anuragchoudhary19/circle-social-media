@@ -54,7 +54,7 @@ const Tweets = ({ userId, user }) => {
       {tweets.length > 0 ? (
         tweets.map((tweet) => (
           <div className={styles.card} key={tweet._id}>
-            <Card tweet={tweet} expand={false} />
+            <Card tweet={tweet} expand={false} reload={loadTweets} />
           </div>
         ))
       ) : (

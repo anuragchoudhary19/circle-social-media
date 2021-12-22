@@ -57,8 +57,9 @@ const Card = (props) => {
   const deleteHandle = (id) => {
     import('../../functions/tweet').then(({ removeTweet }) => {
       removeTweet(id, user.token)
-        .then(() => {
-          props.loadFeed();
+        .then((res) => {
+          setOpenConfirmModal(false);
+          props.reload();
         })
         .catch((err) => {
           console.log(err);

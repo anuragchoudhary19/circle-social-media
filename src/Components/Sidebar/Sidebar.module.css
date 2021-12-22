@@ -96,8 +96,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(241, 241, 241, 0.2);
-    transition: all 0.3s ease-in-out;
+    background-color: hsla(0, 0%, 0%, 0.5);
+    transition: all 0.1s ease-in-out;
   }
 }
 .menu > ul {
@@ -117,7 +117,7 @@
     left: 0;
     justify-content: flex-start;
     align-items: center;
-    transition: all 0.4s ease-in-out;
+    transition: all 0.3s ease-in-out;
     background-color: var(--background-color);
   }
 }
