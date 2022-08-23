@@ -3,7 +3,7 @@ import axios from 'axios';
 export const createTweet = async (tweet, token) => {
   return await axios.post(
     `${process.env.REACT_APP_API}/tweet`,
-    { tweet },
+    { ...tweet },
     {
       headers: { Authorization: `Bearer ${token}` },
     }

@@ -129,8 +129,19 @@ const Card = (props) => {
         </div>
         <span className={styles.date}>{checkTime(tweet?.createdAt)}</span>
       </div>
-      <div className={styles.status}>
-        <Link to={`/${profile.username}/tweet/${tweet?._id}`}>{tweet?.tweet}</Link>
+      <div className={styles.tweet}>
+        <Link className={styles.text} to={`/${profile.username}/tweet/${tweet?._id}`}>
+          {tweet?.tweet}
+        </Link>
+        {tweet?.images.length > 0 && (
+          <div className={styles.images}>
+            {tweet?.images.map((image) => (
+              <div className={styles.image} key={image.public_id}>
+                <img src={image.url} alt='file' />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       {tweet.user?._id === user._id && (
         <div className={styles.dropdown} ref={dropdownNode} onClick={() => setShowDropdown(true)}>

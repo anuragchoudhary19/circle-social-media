@@ -30,13 +30,14 @@
     width: 40%;
   }
 }
-.status {
+.tweet {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
   width: 100%;
   padding: 0.5rem;
+  border-bottom: 2px solid hsla(0, 0%, 35%, 0.5);
 }
 .avatar {
   height: 60px;
@@ -48,14 +49,16 @@
   height: 60px;
   border-radius: 50%;
 }
-.textarea {
+.status {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
   height: fit-content;
   margin-left: 1rem;
 }
-.textarea textarea {
+.status textarea {
   padding: 0.5rem;
 }
 .close {
@@ -66,7 +69,7 @@
   height: 3rem;
   font-size: 1.5rem;
   padding: 1rem;
-  border-bottom: 1px solid hsl(0, 0%, 30%);
+  border-bottom: 2px solid hsla(0, 0%, 35%, 0.5);
 }
 .close > div {
   display: flex;
@@ -79,13 +82,45 @@
 .close > div:hover {
   background-color: var(--primary-hover-color);
 }
-.button {
-  margin: 0.5rem 1rem 0.5rem auto;
-  min-width: 100px;
+.menu {
+  display: grid;
+  grid-template-columns: 1fr 30%;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.5rem;
+  min-width: 100%;
   height: fit-content;
   font-size: 1.2rem;
   cursor: pointer;
 }
-.error {
-  margin-left: 55px;
+.uploadOptions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding-left: 1rem;
+}
+.uploadOptions input {
+  display: none;
+}
+.images {
+  display: flex;
+  width: fit-content;
+  color: white;
+  flex-wrap: wrap;
+}
+.images img {
+  width: 150px;
+  height: 150px;
+  padding: 0.5rem;
+}
+.video {
+  display: flex;
+  width: fit-content;
+  color: white;
+}
+.video video {
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
 }

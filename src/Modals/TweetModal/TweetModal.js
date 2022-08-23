@@ -2,23 +2,35 @@ import React, { useState } from 'react';
 //
 import { createTweet } from '../../functions/tweet';
 //
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faImages } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextArea from '../../Components/Elements/TextArea/TextArea';
 import Button from '../../Components/Elements/Button/Button';
 import styles from './TweetModal.module.css';
+import { uploadImage } from '../../FileUploads/images';
 
 const TweetModal = ({ user, setIsOpen }) => {
   const [tweet, setTweet] = useState('');
+  const [images, setImages] = useState([]);
+  const [video, setVideo] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const closeModal = () => {
     setIsOpen(false);
   };
-  const postStatus = () => {
-    if (!tweet) return setError('Status cannot be empty');
+  const postStatus = async () => {
+    if (!tweet && images.length === 0) return setError('Status cannot be empty');
     setLoading(true);
-    createTweet(tweet, user.token)
+    let imagesLinks;
+    if (images.length > 0) {
+      let promises = [];
+      for (let i = 0; i < images.length; i++) {
+        promises.push(uploadImage(images[i], user.token));
+      }
+      imagesLinks = await Promise.all(promises);
+    }
+
+    createTweet({ tweet, images: imagesLinks }, user.token)
       .then((res) => {
         setLoading(false);
       })
@@ -39,6 +51,31 @@ const TweetModal = ({ user, setIsOpen }) => {
     }
     setTweet(element.target.value);
   };
+  const handleUploadImages = (e) => {
+    console.log(e.target.files);
+    setError('');
+    let selectedFileType = e.target.files[0].type.split('/')[0];
+    for (let i = 1; i < e.target.files.length; i++) {
+      if (selectedFileType !== e.target.files[i].type.split('/')[0]) {
+        setError('Select either 4 images or 1 video');
+        return;
+      }
+    }
+    if (selectedFileType === 'image' && e.target.files.length > 4) {
+      setError('Select only upto 4 images');
+      return;
+    }
+    if (selectedFileType === 'image') {
+      setImages(e.target.files);
+    }
+    // if (selectedFileType === 'video' && e.target.files.length > 1) {
+    //   setError('Select only upto 1 video');
+    //   return;
+    // }
+    // if (selectedFileType === 'video') {
+    //   setVideo(URL.createObjectURL(e.target.files[0]));
+    // }
+  };
 
   return (
     <div className={styles.page}>
@@ -52,23 +89,44 @@ const TweetModal = ({ user, setIsOpen }) => {
             />
           </div>
         </header>
-        <div className={styles.status}>
+        <div className={styles.tweet}>
           <div className={styles.avatar}>
             <img src={user?.photo?.url} alt='profile' />
           </div>
-          <div className={styles.textarea}>
-            <TextArea rows='8' placeholder='Write here...' value={tweet} onChange={(e) => statusHandler(e)} />
+          <div className={styles.status}>
+            <TextArea placeholder='Write here...' value={tweet} onChange={(e) => statusHandler(e)} />
+            {images.length > 0 && (
+              <div className={styles.images}>
+                {Array.from(images).map((image) => (
+                  <img key={image.name} src={URL.createObjectURL(image)} alt='file' />
+                ))}
+              </div>
+            )}
+            {video && (
+              <div className={styles.video}>
+                <video controls src={video} type={video.type} />
+              </div>
+            )}
+            {error && (
+              <div className={styles.error} style={{ color: 'red' }}>
+                * {error}
+              </div>
+            )}
           </div>
         </div>
-        {error && (
-          <div className={styles.error} style={{ color: 'red' }}>
-            * {error}
+
+        <div className={styles.menu}>
+          <div className={styles.uploadOptions}>
+            <label>
+              <input type='file' multiple={true} accept='image/*' onChange={handleUploadImages} />
+              <FontAwesomeIcon icon={faImages} style={{ cursor: 'pointer' }} />
+            </label>
           </div>
-        )}
-        <div className={styles.button}>
-          <Button btnStyle='primarySolid' btnSize='sm' loading={loading} onClick={postStatus}>
-            Post
-          </Button>
+          <div className={styles.uploadButton}>
+            <Button btnStyle='primarySolid' btnSize='sm' loading={loading} onClick={postStatus}>
+              Post
+            </Button>
+          </div>
         </div>
       </div>
     </div>

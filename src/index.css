@@ -8,13 +8,13 @@
 }
 
 :root {
-  --background-color: #1a1a1a;
+  --background-color: hsl(0, 0%, 3%);
   --backdrop-color: hsla(0, 0%, 0%, 0.05);
   --color: hsl(0, 0%, 90%);
   --dark-white: hsl(0, 0%, 20%);
   --primary-color: hsla(240, 90%, 65%, 1);
   --success-color: hsl(120, 100%, 40%);
-  --button-hover-color: hsla(240, 100%, 60%, 1);
+  --button-hover-color: hsla(240, 100%, 65%, 1);
   --success-hover-color: hsl(120, 100%, 50%);
   --hover-color: hsl(203, 90%, 8%);
   --danger-color: hsl(0, 100%, 40%);
