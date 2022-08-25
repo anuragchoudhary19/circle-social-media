@@ -8,13 +8,13 @@
 @media (max-width: 768px) {
   .page {
     grid-template-columns: 1fr;
-    grid-template-rows: 30% 70%;
+    grid-template-rows: 10% 90%;
   }
 }
 @media (min-width: 769px) {
   .page {
     grid-template-rows: 100%;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 60% 40%;
   }
 }
 .auth {
