@@ -18,6 +18,7 @@
   max-width: 600px;
   height: fit-content;
   background-color: var(--background-color);
+  box-shadow: 0 0 10px 2px hsl(0, 0%, 30%);
   border-radius: 1.5rem;
   @media (max-width: 768px) {
     width: 95%;
@@ -65,6 +66,7 @@
   height: 3rem;
   font-size: 1.5rem;
   padding: 1rem;
+  // background-color: #fff;
   border-bottom: 2px solid hsla(0, 0%, 35%, 0.5);
   > div {
     display: flex;
@@ -78,7 +80,11 @@
     }
   }
 }
-
+.progress {
+  display: flex;
+  height: 2px;
+  background-color: #fff;
+}
 .menu {
   display: grid;
   grid-template-columns: 1fr 30%;

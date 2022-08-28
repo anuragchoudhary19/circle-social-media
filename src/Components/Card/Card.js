@@ -142,6 +142,13 @@ const Card = (props) => {
             ))}
           </div>
         )}
+        {tweet?.video && (
+          <div className={styles.images}>
+            <video width='100%' height='100%' controls autoPlay>
+              <source src={tweet.video.url} type='video/mp4' />
+            </video>
+          </div>
+        )}
       </div>
       {tweet.user?._id === user._id && (
         <div className={styles.dropdown} ref={dropdownNode} onClick={() => setShowDropdown(true)}>
