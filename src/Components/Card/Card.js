@@ -23,7 +23,7 @@ const initialState = { tweet: '', photo: { photo_id: '', public_url: '' }, video
 const Card = (props) => {
   const socket = useSocket();
   const { expand, tweet } = props;
-  const { current: profile } = useRef(tweet.user);
+  const { current: profile } = useRef(tweet?.user);
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -35,6 +35,14 @@ const Card = (props) => {
   const dropdownNode = useRef();
   const popupNode = useRef();
   const history = useHistory();
+  // const [divHeight, setDivHeight] = useState(0);
+
+  // useEffect(() => {
+  //   setDivHeight(card.current.clientHeight);
+  //   console.log('height: ', card.current.clientHeight);
+
+  //   console.log('width: ', card.current.clientWidth);
+  // }, []);
 
   const handleClick = useCallback(
     (e) => {
@@ -43,11 +51,11 @@ const Card = (props) => {
       } else if (popupNode.current?.contains(e.target)) {
         return;
       } else if (card.current === e.target) {
-        history.push(`/${profile.username}/tweet/${tweet?._id}`);
+        history.push(`/${profile?.username}/tweet/${tweet?._id}`);
       }
       setShowDropdown(false);
     },
-    [history, profile.username, tweet._id]
+    [history, profile?.username, tweet._id]
   );
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);

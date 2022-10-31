@@ -5,7 +5,8 @@
   align-items: center;
   min-height: 100vh;
   max-width: 100vw;
-  background-color: var(--background-color);
+  overflow: hidden;
+  background: var(--background);
 }
 .loadingPage {
   display: flex;
@@ -13,5 +14,5 @@
   align-items: center;
   min-height: 100vh;
   max-width: 100vw;
-  background-color: var(--background-color);
+  background-color: var(--background);
 }

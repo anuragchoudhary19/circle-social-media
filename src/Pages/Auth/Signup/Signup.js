@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+import { animatiion } from '../Login/Canvas';
 //
 import Logo from '../../../Components/Logo/Logo';
 import Input from '../../../Components/Elements/Input/Input';
@@ -8,6 +9,8 @@ import Button from '../../../Components/Elements/Button/Button';
 //
 import { signup } from '../../../functions/auth';
 import styles from './Signup.module.css';
+import styles1 from '../Login/Canvas.module.css';
+import Login from './../Login/Login';
 
 const initialState = { username: '', email: '', password: '', confirmPassword: '' };
 
@@ -39,6 +42,9 @@ const Signup = () => {
       }, 1000);
     }
   }, [counter, redirect, history]);
+  useEffect(() => {
+    animatiion();
+  }, []);
   const handleChange = (label) => (e) => {
     setError('');
     setMessage('');
@@ -80,6 +86,7 @@ const Signup = () => {
   };
   return (
     <div className={styles.page}>
+      <canvas className={styles1.canvas} id='canvas1'></canvas>
       <Logo />
       <div className={styles.signup}>
         <div>

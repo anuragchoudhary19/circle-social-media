@@ -2,21 +2,39 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto mono', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 :root {
-  --background-color: hsl(0, 0%, 3%);
-  --backdrop-color: hsla(0, 0%, 0%, 0.05);
+  --background: hsla(240, 40%, 20%);
+  --button-primary: hsla(240, 40%, 50%);
+  --button-primary-hover: hsla(240, 40%, 50%);
+  --hover-color: hsla(240, 40%, 50%, 0.5);
+  --dropdown-hover: hsla(240, 40%, 45%);
+  --dropdown-dot-color: hsl(0, 0%, 90%);
+  --card-border: hsl(0, 0%, 90%);
+  --border: hsl(0, 0%, 90%);
+  --card-connector: hsl(0, 0%, 60%);
+  --text-color: hsl(0, 0%, 90%);
+  --username: hsl(0, 0%, 70%);
+  --date: hsl(0, 0%, 70%);
+  --icon: hsl(0, 0%, 70%);
+  --toggleIcon: hsl(0, 0%, 90%);
+  --error: hsl(0, 100%, 50%);
+  --activeSideBarLink: hsla(240, 40%, 60%);
+  --input-background: hsl(0, 0%, 90%);
+  --input-box-shadow-color: hsl(0, 0%, 50%);
+  --card-hover: hsla(240, 40%, 17%);
+  --primary-color: hsla(240, 40%, 50%, 1);
+  --backdrop-color: hsla(240, 40%, 5%, 0.5);
   --color: hsl(0, 0%, 90%);
   --dark-white: hsl(0, 0%, 20%);
-  --primary-color: hsla(240, 90%, 65%, 1);
   --success-color: hsl(120, 100%, 40%);
   --button-hover-color: hsla(240, 100%, 65%, 1);
   --success-hover-color: hsl(120, 100%, 50%);
-  --hover-color: hsl(203, 90%, 8%);
+  /* --hover-color: hsl(203, 90%, 8%); */
   --danger-color: hsl(0, 100%, 40%);
   --danger-hover-color: hsla(0, 100%, 40%, 0.8);
 }

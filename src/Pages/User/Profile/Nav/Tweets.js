@@ -17,12 +17,12 @@ const Tweets = ({ userId, user }) => {
     setLoading(true);
     listTweets(userId, user.token)
       .then((res) => {
-        setTweets(res.data.tweets);
         setLoading(false);
+        setTweets(res.data.tweets);
       })
       .catch((err) => {
-        setError('Not Found');
         setLoading(false);
+        setError('Not Found');
       });
   }, [userId, user.token]);
   useEffect(() => {

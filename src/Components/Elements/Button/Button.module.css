@@ -7,7 +7,7 @@
   width: 100%;
 }
 .btn button {
-  color: var(--color);
+  color: var(--text-color);
   background-color: transparent;
   border: none;
   outline: none;
@@ -15,11 +15,11 @@
   cursor: pointer;
 }
 .btn:hover {
-  background-color: var(--button-hover-color);
+  background-color: var(--button-primary-hover);
 }
 .primarySolid {
-  background-color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  background-color: var(--button-primary);
+  border: 1px solid var(--button-primary);
 }
 .successSolid {
   background-color: var(--success-color);
@@ -36,7 +36,7 @@
   background-color: var(--danger-hover-color);
 }
 .primaryOutline {
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--button-primary);
 }
 .md button {
   height: 2.5rem;

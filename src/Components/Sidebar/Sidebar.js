@@ -61,12 +61,10 @@ const Sidebar = () => {
   };
   return (
     <div className={styles.sidebar}>
-      <div>
-        <FontAwesomeIcon
-          style={{ color: 'var(--primary-color)', fontSize: '2rem', width: '2.5rem' }}
-          icon={faAlignJustify}
-          onClick={toggleSidebar}
-        />
+      <div className={styles.searchBar}>
+        <div className={styles.toggleIcon} onClick={toggleSidebar}>
+          <img src={user.photo.url} alt='profile_image' />
+        </div>
         <div className={styles.search}>
           <Input type='text' value={query} onChange={searchHandler} placeholder='Search here...' />
           {users.length > 0 && (
@@ -97,22 +95,22 @@ const Sidebar = () => {
             </div>
           </li>
           <li>
-            <NavLink to='/home' activeStyle={{ color: '#087fc4' }}>
+            <NavLink to='/home' activeStyle={{ color: 'var(--activeSideBarLink)' }}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to={`/${user.username}`} activeStyle={{ color: '#087fc4' }}>
+            <NavLink to={`/${user.username}`} activeStyle={{ color: 'var(--activeSideBarLink)' }}>
               Profile
             </NavLink>
           </li>
           <li>
-            <NavLink to='/connect' activeStyle={{ color: '#087fc4' }}>
+            <NavLink to='/connect' activeStyle={{ color: 'var(--activeSideBarLink)' }}>
               Connect
             </NavLink>
           </li>
           <li>
-            <NavLink to='/settings' activeStyle={{ color: '#087fc4' }}>
+            <NavLink to='/settings' activeStyle={{ color: 'var(--activeSideBarLink)' }}>
               Settings
             </NavLink>
           </li>
@@ -124,7 +122,6 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
-      <div></div>
       <Modal isOpen={isOpen}>
         <StatusModal user={user} setIsOpen={setIsOpen} />
       </Modal>

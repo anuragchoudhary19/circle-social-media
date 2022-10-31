@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+import { animatiion } from './Canvas';
 //
 import Logo from '../../../Components/Logo/Logo';
 import Input from '../../../Components/Elements/Input/Input';
@@ -8,6 +9,7 @@ import Button from '../../../Components/Elements/Button/Button';
 //
 import { signin } from '../../../functions/auth';
 import styles from './Login.module.css';
+import styles1 from './Canvas.module.css';
 
 const Login = () => {
   const dummyEmail = 'anurag@gmail.com';
@@ -30,6 +32,9 @@ const Login = () => {
       history.push('/');
     }
   }, [history, user]);
+  useEffect(() => {
+    animatiion();
+  }, []);
   const handleEmail = (e) => {
     setEmailError('');
     setEmail(e.target.value);
@@ -90,6 +95,7 @@ const Login = () => {
   };
   return (
     <div className={styles.page}>
+      <canvas className={styles1.canvas} id='canvas1'></canvas>
       <Logo />
       <div className={styles.auth}>
         <div>

@@ -26,6 +26,11 @@ export const getReplies = async (userId, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+export const getTweetsWithMedia = async (userId, token) => {
+  return await axios.get(`${process.env.REACT_APP_API}/tweets/media/${userId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
 
 export const listTweets = async (userId, token) => {
   return await axios.get(`${process.env.REACT_APP_API}/tweets/all/${userId}`, {

@@ -4,34 +4,42 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: var(--primary-color);
 }
 .logo a {
   text-decoration: none;
-  color: var(--black);
   z-index: 1;
 }
 .logo a > header {
-  font-size: 4rem;
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 600;
+  --fontSize: 5rem;
+  color: var(--color);
+  font-family: 'Roboto mono', sans-serif;
+  font-weight: bold;
   cursor: pointer;
 }
 @media (max-width: 768px) {
   .logo a > header {
-    font-size: 5rem;
-    font-weight: bold;
+    font-size: var(--fontSize);
+  }
+  .logo a > header:first-letter {
+    font-size: calc(var(--fontSize) * 2);
+    text-transform: uppercase;
   }
 }
 @media (min-width: 769px) and (max-width: 1080px) {
   .logo a > header {
-    font-size: 6.5rem;
-    font-weight: bold;
+    font-size: calc(var(--fontSize) * 1.2);
+  }
+  .logo a > header:first-letter {
+    font-size: calc(var(--fontSize) * 2);
+    text-transform: uppercase;
   }
 }
 @media (min-width: 1081px) {
   .logo a > header {
-    font-size: 8rem;
-    font-weight: bold;
+    font-size: calc(var(--fontSize) * 1.5);
+  }
+  .logo a > header:first-letter {
+    font-size: calc(var(--fontSize) * 2);
+    text-transform: uppercase;
   }
 }

@@ -68,20 +68,20 @@ const Footer = (props) => {
     <footer className={styles.footer}>
       <div>
         <div className={styles.commentIcon} onClick={() => handleOpenCommentModal(tweet._id)}>
-          <FontAwesomeIcon icon={faCommentAlt} style={{ fontSize: '1rem', color: '#6e767d' }} />
+          <FontAwesomeIcon icon={faCommentAlt} style={{ fontSize: '1rem', color: 'var(--icon)' }} />
           <span className='counter'>{comments > 0 && comments}</span>
         </div>
         <div
           className={styles.forwardsIcon}
           onClick={() => retweetHandle(tweet._id)}
-          style={{ color: retweeted ? '#00ff00' : '#6e767d' }}>
+          style={{ color: retweeted ? '#00ff00' : 'var(--icon)' }}>
           <RetweetOutlined style={{ fontSize: '1.2rem' }} />
           <span className='counter'>{retweets > 0 && retweets}</span>
         </div>
         <div
           className={styles.likeIcon}
           onClick={() => likeHandle(tweet._id)}
-          style={{ color: liked ? 'red' : '#6e767d' }}>
+          style={{ color: liked ? 'red' : 'var(--icon)' }}>
           <FontAwesomeIcon icon={liked ? FaHeart : faHeart} />
           <span className='counter'>{likes > 0 && likes}</span>
         </div>

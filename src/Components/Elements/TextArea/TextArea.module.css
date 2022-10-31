@@ -7,7 +7,7 @@
 .textarea textarea {
   width: 100%;
   min-height: fit-content;
-  color: var(--color);
+  color: var(--text-color);
   background-color: transparent;
   resize: none;
   font-size: 1.2rem;

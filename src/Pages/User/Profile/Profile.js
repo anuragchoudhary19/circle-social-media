@@ -15,6 +15,7 @@ import Recommendations from '../Recommendations/Recommendations';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Profile.module.css';
+import Media from './Nav/Media';
 
 const Profile = () => {
   const [profile, setProfile] = useState();
@@ -120,7 +121,7 @@ const Profile = () => {
             />
             <Route
               path={`${path}/media`}
-              component={() => <Replies userId={profile._id} profile={profile} user={user} />}
+              component={() => <Media userId={profile._id} profile={profile} user={user} />}
             />
             <Route
               path={`${path}/likes`}

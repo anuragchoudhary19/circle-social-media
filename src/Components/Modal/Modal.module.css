@@ -5,6 +5,6 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: hsla(0, 0%, 0%, 0.7);
+  background-color: var(--backdrop-color);
   z-index: 1000;
 }
