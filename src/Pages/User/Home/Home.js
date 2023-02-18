@@ -57,7 +57,7 @@ const Home = () => {
   return (
     <div className={styles.page}>
       <Sidebar />
-      <div className={styles.main} ref={main}>
+      <div id='home' className={styles.main} ref={main}>
         <header>
           <FontAwesomeIcon
             icon={faArrowLeft}

@@ -10,7 +10,6 @@ import Button from '../../../Components/Elements/Button/Button';
 import { signup } from '../../../functions/auth';
 import styles from './Signup.module.css';
 import styles1 from '../Login/Canvas.module.css';
-import Login from './../Login/Login';
 
 const initialState = { username: '', email: '', password: '', confirmPassword: '' };
 

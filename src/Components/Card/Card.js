@@ -6,6 +6,7 @@ import { useSocket } from '../../SocketProvider';
 import { commentOnTweet } from '../../functions/tweet';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { countViews } from './Count';
 //
 import Dropdown from '../Dropdown/Dropdown';
 import Comment from '../../Modals/Comment/Comment';
@@ -27,7 +28,7 @@ const Card = (props) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [comment, setComment] = useState(initialState);
+  const [comment, setComment] = useState({ initialState });
   const [error, setError] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
@@ -35,14 +36,28 @@ const Card = (props) => {
   const dropdownNode = useRef();
   const popupNode = useRef();
   const history = useHistory();
-  // const [divHeight, setDivHeight] = useState(0);
+  const video = useRef();
 
-  // useEffect(() => {
-  //   setDivHeight(card.current.clientHeight);
-  //   console.log('height: ', card.current.clientHeight);
-
-  //   console.log('width: ', card.current.clientWidth);
-  // }, []);
+  useEffect(() => {
+    const handlePlayVideo = (e) => {
+      if (!video?.current) return;
+      let rect = video?.current.getBoundingClientRect();
+      if (rect.bottom <= window.innerHeight && rect.top >= 0) {
+        video?.current.play();
+        countViews(video.current);
+      } else {
+        video?.current.pause();
+      }
+    };
+    let home = document.getElementById('home');
+    if (home) {
+      home.addEventListener('scroll', handlePlayVideo);
+    }
+    let profile = document.getElementById('profile');
+    if (profile) {
+      profile.addEventListener('scroll', handlePlayVideo);
+    }
+  }, []);
 
   const handleClick = useCallback(
     (e) => {
@@ -150,9 +165,9 @@ const Card = (props) => {
             ))}
           </div>
         )}
-        {tweet?.video && (
+        {tweet?.video?.url && (
           <div className={styles.images}>
-            <video width='100%' height='100%' controls autoPlay>
+            <video ref={video} width='100%' height='100%' muted={true} controls>
               <source src={tweet.video.url} type='video/mp4' />
             </video>
           </div>

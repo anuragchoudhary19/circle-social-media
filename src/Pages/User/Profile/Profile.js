@@ -75,7 +75,7 @@ const Profile = () => {
   return (
     <div className={styles.page}>
       <Sidebar />
-      <div className={styles.main} ref={main}>
+      <div className={styles.main} id='profile' ref={main}>
         <div ref={header}>
           <FontAwesomeIcon
             icon={faArrowLeft}

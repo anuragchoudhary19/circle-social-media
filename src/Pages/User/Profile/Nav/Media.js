@@ -18,7 +18,6 @@ const Media = ({ userId, user }) => {
       .then((res) => {
         setTweets(res.data.tweets);
         setLoading(false);
-        console.log(res.data.tweets);
       })
       .catch((err) => {
         setError('Not Found');

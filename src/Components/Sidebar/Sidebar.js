@@ -12,8 +12,6 @@ import StatusModal from '../../Modals/TweetModal/TweetModal';
 //
 import { getSearchedUsers } from '../../functions/user';
 //
-import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Sidebar.module.css';
 import Searchcard from '../Usercard/SearchCard';
 

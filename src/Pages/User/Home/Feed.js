@@ -39,30 +39,25 @@ const Feed = () => {
   if (loading) return <Loader />;
   if (error) return <div>{error}</div>;
   return (
-    <div className={styles.feed}>
+    <div id='feed' className={styles.feed}>
+      {feed.length === 0 && <div className={styles.noFeed}>No tweets to show</div>}
       {feed.length > 0 &&
-        feed.map((tweet) => {
-          let card = null;
-          if (tweet.isReply) {
-            card = (
-              <div className={styles.card} key={tweet._id}>
+        feed.map((tweet) => (
+          <div className={styles.card} key={tweet._id}>
+            {tweet.isReply ? (
+              <>
                 {tweet.repliedTo ? (
                   <Card tweet={tweet.repliedTo} isTweet={true} expand={false} reload={loadFeed} />
                 ) : (
                   <div className={styles.deletedTweet}>This tweet has been deleted.</div>
                 )}
                 <Card tweet={tweet} isReply={true} expand={false} reload={loadFeed} />
-              </div>
-            );
-          } else {
-            card = (
-              <div className={styles.card} key={tweet._id}>
-                <Card tweet={tweet} expand={false} reload={loadFeed} />
-              </div>
-            );
-          }
-          return card;
-        })}
+              </>
+            ) : (
+              <Card tweet={tweet} expand={false} reload={loadFeed} />
+            )}
+          </div>
+        ))}
     </div>
   );
 };
