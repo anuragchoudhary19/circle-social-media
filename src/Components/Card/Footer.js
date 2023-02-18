@@ -54,7 +54,6 @@ const Footer = (props) => {
   };
   const retweetHandle = (postId) => {
     import('../../functions/tweet').then(({ retweetTweet }) => {
-      console.log(postId);
       retweetTweet(postId, user.token)
         .then((res) => {
           setReweeted((prevValue) => !prevValue);
