@@ -22,7 +22,7 @@
   width: 100px;
   border-radius: 1rem;
   overflow: hidden;
-  background-color: var(--background-color);
+  background-color: var(--background);
   transition: height 0.2s linear;
   box-shadow: 0px 0px 2px 0 #ccc;
 }
