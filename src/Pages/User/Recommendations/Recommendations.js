@@ -22,10 +22,10 @@ const Recommendations = () => {
   }, [user.token]);
   const searchHandle = (e) => {
     setText(e.target.value);
-    search();
+    search(e.target.value);
   };
-  const search = () => {
-    getSearchedUsers(text, user.token)
+  const search = (name) => {
+    getSearchedUsers(name, user.token)
       .then((res) => {
         setUsers(res.data.users);
       })
