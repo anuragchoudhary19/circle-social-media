@@ -112,8 +112,8 @@
   width: 100%;
 }
 .form > div:first-child {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 49% 49%;
   justify-content: space-between;
   width: 100%;
 }
